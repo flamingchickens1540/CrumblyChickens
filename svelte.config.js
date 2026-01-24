@@ -7,13 +7,10 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
-<<<<<<< HEAD
 	compilerOptions: {
 		customElement: true // <--- Add this line
 	},
 
-=======
->>>>>>> ba6ff0df9bf3c629e0161977780e22ff1d70a975
 	kit: {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
