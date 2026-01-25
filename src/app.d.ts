@@ -3,9 +3,13 @@ import type { User } from '$lib/types';
 declare global {
 	namespace App {
 		interface Locals {
-			user?: User; // optional user object
+			user: {
+				id: string;
+				email: string;
+				name?: string;
+			} | null;
 		}
 	}
 }
 
-export {};
+export { };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Star } from 'lucide-svelte';
-	let rating = 0;
+	let rating = 1;
 
 	function setRating(index: number) {
 		rating = index;
@@ -17,11 +17,7 @@
 
 	<div class="flex w-full items-center">
 		{#each Array(5) as _, i}
-			<button
-				type="button"
-				on:click={() => setRating(i + 1)}
-				class="flex flex-1 items-center justify-center py-1"
-			>
+			<button onclick={() => setRating(i + 1)} class="flex flex-1 items-center justify-center py-1">
 				<Star
 					class="h-8 w-8 scale-[1.3]
             {rating > i ? 'fill-yellow-400' : 'fill-[#C2C2C2]'}

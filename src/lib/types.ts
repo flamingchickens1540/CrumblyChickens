@@ -1,18 +1,13 @@
 export type User = {
-	name: string;
+  name: string;
 };
 
 export type GroupPage =
-  | 'home'
-  | 'login'
   | 'queue'
-  | 'pitscout'
-  | 'analysis'
-  | 'leaderboard'
   | 'plusminus'
-  | 'prematch'
-  | 'auto'
-  | 'tele'
-  | 'postmatch';
+  | 'PreMatch'
+  | 'Autonomous'
+  | 'Teleoperated'
+  | 'PostMatch';
 
-export type Stage = 'Pre-Match' | 'Autonomous' | 'Teleoperated' | 'Post-Match';
+export type Stage = 'PreMatch' | 'Autonomous' | 'Teleoperated' | 'PostMatch';

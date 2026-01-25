@@ -1,7 +1,13 @@
 <script lang="ts">
-	export let label: string = '';
-	export let stage: string;
-	export let count: number;
+	const {
+		label = '',
+		stage,
+		count
+	} = $props<{
+		label?: string;
+		stage: string;
+		count: number;
+	}>();
 </script>
 
 <div class="mx-3 mt-3 mb-0 flex justify-between px-1 pt-1 pb-0">
