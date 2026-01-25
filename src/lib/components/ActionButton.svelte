@@ -19,7 +19,7 @@
 
 	function handleClick() {
 		if (typeof value === 'number') {
-			count += value;
+			count = Math.max(0, count + value);
 		}
 		onClick?.();
 	}
