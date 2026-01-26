@@ -3,8 +3,8 @@ export type User = {
 };
 
 export type GroupPage =
-  | 'queue'
-  | 'plusminus'
+  | 'Queue'
+  | 'PlusMinus'
   | 'PreMatch'
   | 'Autonomous'
   | 'Teleoperated'

@@ -2,18 +2,16 @@
 	import VerticalToggleGroup from './VerticalToggleGroup.svelte';
 	import HorizontalToggleGroup from './HorizontalToggleGroup.svelte';
 	import StarRating from '$lib/components/StarRating.svelte';
-	import { stage, count, notes } from '$lib/state';
-	import { goto } from '$app/navigation';
+	import BottomButton from '$lib/components/BottomButton.svelte';
 
-	function resetFlow() {
-		stage.set('PreMatch');
-		count.set(0);
-		notes.set('');
-		goto('home');
-	}
+	const { activePage: ActivePage, stage: _Stage, count: Count, notes: Notes, goToPage, setStage } = $props();
+
+	let stage = $derived(_Stage);
+	let count = $derived(Count);
+	let activePage = $derived(ActivePage);
+	let notes = $derived(Notes);
 
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
-	const bottomBtnClass = 'fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
 </script>
 
 <div class={gridClass}>
@@ -32,14 +30,13 @@
 	<HorizontalToggleGroup items={['Functional', 'Died on Field']} />
 </div>
 
-<button
-	class="m-2.5 inline-flex items-center justify-center rounded-md
-				px-8 py-2 drop-shadow-xl
-				transition-transform duration-300 hover:scale-105 {bottomBtnClass}"
-	onclick={() => resetFlow()}
->
-	<p class="font-[Poppins] text-4xl font-semibold text-white">Submit</p>
-</button>
+<BottomButton label="Submit"
+	activePage={activePage}
+	stage={stage}
+	count={count}
+	notes={notes}
+	goToPage={goToPage}
+	setStage={setStage} />
 
 <div class={`${gridClass} grid auto-cols-fr`}>
 	<textarea
@@ -47,7 +44,7 @@
 		cols="40"
 		rows="5"
 		placeholder="Notes"
-		bind:value={$notes}
+		bind:value={notes}
 		class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
 	></textarea>
 </div>

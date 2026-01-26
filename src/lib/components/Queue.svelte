@@ -1,21 +1,11 @@
 <script lang="ts">
-	import { get } from 'svelte/store';
-	import { goto } from '$app/navigation';
-	import { activePage, stage } from '$lib/state';
 	import type { GroupPage } from '$lib/types';
 
-	function setActivePage(page?: GroupPage) {
-		const currentStage = get(stage);
-
-		const nextGroupPage = page ?? currentStage;
-
-		if (!nextGroupPage) {
-			goto('/home');
-			return;
-		}
-
-		activePage.set(nextGroupPage);
-	}
+	let {
+		setActivePage
+	}: {
+		setActivePage: (page: GroupPage) => void;
+	} = $props();
 
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 </script>

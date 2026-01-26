@@ -1,8 +1,14 @@
 <script lang="ts">
-	import { activePage } from '$lib/state';
 	import { goto } from '$app/navigation';
+	import type { GroupPage } from '$lib/types';
 
-	export let data;
+	let activePage = $state<GroupPage>('Queue');
+
+	let { data } = $props<{
+		data: {
+			user: string;
+		};
+	}>();
 
 	type HomeAction = {
 		label: string;
@@ -14,12 +20,8 @@
 		{
 			label: 'Match Scout',
 			onClick: () => {
-			if (!data.user) {
-				goto('/login');
-			} else {
-				activePage.set('queue');
+				activePage = 'Queue';
 				goto('/');
-			}
 			}
 		},
 		{
@@ -35,7 +37,7 @@
 			onClick: () => goto('/leaderboard')
 		}
 	];
-
+	
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 	const bottomBtnClass =
 		'fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
