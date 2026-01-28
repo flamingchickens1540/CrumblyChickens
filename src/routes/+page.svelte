@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { GroupPage } from '$lib/types';
 
-	let activePage = $state<GroupPage>('Queue');
+	let activePage = $state('Queue');
 
 	let { data } = $props<{
 		data: {

@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { GroupPage } from '$lib/types';
-
 	let {
 		setActivePage
 	}: {
-		setActivePage: (page: GroupPage) => void;
+		setActivePage: (page: string) => void;
 	} = $props();
 
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
