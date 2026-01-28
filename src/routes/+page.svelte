@@ -20,7 +20,7 @@
 			label: 'Match Scout',
 			onClick: () => {
 				activePage = 'Queue';
-				goto('/matchscout');
+				goto('/queue');
 			}
 		},
 		{

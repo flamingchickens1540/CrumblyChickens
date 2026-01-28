@@ -3,21 +3,20 @@
 	import PlusMinusButton from './PlusMinusButton.svelte';
 	import BottomButton from './BottomButton.svelte';
 
-	const { container } = $props();
-
-	let stage = $derived(container.stage);
-	let activeKey = $derived(container.activeKey);
+	let { match_data, plusMinus } = $props();
+	let activeKey = $derived(match_data.activeKey);
+	let stage = $derived(match_data.stage)
 	let count = $state(0);
 
 	$effect(() => {
 		if (activeKey) {
-			count = container[activeKey] ?? 0;
+			count = match_data[activeKey] ?? 0;
 		}
 	});
 
 	$effect(() => {
 		if (activeKey) {
-			container[activeKey] = count;
+			match_data[activeKey] = count;
 		}
 	});
 </script>
@@ -28,4 +27,4 @@
 	<PlusMinusButton value={+5} bind:count classlist="bg-[#49A078] hover:bg-[#6DB393]" />
 	<PlusMinusButton value={-1} bind:count classlist="col-span-2 bg-[#FF6663] hover:bg-[#FF8582]" />
 </div>
-<BottomButton label="Back" {container} />
+<BottomButton {match_data} {plusMinus} />

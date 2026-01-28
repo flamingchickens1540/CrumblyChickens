@@ -1,85 +1,59 @@
 <script lang="ts">
 	import Display from '$lib/components/Display.svelte';
-	import PlusMinus from '$lib/components/PlusMinus.svelte';
-	import AutoTele from '$lib/components/AutoTele.svelte';
 	import PreMatch from '$lib/components/PreMatch.svelte';
 	import PostMatch from '$lib/components/PostMatch.svelte';
-	import Queue from '$lib/components/Queue.svelte';
+	import Teleoperated from '$lib/components/Teleoperated.svelte';
+	import Autonomous from '$lib/components/Autonomous.svelte';
 
-	let activePage = $state('Queue');
-	let stage = $state('PreMatch');
-	let notes = $state('');
+	let plusMinus: boolean = $state(false);
+	
+	$effect(() =>
+		console.log("matchscout:", plusMinus)
+	);
 
-	const container = {
-		get activePage() { return activePage },
-		set activePage(v: string) { activePage = v },
-
-		get stage() { return stage },
-		set stage(v: string) { stage = v },
-
-		get notes() { return notes },
-		set notes(v: string) { notes = v },
-
-		activeKey: null as
-			| 'hub'
-			| 'shuffle'
-			| 'steal'
-			| 'autoHub'
-			| 'autoShuffle'
-			| null,
-
+	const match_data = $state({
+		stage: 'PreMatch',
+		activeKey: null,
+		
+		notes: '',
 		hub: 0,
 		shuffle: 0,
 		steal: 0,
 		autoHub: 0,
 		autoShuffle: 0,
 
-		goToPage(newPage: string) {
-			activePage = newPage;
-		},
-
 		setStage(newStage: string) {
-			stage = newStage;
+			this.stage = newStage;
 		}
-	};
+	});
 </script>
 
-<!-- REUSABLE GRID WRAPPER -->
-{#if activePage && ['PreMatch', 'Autonomous', 'Teleoperated', 'PostMatch', 'PlusMinus'].includes(activePage)}
-	<Display currentStage={stage} />
-{/if}
+<Display currentStage={match_data.stage} />
 
-<!-- PLUSMINUS PAGE -->
-{#if activePage === 'PlusMinus'}
-	<PlusMinus
-		{container}
-	/>
-{/if}
-
-<!-- PREMATCH PAGE -->
-{#if activePage === 'PreMatch'}
+{#if match_data.stage === 'PreMatch'}
 	<PreMatch
-		{container}
+		{match_data}
 	/>
 {/if}
 
-<!-- AUTO / TELE -->
-{#if activePage === 'Autonomous' || activePage === 'Teleoperated'}
-	<AutoTele
-		{container}
+{#if match_data.stage === 'Autonomous'}
+	<Autonomous
+		{match_data}
+		bind:plusMinus
 	/>
 {/if}
 
-<!-- POSTMATCH -->
-{#if activePage === 'PostMatch'}
+{#if match_data.stage === 'Teleoperated'}
+	<Teleoperated
+		{match_data}
+		bind:plusMinus
+	/>
+{/if}
+
+{#if match_data.stage === 'PostMatch'}
 	<PostMatch
-		{container}
+		{match_data}
 	/>
-{/if}
-
-<!-- QUEUE -->
-{#if activePage === 'Queue'}
-	<Queue setActivePage={(page: string) => (activePage = page)} />
 {/if}
 
 <style>
