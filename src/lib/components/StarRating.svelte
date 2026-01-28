@@ -7,7 +7,7 @@
 	}
 </script>
 
-<div class="relative m-2.5 rounded-md border border-[#C2C2C2] px-4 py-2">
+<div class="relative mt-5 mx-2.5 mb-2.5 rounded-md border border-[#C2C2C2] px-4 py-2">
 	<span
 		class="absolute -top-2 left-3 bg-[#2c2c2c]
            px-2 font-[Poppins] text-sm text-[#C2C2C2]"

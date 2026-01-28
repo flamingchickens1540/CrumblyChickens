@@ -1,83 +1,79 @@
-<!---
-TO-DO
-- differences in scoring types (auto/hub, tele/shuffle, etc.)
-- move routes/+page.svelte to /matchscout and home/+page.svelte to /routes
-- custom type for [label, classlist]
-- unresolved comments suggested in PR#20 reviews upon further clarification
--->
-
 <script lang="ts">
-	import Display from '$lib/components/Display.svelte';
-	import PlusMinus from '$lib/components/PlusMinus.svelte';
-	import AutoTele from '$lib/components/AutoTele.svelte';
-	import PreMatch from '$lib/components/PreMatch.svelte';
-	import PostMatch from '$lib/components/PostMatch.svelte';
-	import Queue from '$lib/components/Queue.svelte';
-	import type { GroupPage, Stage } from '$lib/types';
+	import { goto } from '$app/navigation';
+	import type { GroupPage } from '$lib/types';
 
-	let activePage = $state<GroupPage>('Queue'); // default page
-	let stage = $state<Stage>('PreMatch');
-	let count = $state(0);
-	let notes = $state('');
+	let activePage = $state<GroupPage>('Queue');
+
+	let { data } = $props<{
+		data: {
+			user: string;
+		};
+	}>();
+
+	type HomeAction = {
+		label: string;
+		classlist?: string;
+		onClick: () => void;
+	};
+
+	const actions: HomeAction[] = [
+		{
+			label: 'Match Scout',
+			onClick: () => {
+				activePage = 'Queue';
+				goto('/matchscout');
+			}
+		},
+		{
+			label: 'Pit Scout',
+			onClick: () => goto('/pitscout')
+		},
+		{
+			label: 'Analysis',
+			onClick: () => goto('/analysis')
+		},
+		{
+			label: 'Leaderboard',
+			onClick: () => goto('/leaderboard')
+		}
+	];
+	
+	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
+	const bottomBtnClass =
+		'fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
 </script>
 
-<!-- REUSABLE GRID WRAPPER -->
-{#if activePage && ['PreMatch', 'Autonomous', 'Teleoperated', 'PostMatch', 'PlusMinus'].includes(activePage)}
-	<Display currentStage={stage} />
-{/if}
+<center>
+	<p class="m-10 p-1 font-[Poppins] text-5xl font-semibold text-white">
+		Hello, {data.user}
+	</p>
+</center>
 
-<!-- PLUSMINUS PAGE -->
-{#if activePage === 'PlusMinus'}
-	<PlusMinus
-		{activePage}
-		{stage}
-		{count}
-		{notes}
-		goToPage={(newPage: GroupPage) => (activePage = newPage)}
-		setStage={(newStage: Stage) => (stage = newStage)}
-	/>
-{/if}
+<div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
+	{#each actions as action}
+		<button
+			class="m-2.5 inline-flex items-center justify-center rounded-md
+				px-8 py-2 drop-shadow-xl
+				transition-transform duration-300 hover:scale-105 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]"
+			onclick={action.onClick}
+		>
+			<p class="text-white font-[Poppins] font-semibold text-4xl">
+				{action.label}
+			</p>
+		</button>
+	{/each}
+</div>
 
-<!-- PREMATCH PAGE -->
-{#if activePage === 'PreMatch'}
-	<PreMatch
-		{activePage}
-		{stage}
-		{count}
-		{notes}
-		goToPage={(newPage: GroupPage) => (activePage = newPage)}
-		setStage={(newStage: Stage) => (stage = newStage)}
-	/>
-{/if}
-
-<!-- AUTO / TELE -->
-{#if activePage === 'Autonomous' || activePage === 'Teleoperated'}
-	<AutoTele
-		{activePage}
-		{stage}
-		{count}
-		{notes}
-		goToPage={(newPage: GroupPage) => (activePage = newPage)}
-		setStage={(newStage: Stage) => (stage = newStage)}
-	/>
-{/if}
-
-<!-- POSTMATCH -->
-{#if activePage === 'PostMatch'}
-	<PostMatch
-		{activePage}
-		{stage}
-		{count}
-		{notes}
-		goToPage={(newPage: GroupPage) => (activePage = newPage)}
-		setStage={(newStage: Stage) => (stage = newStage)}
-	/>
-{/if}
-
-<!-- QUEUE -->
-{#if activePage === 'Queue'}
-	<Queue setActivePage={(page: GroupPage) => (activePage = page)} />
-{/if}
+<button
+	class="m-2.5 inline-flex items-center justify-center rounded-md
+	       px-8 py-2 drop-shadow-xl
+	       transition-transform duration-300 hover:scale-105 {bottomBtnClass}"
+	onclick={() => goto('/login')}
+>
+	<p class="text-white font-[Poppins] font-semibold text-4xl">
+		Log Out
+	</p>
+</button>
 
 <style>
 	:global(body) {

@@ -10,11 +10,11 @@ export const actions = {
 		}
 
 		cookies.set('user', username.toString(), {
-			path: '/',
+			path: '/matchscout',
 			httpOnly: true,
 			sameSite: 'lax'
 		});
 
-		throw redirect(303, '/home');
+		throw redirect(303, '/');
 	}
 };

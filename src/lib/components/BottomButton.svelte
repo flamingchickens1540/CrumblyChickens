@@ -1,38 +1,30 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	const {
-		activePage: ActivePage,
-		stage: Stage,
-		count: Count,
-		label: Label,
-		notes: Notes,
-		goToPage,
-		setStage
-	} = $props();
+	const { container, label } = $props();
 
-	let stage = $derived(Stage);
-	let count = $derived(Count);
-	let label = $derived(Label);
-	let notes = $derived(Notes);
-	let activePage = $derived(ActivePage);
+	let stage = $derived(container.stage);
+	let count = $derived(container.count);
+	let Label = $derived(label);
+	let notes = $derived(container.notes);
+	let activePage = $derived(container.activePage);
 
 	const flow = ['PreMatch', 'Autonomous', 'Teleoperated', 'PostMatch'] as const;
 
 	const advanceStage = () => {
 		if (activePage == 'PostMatch') {
-			goto('/home');
-			setStage('PreMatch');
+			goto('/');
+			container.setStage('PreMatch');
 			count = 0;
 			notes = '';
 		} else if (activePage == 'PlusMinus') {
-			goToPage(stage);
-			setStage(stage);
+			container.goToPage(stage);
+			container.setStage(stage);
 		} else {
 			const index = flow.indexOf(stage);
 			const nextStage = flow[index + 1];
-			goToPage(nextStage);
-			setStage(nextStage);
+			container.goToPage(nextStage);
+			container.setStage(nextStage);
 			count = 0;
 		}
 	};
@@ -43,5 +35,5 @@
 </script>
 
 <button class={bottomBtnClass} onclick={() => advanceStage()}>
-	<p class="font-[Poppins] text-4xl font-semibold text-white">{label}</p>
+	<p class="font-[Poppins] text-4xl font-semibold text-white">{Label}</p>
 </button>

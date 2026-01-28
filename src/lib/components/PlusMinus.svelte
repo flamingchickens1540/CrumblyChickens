@@ -3,20 +3,23 @@
 	import PlusMinusButton from './PlusMinusButton.svelte';
 	import BottomButton from './BottomButton.svelte';
 
-	const {
-		activePage: ActivePage,
-		stage: _Stage,
-		count: Count,
-		notes: Notes,
-		setStage,
-		goToPage
-	} = $props();
+	const { container } = $props();
 
-	let stage = $derived(_Stage);
-	let count = $derived(Count);
-	let notes = $derived(Notes);
-	let activePage = $derived(ActivePage);
-	let label = 'Back';
+	let stage = $derived(container.stage);
+	let activeKey = $derived(container.activeKey);
+	let count = $state(0);
+
+	$effect(() => {
+		if (activeKey) {
+			count = container[activeKey] ?? 0;
+		}
+	});
+
+	$effect(() => {
+		if (activeKey) {
+			container[activeKey] = count;
+		}
+	});
 </script>
 
 <FuelCounter label="Fuel" {stage} {count} />
@@ -25,4 +28,4 @@
 	<PlusMinusButton value={+5} bind:count classlist="bg-[#49A078] hover:bg-[#6DB393]" />
 	<PlusMinusButton value={-1} bind:count classlist="col-span-2 bg-[#FF6663] hover:bg-[#FF8582]" />
 </div>
-<BottomButton {activePage} {count} {stage} {notes} {label} {goToPage} {setStage} />
+<BottomButton label="Back" {container} />

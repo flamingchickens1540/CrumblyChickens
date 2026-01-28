@@ -6,8 +6,4 @@ export const load = async ({ cookies }) => {
 	if (!user) {
 		throw redirect(303, '/login');
 	}
-
-	return {
-		user
-	};
 };
