@@ -14,10 +14,6 @@
 		}
 	});
 
-	function select(value: string) {
-		selected = value;
-	}
-
 	const isFirst = (index: number) => index === 0;
 	const isLast = (index: number) => index === items.length - 1;
 </script>
@@ -26,7 +22,7 @@
 	{#each items as item, i}
 		<button
 			type="button"
-			onclick={() => select(item)}
+			onclick={() => {selected = item}}
 			aria-pressed={selected === item}
 			class={`
 				relative m-0 inline-flex items-center

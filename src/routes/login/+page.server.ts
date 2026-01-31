@@ -10,7 +10,7 @@ export const actions = {
 		}
 
 		cookies.set('user', username.toString(), {
-			path: '/matchscout',
+			path: '/',
 			httpOnly: true,
 			sameSite: 'lax'
 		});

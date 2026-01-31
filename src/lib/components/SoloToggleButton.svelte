@@ -4,15 +4,11 @@
 	}>();
 
 	let checked = $state(false);
-
-	function handleClick() {
-		checked = !checked;
-	}
 </script>
 
 <button
 	type="button"
-	onclick={handleClick}
+	onclick={() => {checked = !checked}}
 	aria-pressed={checked}
 	class="
 		relative m-0 mx-2.5 inline-flex

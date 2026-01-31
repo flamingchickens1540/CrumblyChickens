@@ -3,8 +3,7 @@
 	import PlusMinusButton from './PlusMinusButton.svelte';
 	import BottomButton from './BottomButton.svelte';
 
-	let { match_data, plusMinus } = $props();
-	let activeKey = $derived(match_data.activeKey);
+	let { match_data, plusMinus, activeKey } = $props();
 	let stage = $derived(match_data.stage)
 	let count = $state(0);
 

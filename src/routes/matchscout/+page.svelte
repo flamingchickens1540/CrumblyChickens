@@ -1,19 +1,11 @@
 <script lang="ts">
-	import Display from '$lib/components/Display.svelte';
 	import PreMatch from '$lib/components/PreMatch.svelte';
 	import PostMatch from '$lib/components/PostMatch.svelte';
 	import Teleoperated from '$lib/components/Teleoperated.svelte';
 	import Autonomous from '$lib/components/Autonomous.svelte';
 
-	let plusMinus: boolean = $state(false);
-	
-	$effect(() =>
-		console.log("matchscout:", plusMinus)
-	);
-
 	const match_data = $state({
 		stage: 'PreMatch',
-		activeKey: null,
 		
 		notes: '',
 		hub: 0,
@@ -28,7 +20,12 @@
 	});
 </script>
 
-<Display currentStage={match_data.stage} />
+<center>
+	<p class="m-4 mb-0 font-[Poppins] text-6xl font-bold text-[#FF4848]">1540</p>
+	<p class="font-[Poppins] text-3xl text-[#C2C2C2]">
+		{match_data.stage}
+	</p>
+</center>
 
 {#if match_data.stage === 'PreMatch'}
 	<PreMatch
@@ -39,14 +36,12 @@
 {#if match_data.stage === 'Autonomous'}
 	<Autonomous
 		{match_data}
-		bind:plusMinus
 	/>
 {/if}
 
 {#if match_data.stage === 'Teleoperated'}
 	<Teleoperated
 		{match_data}
-		bind:plusMinus
 	/>
 {/if}
 

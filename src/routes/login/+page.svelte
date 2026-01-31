@@ -1,5 +1,5 @@
 <script lang="ts">
-	let username = '';
+	let username = $state('');
 </script>
 
 <div class="flex h-screen flex-col items-center justify-center text-white">

@@ -2,21 +2,21 @@
 	import BottomButton from './BottomButton.svelte';
 	import PlusMinus from './PlusMinus.svelte';
 	
-	let { match_data, plusMinus = $bindable() } = $props();
+	let { match_data } = $props();
+	let plusMinus: boolean = $state(false);
+	let activeKey: string | null = $state(null);
 </script>
 
 {#if plusMinus}
-	<PlusMinus {match_data} {plusMinus} />
-{/if}
-
-{#if !plusMinus}
+	<PlusMinus {match_data} {plusMinus} {activeKey} />
+{:else}
 	<div class={`auto-rows-[25dvh] grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1`}>
 		<button
 			class="m-2.5 inline-flex items-center justify-center
 			rounded-md px-8 py-2 drop-shadow-xl transition-transform duration-300
 			hover:scale-105 bg-[#6C3082]"
 			onclick={() => {
-				match_data.activeKey = 'hub';
+				activeKey = 'hub';
 				plusMinus = true;
 			}}
 		>
@@ -28,7 +28,7 @@
 			rounded-md px-8 py-2 drop-shadow-xl transition-transform duration-300
 			hover:scale-105 bg-[#6C3082]"
 			onclick={() => {
-				match_data.activeKey = 'shuffle';
+				activeKey = 'shuffle';
 				plusMinus = true;
 			}}
 		>
@@ -40,7 +40,7 @@
 			rounded-md px-8 py-2 drop-shadow-xl transition-transform duration-300
 			hover:scale-105 bg-[#6C3082]"
 			onclick={() => {
-				match_data.activeKey = 'steal';
+				activeKey = 'steal';
 				plusMinus = true;
 			}}
 		>
