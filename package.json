@@ -43,6 +43,7 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
+		"lucide-svelte": "^0.563.0",
 		"postgres": "^3.4.7"
 	}
 }
