@@ -1,70 +1,79 @@
 import {
 	pgTable as table,
-	serial,
 	integer,
 	text,
 	boolean,
 	pgEnum,
 	varchar,
-	unique,
-	primaryKey
+	unique
 } from 'drizzle-orm/pg-core';
-
-export const user = table('user', { id: serial('id').primaryKey(), age: integer('age') });
 
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
+export const autoStart = pgEnum('auto_start', ['Tower', 'Outpost', 'Depot']);
+
+// I think this would be helpful for relations stuff? But maybe unneeded
+export const event = table('event', {
+	eventKey: varchar({ length: 64 })
+});
+// Idk, having a team name seems potentially useful for insights stuff
+export const team = table('team', {
+	teamKey: integer(),
+	name: varchar({ length: 64 })
+});
 
 export const teamEvent = table('team_event', {
-	teamKey: integer('team_key'),
-	eventKey: varchar('event_key', { length: 64 }).references(() => event.eventKey),
+	teamKey: integer().references(() => team.teamKey),
+	eventKey: varchar({ length: 64 }).references(() => event.eventKey),
 	drivetrain: drivetrain(),
 	canBump: boolean(),
 	canTrench: boolean(),
 	maxClimb: endgame(),
 	canShuffle: boolean(),
-	canHalfSteam: boolean(),
+	canHalfSteal: boolean(),
 	canSteal: boolean(),
 	maxShotDistance: integer(),
 	hopperCapacity: integer(),
 	robotIceCream: text(),
 	biggestPride: text(),
-	notes: text()
+	notes: text(),
+	scoutName: varchar({ length: 64 }),
+	completed: boolean().notNull()
 });
-export const event = table('event', {
-	eventKey: varchar('event_key', { length: 64 })
-});
+
+// Expanded with data from TBA (once they release that info)
 export const match = table('match', {
-	matchKey: varchar({ length: 64 }),
-	eventKey: varchar({ length: 64 })
+	matchKey: varchar({ length: 64 }).primaryKey(),
+	eventKey: varchar({ length: 64 }).references(() => event.eventKey)
 });
 export const teamMatch = table(
 	'team_match',
 	{
-		teamKey: integer('team_key'),
-		matchKey: varchar('match_key', { length: 64 }).references(() => match.matchKey),
-		eventKey: varchar('event_key', { length: 64 }).references(() => event.eventKey),
-		autoStart: varchar('auto_start_location', { length: 16 }),
-		fielded: boolean('fielded'),
-		autoHub: integer('auto_hub'),
-		autoShuffle: integer('auto_shuffle'),
-		autoClimb: boolean('auto_climb'),
-		teleHub: integer('tele_hub'),
-		teleShuffle: integer('tele_shuffle'),
-		teleSteal: integer('tele_steal'),
+		id: integer().primaryKey(),
+		teamKey: integer().notNull(),
+		matchKey: varchar({ length: 64 })
+			.notNull()
+			.references(() => match.matchKey),
+		eventKey: varchar({ length: 64 })
+			.notNull()
+			.references(() => event.eventKey),
+		autoStart: autoStart(),
+		fielded: boolean(),
+		autoHub: integer(),
+		autoShuffle: integer(),
+		autoClimb: boolean(),
+		teleHub: integer(),
+		teleShuffle: integer(),
+		teleSteal: integer(),
 		climb: endgame(),
 		skill: integer(),
 		broken: boolean(),
 		died: boolean(),
 		notes: text(),
-		scoutName: varchar('scout_name', { length: 64 })
+		scoutName: varchar({ length: 64 }),
+		scouted: boolean().notNull()
 	},
 	(table) => {
-		return {
-			teamMatchKeyUnique: primaryKey({
-				name: 'team_match_key_unique',
-				columns: [table.teamKey, table.matchKey]
-			})
-		};
+		return [unique('team_match_key').on(table.teamKey, table.matchKey)];
 	}
 );
