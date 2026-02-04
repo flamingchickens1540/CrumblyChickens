@@ -1,37 +1,38 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background: var(--color-slate-950);
+    background: var(--color-slate-950);
 }
 
 textarea {
-  box-sizing: border-box;
-  resize: none;
+    box-sizing: border-box;
+    resize: none;
 }
 
-@font-face {
-	font-family: 'Poppins';
-	src: url('./poppins/Poppins-Medium.otf');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
+@layer base {
+    @font-face {
+        font-family: "Poppins";
+        src: url("./lib/poppins/Poppins-Medium.otf");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
 
-@font-face {
-	font-family: 'Poppins';
-	src: url('./poppins/Poppins-Bold.otf');
-	font-weight: bold;
-	font-style: normal;
-	font-display: swap;
-}
+    @font-face {
+        font-family: "Poppins";
+        src: url("./lib/poppins/Poppins-Bold.otf");
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+    }
 
-@font-face {
-	font-family: 'Poppins';
-	src: url('./poppins/Poppins-SemiBold.otf');
-	font-weight: semibold;
-	font-style: normal;
-	font-display: swap;
+    @font-face {
+        font-family: "Poppins";
+        src: url("./lib/poppins/Poppins-SemiBold.otf");
+        font-weight: semibold;
+        font-style: normal;
+        font-display: swap;
+    }
 }
