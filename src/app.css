@@ -1,3 +1,17 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: var(--color-slate-950);
+}
+
+textarea {
+  box-sizing: border-box;
+  resize: none;
+}
+
 @font-face {
   font-family: 'Poppins';
   src: url('./poppins/Poppins-Medium.otf');
