@@ -8,7 +8,6 @@ import {
 	unique
 } from 'drizzle-orm/pg-core';
 import { defineRelations } from 'drizzle-orm';
-
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
 export const autoStart = pgEnum('auto_start', ['Tower', 'Outpost', 'Depot']);
