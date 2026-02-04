@@ -7,6 +7,7 @@ import {
 	varchar,
 	unique
 } from 'drizzle-orm/pg-core';
+import { defineRelations } from 'drizzle-orm';
 
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
@@ -76,4 +77,56 @@ export const teamMatch = table(
 	(table) => {
 		return [unique('team_match_key').on(table.teamKey, table.matchKey)];
 	}
+);
+
+export const relations = defineRelations(
+	{
+		event,
+		team,
+		teamEvent,
+		match,
+		teamMatch
+	},
+	(r) => ({
+		events: {
+			teamEvents: r.many.teamEvent(),
+			matches: r.many.match(),
+			teamMatches: r.many.teamMatch()
+		},
+		team: {
+			teamEvents: r.many.teamEvent()
+		},
+		teamEvent: {
+			event: r.one.event({
+				from: r.teamEvent.eventKey,
+				to: r.event.eventKey
+			}),
+			team: r.one.team({
+				from: r.teamEvent.teamKey,
+				to: r.team.teamKey
+			}),
+			matches: r.many.teamMatch()
+		},
+		match: {
+			event: r.one.event({
+				from: r.match.eventKey,
+				to: r.event.eventKey
+			}),
+			teamMatches: r.many.teamMatch()
+		},
+		teamMatch: {
+			event: r.one.event({
+				from: r.teamMatch.eventKey,
+				to: r.event.eventKey
+			}),
+			match: r.one.match({
+				from: r.teamMatch.matchKey,
+				to: r.match.matchKey
+			}),
+			teamEvent: r.one.teamEvent({
+				from: [r.teamMatch.teamKey, r.teamMatch.eventKey],
+				to: [r.teamEvent.teamKey, r.teamEvent.eventKey]
+			})
+		}
+	})
 );
