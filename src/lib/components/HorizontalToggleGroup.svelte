@@ -22,7 +22,9 @@
 	{#each items as item, i}
 		<button
 			type="button"
-			onclick={() => {selected = item}}
+			onclick={() => {
+				selected = item;
+			}}
 			aria-pressed={selected === item}
 			class={`
 				relative m-0 inline-flex flex-1

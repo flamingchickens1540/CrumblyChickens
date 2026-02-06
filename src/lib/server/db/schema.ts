@@ -27,7 +27,7 @@ export const teamEvent = table(
 	'team_event',
 	{
 		teamKey: integer()
-			.primaryKey()
+			.nonNull()
 			.references(() => team.teamKey),
 		eventKey: varchar({ length: 64 })
 			.notNull()

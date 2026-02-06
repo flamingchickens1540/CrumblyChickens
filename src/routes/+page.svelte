@@ -36,10 +36,9 @@
 			onClick: () => goto('/leaderboard')
 		}
 	];
-	
+
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
-	const bottomBtnClass =
-		'fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
+	const bottomBtnClass = 'fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
 </script>
 
 <center>
@@ -52,11 +51,11 @@
 	{#each actions as action}
 		<button
 			class="m-2.5 inline-flex items-center justify-center rounded-md
-				px-8 py-2 drop-shadow-xl
-				transition-transform duration-300 hover:scale-105 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]"
+				bg-[#5C5C5C] p-2 px-8
+				py-2 drop-shadow-xl transition-transform duration-300 hover:scale-105 hover:bg-[#7D7D7D]"
 			onclick={action.onClick}
 		>
-			<p class="text-white font-[Poppins] font-semibold text-4xl">
+			<p class="font-[Poppins] text-4xl font-semibold text-white">
 				{action.label}
 			</p>
 		</button>
@@ -69,9 +68,7 @@
 	       transition-transform duration-300 hover:scale-105 {bottomBtnClass}"
 	onclick={() => goto('/login')}
 >
-	<p class="text-white font-[Poppins] font-semibold text-4xl">
-		Log Out
-	</p>
+	<p class="font-[Poppins] text-4xl font-semibold text-white">Log Out</p>
 </button>
 
 <style>
