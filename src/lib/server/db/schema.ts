@@ -13,11 +13,12 @@ export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
 export const autoStart = pgEnum('auto_start', ['Tower', 'Outpost', 'Depot']);
 
-// I think this would be helpful for relations stuff? But maybe unneeded
+export const user = table('user', {
+	username: varchar({ length: 64 }).primaryKey()
+});
 export const event = table('event', {
 	eventKey: varchar({ length: 64 }).primaryKey()
 });
-// Idk, having a team name seems potentially useful for insights stuff
 export const team = table('team', {
 	teamKey: integer().primaryKey(),
 	name: varchar({ length: 64 }).notNull()
@@ -27,7 +28,7 @@ export const teamEvent = table(
 	'team_event',
 	{
 		teamKey: integer()
-			.nonNull()
+			.notNull()
 			.references(() => team.teamKey),
 		eventKey: varchar({ length: 64 })
 			.notNull()
@@ -44,7 +45,7 @@ export const teamEvent = table(
 		robotIceCream: text(),
 		biggestPride: text(),
 		notes: text(),
-		scoutName: varchar({ length: 64 }),
+		scout: varchar({ length: 64 }).references(() => user.username),
 		completed: boolean().notNull()
 	},
 	(table) => [primaryKey({ columns: [table.eventKey, table.teamKey] })]
@@ -81,7 +82,7 @@ export const teamMatch = table(
 		broken: boolean(),
 		died: boolean(),
 		notes: text(),
-		scoutName: varchar({ length: 64 }),
+		scout: varchar({ length: 64 }).references(() => user.username),
 		scouted: boolean().notNull()
 	},
 	(table) => {
