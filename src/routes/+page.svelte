@@ -25,7 +25,7 @@
 		},
 		{
 			label: 'Pit Scout',
-			onClick: () => goto('/pitscout')
+			onClick: () => goto('/pitscout/teamlist')
 		},
 		{
 			label: 'Analysis',

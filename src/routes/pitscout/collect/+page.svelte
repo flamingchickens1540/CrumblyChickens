@@ -1,9 +1,11 @@
 <script lang="ts">
     import { X } from "lucide-svelte"
+    import ButtonBack from "$lib/components/ButtonBack.svelte";
     import VerticalToggleGroup from "$lib/components/VerticalToggleGroup.svelte";
     import LabeledContainer from "$lib/components/LabeledContainer.svelte";
     import type { PageProps } from './$types'
 	import { goto } from '$app/navigation';
+	import LabeledTextArea from "$lib/components/LabeledTextArea.svelte";
 
     let inputFiles: FileList
 
@@ -60,39 +62,49 @@
 </script>
 <center class="font-[Poppins] font-normal">
     <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{teamKey}</p>
-	<p class="text-3xl text-slate-400">
+	<p class="text-3xl text-gray-400">
 		Pitscout
 	</p>
-    <p class="text-2xl text-slate-400 mt-3 mb-2 text-left mx-2.5">
+    <p class="text-2xl text-gray-400 mt-3 text-left mx-2.5">
         Drivetrain
     </p>
-    <VerticalToggleGroup items={['Swerve', 'Tank', 'Other (explain in notes)']} selectedValue={drivetrain}></VerticalToggleGroup>
+    <VerticalToggleGroup items={['Swerve', 'Tank', 'Other']} selectedValue={drivetrain}></VerticalToggleGroup>
     <LabeledContainer label="Terrain Capabilities">
-        <button class="rounded-t w-full {bump ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => bump = !bump}>Bump</button>
-        <button class="rounded-b w-full border-t border-slate-400 {trench ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => trench = !trench}>Trench</button>
+        <button class="rounded-t w-full {bump ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => bump = !bump}>Bump</button>
+        <button class="rounded-b w-full border-t border-gray-400 {trench ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => trench = !trench}>Trench</button>
     </LabeledContainer>
 
     <LabeledContainer label="Climb">
-        <button class="rounded-t w-full {l1 ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => l1 = !l1}>L1</button>
-        <button class="w-full border-y border-slate-400 {l2 ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => l2 = !l2}>L2</button>
-        <button class="rounded-b w-full {l3 ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => l3 = !l3}>L3</button>
+        <button class="rounded-t w-full {l1 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => l1 = !l1}>L1</button>
+        <button class="w-full border-y border-gray-400 {l2 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => l2 = !l2}>L2</button>
+        <button class="rounded-b w-full {l3 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => l3 = !l3}>L3</button>
     </LabeledContainer>
 
     <LabeledContainer label="Shooting Capabilities">
-        <button class="rounded-t w-full {oppToNeutral ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => oppToNeutral = !oppToNeutral}>Opposing to Neutral</button>
-        <button class="w-full border-y border-slate-400 {oppToAlliance ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => oppToAlliance = !oppToAlliance}>Opposing to Alliance</button>
-        <button class="rounded-b w-full {neuToAlliance ? 'bg-amber-400 text-black' : 'bg-slate-900 text-white'} p-2" onclick={() => neuToAlliance = !neuToAlliance}>Neutral to Alliance</button>
+        <button class="rounded-t w-full {oppToNeutral ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => oppToNeutral = !oppToNeutral}>Opposing to Neutral</button>
+        <button class="w-full border-y border-gray-400 {oppToAlliance ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => oppToAlliance = !oppToAlliance}>Opposing to Alliance</button>
+        <button class="rounded-b w-full {neuToAlliance ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => neuToAlliance = !neuToAlliance}>Neutral to Alliance</button>
+    </LabeledContainer>
+
+    <LabeledContainer label="Robot stuff">
+        <LabeledTextArea label="Max hopper capacity">
+            <textarea bind:value={hopperCapacity} class="outline-none w-full"></textarea>
+        </LabeledTextArea>
+        <LabeledTextArea label="Max shoot distance">
+            <textarea bind:value={maxShoot} class="outline-none w-full"></textarea>
+        </LabeledTextArea>
     </LabeledContainer>
 
     <LabeledContainer label="Misc.">
-        <textarea class="w-full rounded p-1 bg-slate-900" placeholder="Max hopper capacity" bind:value={hopperCapacity}></textarea>
-        <textarea class="w-full rounded p-1 bg-slate-900 mt-2" placeholder="Max shoot distance" bind:value={maxShoot}></textarea>
-    </LabeledContainer>
-
-    <LabeledContainer label="Misc.">
-        <textarea class="w-full rounded p-1 bg-slate-900" placeholder="What would your robot be if it were an ice cream flavor?"></textarea>
-        <textarea class="w-full rounded my-2 p-1 bg-slate-900" placeholder="What are you most proud of about your robot?"></textarea>
-        <textarea class="w-full rounded p-1 bg-slate-900" placeholder="Anything else?" bind:value={notes}></textarea>
+        <LabeledTextArea label="If your robot was an ice cream flavor, what would it be?">
+            <textarea class="outline-none w-full"></textarea>
+        </LabeledTextArea>
+        <LabeledTextArea label="What are you most proud of about your robot?">
+            <textarea class="outline-none w-full"></textarea>
+        </LabeledTextArea>
+        <LabeledTextArea label="Other notes">
+            <textarea bind:value={notes} class="outline-none w-full"></textarea>
+        </LabeledTextArea>
     </LabeledContainer>
 
     <!--Upload files-->
@@ -101,19 +113,21 @@
             {#if (images.length > 0)}
                 {#each images as src, i}
                     <div class="w-full rounded mt-2 h-64 flex justify-end p-2 items-start" style="background: url({src}); background-size: cover; background-repeat: no-repeat; background-position: center">
-                        <button class="bg-slate-900 text-white rounded-full p-1" onclick={() => splice(i)}>
+                        <button class="bg-gray-900 text-white rounded-full p-1" onclick={() => splice(i)}>
                             <X class="text-white text-2xl "></X>
                         </button>
                     </div>
                 {/each}
             {:else}
-                Please attach a photo :3
+                Please attach a photo
             {/if}
-            <label class="block {(images.length > 0) ? 'bg-amber-500 text-black' : 'bg-slate-800 text-white'} text-white rounded text-center text-2xl p-2 mt-2">
+            <label class="block {(images.length > 0) ? 'bg-amber-500 text-black' : 'bg-gray-800 text-white'} text-white rounded text-center text-2xl p-2 mt-2">
                 +
                 <input type="file" accept="image/png, image/jpeg, image/jpg" bind:files={inputFiles} class="w-full hidden" onchange={submitFile}>
             </label>
         </div>
     </LabeledContainer>
-    <button onclick={submit} class="bg-slate-800 text-white block rounded mx-2.5 my-3 text-2xl p-3">Submit</button>
+    <button onclick={submit} class="bg-gray-800 text-white block rounded mx-2.5 my-3 text-2xl p-3">Submit</button>
 </center>
+
+<ButtonBack label="To team list" link="/pitscout/teamlist"/>

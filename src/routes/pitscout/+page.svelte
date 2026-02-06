@@ -1,1 +1,0 @@
-<a href="/pitscout/collect" class="text-blue-400">Go to collect</a>
