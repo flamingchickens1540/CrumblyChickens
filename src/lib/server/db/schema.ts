@@ -8,43 +8,54 @@ import {
 	unique
 } from 'drizzle-orm/pg-core';
 import { defineRelations } from 'drizzle-orm';
+import { primaryKey } from 'drizzle-orm/cockroach-core';
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
 export const autoStart = pgEnum('auto_start', ['Tower', 'Outpost', 'Depot']);
 
 // I think this would be helpful for relations stuff? But maybe unneeded
 export const event = table('event', {
-	eventKey: varchar({ length: 64 })
+	eventKey: varchar({ length: 64 }).primaryKey()
 });
 // Idk, having a team name seems potentially useful for insights stuff
 export const team = table('team', {
-	teamKey: integer(),
-	name: varchar({ length: 64 })
+	teamKey: integer().primaryKey(),
+	name: varchar({ length: 64 }).notNull()
 });
 
-export const teamEvent = table('team_event', {
-	teamKey: integer().references(() => team.teamKey),
-	eventKey: varchar({ length: 64 }).references(() => event.eventKey),
-	drivetrain: drivetrain(),
-	canBump: boolean(),
-	canTrench: boolean(),
-	maxClimb: endgame(),
-	canShuffle: boolean(),
-	canHalfSteal: boolean(),
-	canSteal: boolean(),
-	maxShotDistance: integer(),
-	hopperCapacity: integer(),
-	robotIceCream: text(),
-	biggestPride: text(),
-	notes: text(),
-	scoutName: varchar({ length: 64 }),
-	completed: boolean().notNull()
-});
+export const teamEvent = table(
+	'team_event',
+	{
+		teamKey: integer()
+			.primaryKey()
+			.references(() => team.teamKey),
+		eventKey: varchar({ length: 64 })
+			.notNull()
+			.references(() => event.eventKey),
+		drivetrain: drivetrain(),
+		canBump: boolean(),
+		canTrench: boolean(),
+		maxClimb: endgame(),
+		canShuffle: boolean(),
+		canHalfSteal: boolean(),
+		canSteal: boolean(),
+		maxShotDistance: integer(),
+		hopperCapacity: integer(),
+		robotIceCream: text(),
+		biggestPride: text(),
+		notes: text(),
+		scoutName: varchar({ length: 64 }),
+		completed: boolean().notNull()
+	},
+	(table) => [primaryKey({ columns: [table.eventKey, table.teamKey] })]
+);
 
 // Expanded with data from TBA (once they release that info)
 export const match = table('match', {
 	matchKey: varchar({ length: 64 }).primaryKey(),
-	eventKey: varchar({ length: 64 }).references(() => event.eventKey)
+	eventKey: varchar({ length: 64 })
+		.notNull()
+		.references(() => event.eventKey)
 });
 export const teamMatch = table(
 	'team_match',
