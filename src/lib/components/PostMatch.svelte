@@ -6,10 +6,9 @@
 
 	const { match_data } = $props();
 	let notes = $derived(match_data.notes);
-
 </script>
 
-<div class={'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1 auto-cols-fr'}>
+<div class={'grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1'}>
 	<VerticalToggleGroup items={['L1', 'L2', 'L3', 'Not Attempted']} />
 	<StarRating />
 	<HorizontalToggleGroup items={['Undamaged', 'Broken']} />

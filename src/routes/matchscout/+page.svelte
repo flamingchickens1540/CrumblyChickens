@@ -6,7 +6,7 @@
 
 	const match_data = $state({
 		stage: 'PreMatch',
-		
+
 		notes: '',
 		hub: 0,
 		shuffle: 0,
@@ -28,27 +28,19 @@
 </center>
 
 {#if match_data.stage === 'PreMatch'}
-	<PreMatch
-		{match_data}
-	/>
+	<PreMatch {match_data} />
 {/if}
 
 {#if match_data.stage === 'Autonomous'}
-	<Autonomous
-		{match_data}
-	/>
+	<Autonomous {match_data} />
 {/if}
 
 {#if match_data.stage === 'Teleoperated'}
-	<Teleoperated
-		{match_data}
-	/>
+	<Teleoperated {match_data} />
 {/if}
 
 {#if match_data.stage === 'PostMatch'}
-	<PostMatch
-		{match_data}
-	/>
+	<PostMatch {match_data} />
 {/if}
 
 <style>

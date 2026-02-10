@@ -8,7 +8,9 @@
 
 <button
 	type="button"
-	onclick={() => {checked = !checked}}
+	onclick={() => {
+		checked = !checked;
+	}}
 	aria-pressed={checked}
 	class="
 		relative m-0 mx-2.5 inline-flex

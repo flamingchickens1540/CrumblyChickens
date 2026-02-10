@@ -4,7 +4,7 @@
 	import BottomButton from './BottomButton.svelte';
 
 	let { match_data, plusMinus, activeKey } = $props();
-	let stage = $derived(match_data.stage)
+	let stage = $derived(match_data.stage);
 	let count = $state(0);
 
 	$effect(() => {

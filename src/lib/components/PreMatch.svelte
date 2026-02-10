@@ -6,7 +6,7 @@
 	const { match_data } = $props();
 </script>
 
-<div class={'grid-wrap mx-3 mt-0 mb-3 px-1 pt-0 pb-1 grid auto-cols-fr'}>
+<div class={'grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1'}>
 	<VerticalToggleGroup items={['Outpost', 'Tower', 'Depot']} />
 	<HorizontalToggleGroup items={['Fielded', 'Missed Match']} />
 </div>
