@@ -7,6 +7,7 @@
 <div class="w-full rounded bg-gray-900 text-white p-1 text-l text-left mb-3">
     <label class="text-left">
         <span class="text-gray-400">{label}</span>
+        <hr class="p-2">
         <slot/>
     </label>
 </div>
