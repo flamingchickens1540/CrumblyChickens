@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import LabeledTextArea from "$lib/components/LabeledTextArea.svelte";
 	import type { TeamEvent } from "$lib/types";
+	import IndependentToggleGroup from "$lib/components/IndependentToggleGroup.svelte";
 
     let inputFiles: FileList | null = $state(null)
 
@@ -50,21 +51,17 @@
         Drivetrain
     </p>
     <VerticalToggleGroup items={['Swerve', 'Tank', 'Other']} selectedValue={team_event.drivetrain} bg_selected="amber-400" bg_normal="gray-900" outline={false}/>
+
     <LabeledContainer label="Terrain Capabilities">
-        <button class="rounded-t w-full {team_event.bump ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.bump = !team_event.bump}>Bump</button>
-        <button class="rounded-b w-full border-t border-gray-400 {team_event.trench ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.trench = !team_event.trench}>Trench</button>
+        <IndependentToggleGroup items={["Bump", "Trench"]} keys={["bump", "trench"]} bind:source={team_event}/>
     </LabeledContainer>
 
     <LabeledContainer label="Climb">
-        <button class="rounded-t w-full {team_event.l1 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => {team_event.l1 = !team_event.l1; console.log(team_event.l1)}}>L1</button>
-        <button class="w-full border-y border-gray-400 {team_event.l2 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.l2 = !team_event.l2}>L2</button>
-        <button class="rounded-b w-full {team_event.l3 ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.l3 = !team_event.l3}>L3</button>
+        <IndependentToggleGroup items={["L1", "L2", "L3"]} keys={["l1", "l2", "l3"]} bind:source={team_event}/>
     </LabeledContainer>
 
     <LabeledContainer label="Shooting Capabilities">
-        <button class="rounded-t w-full {team_event.oppToNeutral ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.oppToNeutral = !team_event.oppToNeutral}>Opposing to Neutral</button>
-        <button class="w-full border-y border-gray-400 {team_event.oppToAlliance ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.oppToAlliance = !team_event.oppToAlliance}>Opposing to Alliance</button>
-        <button class="rounded-b w-full {team_event.neuToAlliance ? 'bg-amber-400 text-black' : 'bg-gray-900 text-white'} p-2" onclick={() => team_event.neuToAlliance = !team_event.neuToAlliance}>Neutral to Alliance</button>
+        <IndependentToggleGroup items={["Opposing to Neutral", "Opposing to Alliance", "Neutral to Alliance"]} keys={["oppToNeutral", "oppToAlliance", "neuToAlliance"]} bind:source={team_event}/>
     </LabeledContainer>
 
     <LabeledContainer label="Robot stuff">
