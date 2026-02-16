@@ -69,10 +69,10 @@
 
     <LabeledContainer label="Robot stuff">
         <LabeledTextArea label="Max hopper capacity">
-            <textarea bind:value={team_event.hopperCapacity} class="outline-none w-full" placeholder="Max Hopper Capacity"></textarea>
+            <input bind:value={team_event.hopperCapacity} class="outline-none w-full p-1" type="number"/>
         </LabeledTextArea>
         <LabeledTextArea label="Max shoot distance">
-            <textarea bind:value={team_event.maxShoot} class="outline-none w-full"></textarea>
+            <input bind:value={team_event.maxShoot} class="outline-none w-full p-1" type="number"/>
         </LabeledTextArea>
     </LabeledContainer>
 
