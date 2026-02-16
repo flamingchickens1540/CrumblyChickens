@@ -7,31 +7,31 @@
 
     const { data }: { data: TeamMatch } = $props()
 
-    const game_stage: GameStage = $state('PreMatch')
+    let stage: GameStage = $state('PreMatch')
 	let  match_data = $state(data);
 </script>
 
 <center>
 	<p class="m-4 mb-0 font-[Poppins] text-6xl font-bold text-[#FF4848]">1540</p>
 	<p class="font-[Poppins] text-3xl text-[#C2C2C2]">
-		{game_stage}
+		{stage}
 	</p>
 </center>
 
-{#if game_stage === 'PreMatch'}
-	<PreMatch bind:match_data />
+{#if stage === 'PreMatch'}
+	<PreMatch bind:match_data bind:stage />
 {/if}
 
-{#if game_stage === 'Auto'}
-	<Autonomous bind:match_data />
+{#if stage === 'Auto'}
+	<Autonomous bind:match_data bind:stage />
 {/if}
 
-{#if game_stage === 'Tele'}
-	<Teleoperated bind:match_data />
+{#if stage === 'Tele'}
+	<Teleoperated bind:match_data bind:stage />
 {/if}
 
-{#if game_stage === 'PostMatch'}
-	<PostMatch bind:match_data />
+{#if stage === 'PostMatch'}
+	<PostMatch bind:match_data bind:stage />
 {/if}
 
 <style>
