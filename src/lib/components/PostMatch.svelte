@@ -4,7 +4,7 @@
 	import StarRating from '$lib/components/StarRating.svelte';
 	import BottomButton from '$lib/components/BottomButton.svelte';
 
-	const { match_data } = $props();
+	let { match_data = $bindable() } = $props();
 	let notes = $derived(match_data.notes);
 </script>
 
@@ -23,4 +23,4 @@
 	></textarea>
 </div>
 
-<BottomButton {match_data} />
+<BottomButton bind:match_data />

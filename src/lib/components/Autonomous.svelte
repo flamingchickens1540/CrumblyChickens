@@ -3,7 +3,7 @@
 	import BottomButton from './BottomButton.svelte';
 	import PlusMinus from './PlusMinus.svelte';
 
-	let { match_data } = $props();
+	let { match_data = $bindable() } = $props();
 	let plusMinus: boolean = $state(false);
 	let activeKey: string | null = $state(null);
 </script>
@@ -42,4 +42,4 @@
 {/if}
 
 <!-- BottomButton is rendered so it can toggle plusMinus (omfg svelte is evil ughhhhhh) -->
-<BottomButton {match_data} bind:plusMinus />
+<BottomButton bind:match_data bind:plusMinus />

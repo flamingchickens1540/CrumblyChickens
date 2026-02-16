@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	let { match_data, plusMinus = $bindable() } = $props();
+	let { match_data = $bindable(), plusMinus = $bindable() } = $props();
 
 	let stage = $derived(match_data.stage);
 	let count = $derived(match_data.count);
@@ -18,7 +18,7 @@
 		}
 	});
 
-	const flow = ['PreMatch', 'Autonomous', 'Teleoperated', 'PostMatch'] as const;
+	const flow = ['PreMatch', 'Auto', 'Tele', 'PostMatch'] as const;
 
 	const handleBottomButton = () => {
 		if (plusMinus) {
@@ -50,7 +50,7 @@
 		}
 	};
 
-	const bottomBtnClass = `m-2.5 inline-flex items-center justify-center 
+	const bottomBtnClass = `m-2.5 inline-flex items-center justify-center
 		rounded-md px-8 py-2 drop-shadow-xl transition-transform duration-300 hover:scale-105
 		fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]`;
 </script>
