@@ -40,10 +40,21 @@
 		);
 	}
 
+<<<<<<< HEAD
 	function splice(i: number) {
 		team_event.images.splice(i, 1);
 		console.log('spliced index ' + i);
 	}
+=======
+    function isFormComplete(): boolean {
+        return team_event.hopperCapacity == 0 || team_event.maxShotDistance == 0 || team_event.images.length == 0
+    }
+
+    function splice(i: number) {
+        team_event.images.splice(i, 1);
+        console.log("spliced index " + i)
+    }
+>>>>>>> 74aea64 (feat: match submission api)
 </script>
 
 <center class="font-[Poppins] font-normal">
@@ -82,6 +93,7 @@
 		/>
 	</LabeledContainer>
 
+<<<<<<< HEAD
 	<LabeledContainer label="Robot stuff">
 		<LabeledTextArea label="Max hopper capacity">
 			<input bind:value={team_event.hopperCapacity} class="w-full p-1 outline-none" type="number" />
@@ -90,6 +102,16 @@
 			<input bind:value={team_event.maxShoot} class="w-full p-1 outline-none" type="number" />
 		</LabeledTextArea>
 	</LabeledContainer>
+=======
+    <LabeledContainer label="Robot stuff">
+        <LabeledTextArea label="Max hopper capacity">
+            <input bind:value={team_event.hopperCapacity} class="outline-none w-full p-1" type="number"/>
+        </LabeledTextArea>
+        <LabeledTextArea label="Max shoot distance">
+            <input bind:value={team_event.maxShotDistance} class="outline-none w-full p-1" type="number"/>
+        </LabeledTextArea>
+    </LabeledContainer>
+>>>>>>> 74aea64 (feat: match submission api)
 
 	<LabeledContainer label="Misc.">
 		<LabeledTextArea label="If your robot was an ice cream flavor, what would it be?">

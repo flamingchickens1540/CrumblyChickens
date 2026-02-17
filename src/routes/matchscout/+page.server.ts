@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     }
 
     const team_match: TeamMatch = {
-        teamKey: "",
+        teamKey: 0,
         matchKey: "",
         eventKey: "",
 
@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
         teleHub: 0,
         teleShuffle: 0,
         teleSteal: 0,
-        climb: "Not Attempted",
+        climb: "None",
         skill: 1,
         broken: false,
         died: false,

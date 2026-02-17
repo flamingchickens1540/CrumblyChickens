@@ -2,12 +2,12 @@
 	import { goto } from '$app/navigation';
 	import type { GameStage, TeamMatch } from '$lib/types';
 
-	let { match_data: _, stage = $bindable(), plusMinus = $bindable() }: { match_data: TeamMatch, stage: GameStage, plusMinus: boolean } = $props();
+	let { match_data, stage = $bindable(), plusMinus = $bindable() }: { match_data: TeamMatch, stage: GameStage, plusMinus: boolean } = $props();
 
     const label = $derived(plusMinus ? 'Back' : stage === 'PostMatch' ? 'Submit' : 'Next Stage')
 	const flow = ['PreMatch', 'Auto', 'Tele', 'PostMatch'] as const;
 
-	const handleBottomButton = () => {
+	const handleBottomButton = async () => {
 		if (plusMinus) {
 			plusMinus = false;
 			console.log('Exiting PlusMinus');
@@ -16,7 +16,11 @@
 
 		if (stage === 'PostMatch') {
 			stage = 'PreMatch';
-            // TODO Submit and reset match
+
+            await fetch('/api/submit/', {
+                method: 'POST',
+                body: JSON.stringify(match_data)
+            })
 
 			goto('/');
 
@@ -33,6 +37,6 @@
 		fixed bottom-0 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]`;
 </script>
 
-<button class={bottomBtnClass} onclick={() => handleBottomButton()}>
+<button class={bottomBtnClass} onclick={async () => await handleBottomButton()}>
 	<p class="font-[Poppins] text-4xl font-semibold text-white">{label}</p>
 </button>
