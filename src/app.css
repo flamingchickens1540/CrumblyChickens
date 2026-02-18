@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 body {
-    background: var(--color-slate-950);
+	background: var(--color-slate-950);
 }
 
 textarea {
-    box-sizing: border-box;
-    resize: none;
+	box-sizing: border-box;
+	resize: none;
 }
 
 /*
@@ -17,39 +17,39 @@ Posted by saghar.fadaei, modified by community. See post 'Timeline' for change h
 Retrieved 2026-02-15, License - CC BY-SA 4.0
 */
 
-input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-    margin: 0;
+input[type='number'] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+	margin: 0;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 @layer base {
-    @font-face {
-        font-family: "Poppins";
-        src: url("./lib/poppins/Poppins-Medium.otf");
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-    }
+	@font-face {
+		font-family: 'Poppins';
+		src: url('./lib/poppins/Poppins-Medium.otf');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
 
-    @font-face {
-        font-family: "Poppins";
-        src: url("./lib/poppins/Poppins-Bold.otf");
-        font-weight: bold;
-        font-style: normal;
-        font-display: swap;
-    }
+	@font-face {
+		font-family: 'Poppins';
+		src: url('./lib/poppins/Poppins-Bold.otf');
+		font-weight: bold;
+		font-style: normal;
+		font-display: swap;
+	}
 
-    @font-face {
-        font-family: "Poppins";
-        src: url("./lib/poppins/Poppins-SemiBold.otf");
-        font-weight: semibold;
-        font-style: normal;
-        font-display: swap;
-    }
+	@font-face {
+		font-family: 'Poppins';
+		src: url('./lib/poppins/Poppins-SemiBold.otf');
+		font-weight: semibold;
+		font-style: normal;
+		font-display: swap;
+	}
 }
