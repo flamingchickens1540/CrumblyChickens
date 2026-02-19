@@ -9,6 +9,11 @@
 			username
 		}
 	});
+
+	socket.on('leave_queue', () => {
+		socket.disconnect();
+		goto('/');
+	});
 	socket.on('recieve_robot', (_robot: { teamKey: number; color: 'red' | 'blue' }) => {
 		browser && localStorage.setItem('matchData', ''); // TODO: connect to match scouting data
 		socket.disconnect();

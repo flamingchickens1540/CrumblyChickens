@@ -12,7 +12,6 @@ const wsServer = {
 		if (!server.httpServer) return;
 		const io = new Server(server.httpServer);
 		io.on('connect', (socket) => {
-			info('hi');
 			if (!socket.handshake.auth.username) {
 				warn(`User joined without username. Disconnecting. Socket id: ${socket.id}`);
 				socket.disconnect();
@@ -40,16 +39,29 @@ const wsServer = {
 			});
 		});
 		io.of('/admin').on('connect', (socket) => {
-			const scoutQueue = io
-				.of('/queue')
-				.sockets.values()
-				.map((scout) => scout.handshake.auth.username);
+			const scoutQueue = [
+				...io
+					.of('/queue')
+					.sockets.values()
+					.map((scout) => scout.handshake.auth.username)
+			];
+			info(`Admin aquired`);
 
 			socket.emit('handshake_data', [scoutQueue, robotQueue]);
 
 			socket.on('clear_robots', () => {
 				info(`Robot queue cleared. Was ${robotQueue}`);
 				robotQueue = [];
+			});
+			socket.on('remove_scout', (username: string) => {
+				const scouts = io.of('/queue').sockets.values();
+				for (const scout of scouts) {
+					if (username === scout.handshake.auth.username) {
+						scout.emit('leave_queue');
+						info(`${username} removed from queue by admin`);
+					}
+				}
+				warn(`Attempted to remove a scout who wasn't in the queue: ${username}`);
 			});
 			socket.on('send_match', (robots: { teamKey: number; color: 'red' | 'blue' }[]) => {
 				robotQueue = robots;
@@ -59,7 +71,7 @@ const wsServer = {
 						if (team.color == 'red') {
 							return ` \x1b[31m${team.teamKey}\x1b[0m`;
 						} else {
-							return ` \x1b[31m${team.teamKey}\x1b[0m`;
+							return ` \x1b[34m${team.teamKey}\x1b[0m`;
 						}
 					})
 					.join();
