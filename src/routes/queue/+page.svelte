@@ -23,7 +23,7 @@
 </script>
 
 <center>
-	<p class="font-[Poppins] text-5xl font-semibold text-white">queue</p>
+	<p class="font-[Poppins] text-5xl font-semibold text-white">Leave</p>
 </center>
 
 <div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
