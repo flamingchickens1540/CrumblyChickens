@@ -10,9 +10,9 @@ export const load: PageServerLoad = async ({ cookies }) => {
     }
 
     const team_match: TeamMatch = {
-        teamKey: 0,
-        matchKey: "",
-        eventKey: "",
+        teamKey: 1540,
+        matchKey: "qm1",
+        eventKey: "2026testing",
 
         autoStart: "Tower",
         fielded: true,
@@ -31,5 +31,5 @@ export const load: PageServerLoad = async ({ cookies }) => {
         scout: user,
     };
 
-    return { data: team_match };
+    return team_match;
 };

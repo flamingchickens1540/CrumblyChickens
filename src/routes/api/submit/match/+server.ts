@@ -1,5 +1,5 @@
 import { db } from "$lib/server/db";
-import { teamMatch } from "$lib/server/db/schema";
+import { event, teamEvent, teamMatch } from "$lib/server/db/schema";
 import type { TeamMatch } from "$lib/types";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";

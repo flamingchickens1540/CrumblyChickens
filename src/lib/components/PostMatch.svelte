@@ -25,4 +25,4 @@
 	></textarea>
 </div>
 
-<BottomButton match_data={match_data} bind:stage bind:plusMinus={fakePlusMinus} />
+<BottomButton {match_data} bind:stage bind:plusMinus={fakePlusMinus} />

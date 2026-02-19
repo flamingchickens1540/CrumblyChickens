@@ -8,7 +8,7 @@
     const { data }: { data: TeamMatch } = $props()
 
     let stage: GameStage = $state('PreMatch')
-	let  match_data = $state(data);
+	let match_data = $state(data);
 </script>
 
 <center>
