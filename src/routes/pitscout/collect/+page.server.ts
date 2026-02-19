@@ -3,7 +3,10 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
     const team_event: TeamEvent = {
-        images: [],
+        teamKey: 1540,
+        scout: "Azalea",
+        eventKey: "2026testing",
+
         drivetrain: "Swerve",
         maxClimb: "None",
         canBump: false,
@@ -16,9 +19,6 @@ export const load: PageServerLoad = async ({ params }) => {
         robotIceCream: "",
         biggestPride: "",
         notes: "",
-        teamKey: 0,
-        scout: "",
-        eventKey: "",
     };
 
     return team_event;

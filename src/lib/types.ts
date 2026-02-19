@@ -18,6 +18,4 @@ export type TeamMatch = Full<
     Omit<typeof teamMatch.$inferInsert, "id" | "scouted">
 >;
 
-export type TeamEvent = Full<
-    Omit<typeof teamEvent.$inferInsert & { images: string[] }, "completed">
->;
+export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, "completed">>;

@@ -10,51 +10,41 @@
 
 	let inputFiles: FileList | null = $state(null);
 
-	let { data }: { data: TeamEvent } = $props();
-	let team_event = $state(data);
 
-	function submitFile() {
-		const reader = new FileReader();
-		inputFiles ??= new FileList();
-		for (let i = 0; i < inputFiles.length; i++) {
-			reader.readAsDataURL(inputFiles[i]);
-			reader.onload = () => {
-				team_event.images[team_event.images.length] = reader.result as string;
-			};
-		}
-		inputFiles = new DataTransfer().files;
-	}
+    let { data }: { data: TeamEvent } = $props();
+    let team_event = $state(data);
+    let images: string[] = []
 
-	function submit() {
-		if (isFormComplete()) {
-			console.log('Yay submitting things');
-			goto('/');
-		} else {
-			alert('Uh oh you missed some fields');
-		}
-	}
+    function submitFile() {
+        const reader = new FileReader()
+        inputFiles ??= new FileList()
+        for (let i = 0; i < inputFiles.length; i++) {
+            reader.readAsDataURL(inputFiles[i])
+            reader.onload = () => { images[images.length] = reader.result as string; }
+        }
+        inputFiles = new DataTransfer().files
+    }
 
-	function isFormComplete(): boolean {
-		return (
-			team_event.hopperCapacity == 0 || team_event.maxShoot == 0 || team_event.images.length == 0
-		);
-	}
+    async function submit() {
+        if (isFormComplete()) {
+            console.log("Yay submitting things")
+            await fetch("/api/submit/pit", {
+                method: "POST",
+                body: JSON.stringify({ team_event, images })
+            })
+            goto('/')
+     }
 
-<<<<<<< HEAD
-	function splice(i: number) {
-		team_event.images.splice(i, 1);
-		console.log('spliced index ' + i);
-	}
-=======
+
     function isFormComplete(): boolean {
-        return team_event.hopperCapacity == 0 || team_event.maxShotDistance == 0 || team_event.images.length == 0
+        return team_event.hopperCapacity == 0 || team_event.maxShotDistance == 0 || images.length == 0
     }
 
     function splice(i: number) {
-        team_event.images.splice(i, 1);
+        images.splice(i, 1);
         console.log("spliced index " + i)
     }
->>>>>>> 74aea64 (feat: match submission api)
+
 </script>
 
 <center class="font-[Poppins] font-normal">
@@ -93,16 +83,6 @@
 		/>
 	</LabeledContainer>
 
-<<<<<<< HEAD
-	<LabeledContainer label="Robot stuff">
-		<LabeledTextArea label="Max hopper capacity">
-			<input bind:value={team_event.hopperCapacity} class="w-full p-1 outline-none" type="number" />
-		</LabeledTextArea>
-		<LabeledTextArea label="Max shoot distance">
-			<input bind:value={team_event.maxShoot} class="w-full p-1 outline-none" type="number" />
-		</LabeledTextArea>
-	</LabeledContainer>
-=======
     <LabeledContainer label="Robot stuff">
         <LabeledTextArea label="Max hopper capacity">
             <input bind:value={team_event.hopperCapacity} class="outline-none w-full p-1" type="number"/>
@@ -111,7 +91,6 @@
             <input bind:value={team_event.maxShotDistance} class="outline-none w-full p-1" type="number"/>
         </LabeledTextArea>
     </LabeledContainer>
->>>>>>> 74aea64 (feat: match submission api)
 
 	<LabeledContainer label="Misc.">
 		<LabeledTextArea label="If your robot was an ice cream flavor, what would it be?">
@@ -125,42 +104,28 @@
 		</LabeledTextArea>
 	</LabeledContainer>
 
-	<!--Upload files-->
-	<LabeledContainer label="Upload Files" isYellow={team_event.images.length > 0} padded={true}>
-		<div class="w-full">
-			{#if team_event.images.length > 0}
-				{#each team_event.images as src, i}
-					<div
-						class="mt-2 flex h-64 w-full items-start justify-end rounded p-2"
-						style="background: url({src}); background-size: cover; background-repeat: no-repeat; background-position: center"
-					>
-						<button class="rounded-full bg-gray-900 p-1 text-white" onclick={() => splice(i)}>
-							<X class="text-2xl text-white "></X>
-						</button>
-					</div>
-				{/each}
-			{:else}
-				Please attach a photo
-			{/if}
-			<label
-				class="block {team_event.images.length > 0
-					? 'bg-amber-500 text-black'
-					: 'bg-gray-800 text-white'} mt-2 rounded p-2 text-center text-2xl text-white"
-			>
-				+
-				<input
-					type="file"
-					accept="image/png, image/jpeg, image/jpg"
-					bind:files={inputFiles}
-					class="hidden w-full"
-					onchange={submitFile}
-				/>
-			</label>
-		</div>
-	</LabeledContainer>
-	<button onclick={submit} class="mx-2.5 my-3 block rounded bg-gray-800 p-3 text-2xl text-white"
-		>Submit</button
-	>
+
+    <!--Upload files-->
+    <LabeledContainer label="Upload Files" isYellow={images.length > 0} padded={true}>
+        <div class="w-full">
+            {#if (images.length > 0)}
+                {#each images as src, i}
+                    <div class="w-full rounded mt-2 h-64 flex justify-end p-2 items-start" style="background: url({src}); background-size: cover; background-repeat: no-repeat; background-position: center">
+                        <button class="bg-gray-900 text-white rounded-full p-1" onclick={() => splice(i)}>
+                            <X class="text-white text-2xl "></X>
+                        </button>
+                    </div>
+                {/each}
+            {:else}
+                Please attach a photo
+            {/if}
+            <label class="block {(images.length > 0) ? 'bg-amber-500 text-black' : 'bg-gray-800 text-white'} text-white rounded text-center text-2xl p-2 mt-2">
+                +
+                <input type="file" accept="image/png, image/jpeg, image/jpg" bind:files={inputFiles} class="w-full hidden" onchange={submitFile}>
+            </label>
+        </div>
+    </LabeledContainer>
+    <button onclick={submit} class="bg-gray-800 text-white block rounded mx-2.5 my-3 text-2xl p-3">Submit</button>
 </center>
 
 <ButtonBack link="/pitscout/teamlist" />
