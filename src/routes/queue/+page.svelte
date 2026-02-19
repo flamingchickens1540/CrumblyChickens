@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { io, type Socket } from 'socket.io-client';
 
 	const username = 'Autumn';
@@ -12,12 +13,14 @@
 
 	socket.on('leave_queue', () => {
 		socket.disconnect();
-		goto('/');
+		goto(resolve('/'));
 	});
 	socket.on('recieve_robot', (_robot: { teamKey: number; color: 'red' | 'blue' }) => {
-		browser && localStorage.setItem('matchData', ''); // TODO: connect to match scouting data
+		if (browser) {
+			localStorage.setItem('matchData', ''); // TODO: connect to match scouting data
+		}
 		socket.disconnect();
-		goto('/matchscout');
+		goto(resolve('/matchscout'));
 	});
 	const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 </script>
@@ -34,7 +37,7 @@
 					hover:scale-105 hover:bg-[#7D7D7D]"
 		onclick={() => {
 			socket.disconnect();
-			goto('/');
+			goto(resolve('/'));
 		}}
 	>
 		<p class="font-[Poppins] text-4xl font-semibold text-white">Scout</p>

@@ -3,7 +3,10 @@
 	import BottomButton from './BottomButton.svelte';
 	import PlusMinus from './PlusMinus.svelte';
 
-	let { match_data = $bindable(), stage = $bindable() }: { match_data: TeamMatch, stage: GameStage } = $props();
+	let {
+		match_data = $bindable(),
+		stage = $bindable()
+	}: { match_data: TeamMatch; stage: GameStage } = $props();
 	let plusMinus: boolean = $state(false);
 	let activeKey: string | null = $state(null);
 </script>
@@ -11,7 +14,7 @@
 {#if plusMinus}
 	<PlusMinus {match_data} {plusMinus} {activeKey} />
 {:else}
-	<div class={`grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[25dvh] px-1 pt-0 pb-1`}>
+	<div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[25dvh] px-1 pt-0 pb-1">
 		<button
 			class="m-2.5 inline-flex items-center justify-center
 			rounded-md bg-[#6C3082] px-8 py-2 drop-shadow-xl transition-transform
@@ -50,4 +53,4 @@
 	</div>
 {/if}
 
-<BottomButton match_data={match_data} bind:stage bind:plusMinus />
+<BottomButton {match_data} bind:stage bind:plusMinus />

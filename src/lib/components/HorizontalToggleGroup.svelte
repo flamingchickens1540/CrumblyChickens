@@ -19,7 +19,7 @@
 </script>
 
 <div class="mx-2.5 mt-3 flex flex-row">
-	{#each items as item, i}
+	{#each items as item, i (item)}
 		<button
 			type="button"
 			onclick={() => {

@@ -5,9 +5,9 @@
 	import Autonomous from '$lib/components/Autonomous.svelte';
 	import type { TeamMatch, GameStage } from '$lib/types';
 
-    const { data }: { data: TeamMatch } = $props()
+	const { data }: { data: TeamMatch } = $props();
 
-    let stage: GameStage = $state('PreMatch')
+	let stage: GameStage = $state('PreMatch');
 	let match_data = $state(data);
 </script>
 

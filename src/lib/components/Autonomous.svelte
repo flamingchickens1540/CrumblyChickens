@@ -4,7 +4,10 @@
 	import PlusMinus from './PlusMinus.svelte';
 	import type { GameStage, TeamMatch } from '$lib/types';
 
-	let { match_data = $bindable(), stage = $bindable() }: { match_data: TeamMatch, stage: GameStage } = $props();
+	let {
+		match_data = $bindable(),
+		stage = $bindable()
+	}: { match_data: TeamMatch; stage: GameStage } = $props();
 	let plusMinus: boolean = $state(false);
 	let activeKey: 'autoHub' | 'autoShuffle' | null = $state(null);
 </script>
@@ -42,4 +45,4 @@
 	</div>
 {/if}
 
-<BottomButton match_data={match_data} bind:stage bind:plusMinus/>
+<BottomButton {match_data} bind:stage bind:plusMinus />

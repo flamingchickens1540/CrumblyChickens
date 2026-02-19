@@ -5,14 +5,13 @@
 		bg_normal = '[#2C2C2C]',
 		bg_selected = '[#E5AE32]',
 		outline = true
-	} = $props<{
+	}: {
 		items: string[];
 		selectedValue?: string;
-
 		bg_normal?: string;
 		bg_selected?: string;
 		outline?: boolean;
-	}>();
+	} = $props();
 
 	let selected = $state<string | undefined>(undefined);
 
@@ -29,7 +28,7 @@
 </script>
 
 <div class="mx-2.5 mt-3 flex flex-col">
-	{#each items as item, i}
+	{#each items as item, i (item)}
 		<!-- A minor amount of class-nonsense going on here -->
 		<button
 			type="button"

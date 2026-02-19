@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import type { GameStage, TeamMatch } from '$lib/types';
 
-	let { match_data, stage = $bindable(), plusMinus = $bindable() }: { match_data: TeamMatch, stage: GameStage, plusMinus: boolean } = $props();
+	let {
+		match_data,
+		stage = $bindable(),
+		plusMinus = $bindable()
+	}: { match_data: TeamMatch; stage: GameStage; plusMinus: boolean } = $props();
 
-    const label = $derived(plusMinus ? 'Back' : stage === 'PostMatch' ? 'Submit' : 'Next Stage')
+	const label = $derived(plusMinus ? 'Back' : stage === 'PostMatch' ? 'Submit' : 'Next Stage');
 	const flow = ['PreMatch', 'Auto', 'Tele', 'PostMatch'] as const;
 
 	const handleBottomButton = async () => {
@@ -17,22 +22,21 @@
 		if (stage === 'PostMatch') {
 			stage = 'PreMatch';
 
-            console.log("Submitting match:")
-            console.log(JSON.stringify(match_data))
+			console.log('Submitting match:');
+			console.log(JSON.stringify(match_data));
 
-            await fetch('/api/submit/match', {
-                method: 'POST',
-                body: JSON.stringify(match_data)
-            })
-
-			goto('/');
+			await fetch('/api/submit/match', {
+				method: 'POST',
+				body: JSON.stringify(match_data)
+			});
+			goto(resolve('/'));
 
 			return;
 		}
 
-        const nextStage = flow[flow.indexOf(stage) + 1];
-        stage = nextStage;
-        console.log('Next Stage');
+		const nextStage = flow[flow.indexOf(stage) + 1];
+		stage = nextStage;
+		console.log('Next Stage');
 	};
 
 	const bottomBtnClass = `m-2.5 inline-flex items-center justify-center

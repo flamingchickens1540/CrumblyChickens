@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
-	let activePage = $state('Queue');
+	import { resolve } from '$app/paths';
 
 	let { data } = $props<{
 		data: {
@@ -19,21 +18,20 @@
 		{
 			label: 'Match Scout',
 			onClick: () => {
-				activePage = 'Queue';
-				goto('/queue');
+				goto(resolve('/queue'));
 			}
 		},
 		{
 			label: 'Pit Scout',
-			onClick: () => goto('/pitscout/teamlist')
+			onClick: () => goto(resolve('/pitscout/teamlist'))
 		},
 		{
 			label: 'Analysis',
-			onClick: () => goto('/analysis')
+			onClick: () => goto(resolve('/analysis'))
 		},
 		{
 			label: 'Leaderboard',
-			onClick: () => goto('/leaderboard')
+			onClick: () => goto(resolve('/leaderboard'))
 		}
 	];
 
@@ -48,7 +46,7 @@
 </center>
 
 <div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
-	{#each actions as action}
+	{#each actions as action (action.label)}
 		<button
 			class="m-2.5 inline-flex items-center justify-center rounded-md
 				bg-[#5C5C5C] p-2 px-8
@@ -66,7 +64,7 @@
 	class="m-2.5 inline-flex items-center justify-center rounded-md
 	       px-8 py-2 drop-shadow-xl
 	       transition-transform duration-300 hover:scale-105 {bottomBtnClass}"
-	onclick={() => goto('/login')}
+	onclick={() => goto(resolve('/login'))}
 >
 	<p class="font-[Poppins] text-4xl font-semibold text-white">Log Out</p>
 </button>

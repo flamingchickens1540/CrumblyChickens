@@ -42,10 +42,10 @@
 <div class="flex flex-col text-white">
 	<button onclick={clearRobots}> Clear Robots </button>
 	<button onclick={sendMatch}>Send Match</button>
-	{#each scouts as scout}
+	{#each scouts as scout (scout)}
 		<button onclick={() => removeScout(scout)}>{scout}</button>
 	{/each}
-	{#each robots as robot}
+	{#each robots as robot (robot.teamKey)}
 		{robot.teamKey}
 		<br />
 	{/each}

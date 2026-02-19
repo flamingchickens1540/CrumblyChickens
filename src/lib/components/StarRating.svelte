@@ -12,7 +12,7 @@
 	</span>
 
 	<div class="flex w-full items-center">
-		{#each Array(5) as _, i}
+		{#each Array(5) as _, i (i)}
 			<button
 				onclick={() => {
 					rating = i + 1;
