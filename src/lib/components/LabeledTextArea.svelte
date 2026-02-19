@@ -1,13 +1,13 @@
 <script>
-    let { label } = $props()
-    //Textarea with label
-    //Create a textarea with bound value in slot with class="outline-none w-full"
+	let { label } = $props();
+	//Textarea with label
+	//Create a textarea with bound value in slot with class="outline-none w-full"
 </script>
 
-<div class="w-full rounded bg-gray-900 text-white p-1 text-l text-left mb-3">
-    <label class="text-left">
-        <span class="text-gray-400">{label}</span>
-        <hr class="p-2">
-        <slot/>
-    </label>
+<div class="text-l mb-3 w-full rounded bg-gray-900 p-1 text-left text-white">
+	<label class="text-left">
+		<span class="text-gray-400">{label}</span>
+		<hr class="p-2" />
+		<slot />
+	</label>
 </div>

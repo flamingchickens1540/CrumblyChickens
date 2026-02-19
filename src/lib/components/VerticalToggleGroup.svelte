@@ -1,11 +1,17 @@
 <script lang="ts">
-	const { items, selectedValue, bg_normal = "[#2C2C2C]", bg_selected = "[#E5AE32]", outline = true } = $props<{
+	const {
+		items,
+		selectedValue,
+		bg_normal = '[#2C2C2C]',
+		bg_selected = '[#E5AE32]',
+		outline = true
+	} = $props<{
 		items: string[];
 		selectedValue?: string;
 
-        bg_normal?: string;
-        bg_selected?: string;
-        outline?: boolean;
+		bg_normal?: string;
+		bg_selected?: string;
+		outline?: boolean;
 	}>();
 
 	let selected = $state<string | undefined>(undefined);
@@ -24,7 +30,7 @@
 
 <div class="mx-2.5 mt-3 flex flex-col">
 	{#each items as item, i}
-        <!-- A minor amount of class-nonsense going on here -->
+		<!-- A minor amount of class-nonsense going on here -->
 		<button
 			type="button"
 			onclick={() => {
@@ -33,7 +39,7 @@
 			aria-pressed={selected === item}
 			class={`
 				relative m-0 inline-flex items-center
-				justify-start ${outline ? "border border-[#C2C2C2]" : i != 0 ? "border-t border-gray-400" : ""} px-8 py-2 text-left
+				justify-start ${outline ? 'border border-[#C2C2C2]' : i != 0 ? 'border-t border-gray-400' : ''} px-8 py-2 text-left
 				${selected === item ? `bg-${bg_selected} text-black` : `bg-${bg_normal} text-white`}
 				${isFirst(i) ? 'rounded-t-lg' : ''}
 				${isLast(i) ? 'rounded-b-lg' : ''}
