@@ -2,7 +2,7 @@ import type { teamEvent, teamMatch } from './server/db/schema';
 
 // Helper Types
 type RequiredNotNull<T> = {
-	[P in keyof T]: NonNullable<T[P]>;
+    [P in keyof T]: NonNullable<T[P]>;
 };
 type Ensure<T, K extends keyof T> = T & RequiredNotNull<Pick<T, K>>;
 type Full<T> = Ensure<T, keyof T>;
