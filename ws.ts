@@ -17,24 +17,25 @@ const wsServer = {
 				socket.disconnect();
 				return;
 			}
-			// Send out a match
 		});
 		io.of('/queue').on('connect', (socket) => {
 			const robot = robotQueue.pop();
 			if (robot !== undefined) {
 				info(`${socket.handshake.auth.username} recieved robot ${robot?.teamKey}`);
 				socket.emit('recieve_robot', robot);
+				socket.disconnect();
 				io.of('/admin').emit('scout_recieved_robot', [robot, socket.handshake.auth.username]);
 			} else {
+				io.of('/admin').emit('scout_joined_queue', socket.handshake.auth.username);
 				info(`${socket.handshake.auth.username} joined scout queue`);
 			}
 
 			socket.on('leave_queue', () => {
-				// Hmmmmm
-				socket.leave('queue');
-				io.to('admin').emit('scout_left_queue', socket.handshake.auth.username);
+				socket.disconnect();
 			});
-			socket.on('submit_match', () => {});
+			socket.on('submit_match', (teamMatch) => {
+				io.of('/admin').emit('match_submitted', teamMatch);
+			});
 			socket.on('disconnect', async (_) => {
 				io.to('admin').emit('scout_left_queue', socket.handshake.auth.username);
 			});
@@ -54,6 +55,16 @@ const wsServer = {
 			socket.on('send_match', (robots: { teamKey: number; color: 'red' | 'blue' }[]) => {
 				robotQueue = robots;
 				const scouts = io.of('/queue');
+				const formattedTeams: string = robots
+					.map((team) => {
+						if (team.color == 'red') {
+							return ` \x1b[31m${team.teamKey}\x1b[0m`;
+						} else {
+							return ` \x1b[31m${team.teamKey}\x1b[0m`;
+						}
+					})
+					.join();
+				info(`New Match:${formattedTeams}`);
 
 				for (const scout of scouts.sockets.values()) {
 					const robot = robotQueue.pop();
@@ -63,6 +74,7 @@ const wsServer = {
 					scout.emit('recieve_robot', robot);
 					io.of('/admin').emit('scout_recieved_robot', [robot, scout.handshake.auth.username]);
 					info(`${scout.handshake.auth.username} recieved robot ${robot.teamKey} from queue`);
+					scout.disconnect();
 				}
 			});
 		});
