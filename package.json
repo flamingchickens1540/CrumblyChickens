@@ -47,6 +47,7 @@
 		"lucide-svelte": "^0.563.0",
 		"pg": "^8.18.0",
 		"postgres": "^3.4.8",
-		"socket.io": "^4.8.3"
+		"socket.io": "^4.8.3",
+		"socket.io-client": "^4.8.3"
 	}
 }

@@ -12,6 +12,7 @@ const wsServer = {
 		if (!server.httpServer) return;
 		const io = new Server(server.httpServer);
 		io.on('connect', (socket) => {
+			info('hi');
 			if (!socket.handshake.auth.username) {
 				warn(`User joined without username. Disconnecting. Socket id: ${socket.id}`);
 				socket.disconnect();
@@ -33,10 +34,8 @@ const wsServer = {
 			socket.on('leave_queue', () => {
 				socket.disconnect();
 			});
-			socket.on('submit_match', (teamMatch) => {
-				io.of('/admin').emit('match_submitted', teamMatch);
-			});
 			socket.on('disconnect', async (_) => {
+				info(`${socket.handshake.auth.username} left queue`);
 				io.to('admin').emit('scout_left_queue', socket.handshake.auth.username);
 			});
 		});
