@@ -4,5 +4,5 @@ import { defineConfig } from 'vite';
 import wsServer from './ws.ts';
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit(), wsServer]
+    plugins: [tailwindcss(), sveltekit(), wsServer]
 });

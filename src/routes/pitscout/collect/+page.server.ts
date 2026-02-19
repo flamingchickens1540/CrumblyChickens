@@ -1,14 +1,14 @@
-import type { TeamEvent } from "$lib/types";
-import type { PageServerLoad } from "./$types";
+import type { TeamEvent } from '$lib/types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async () => {
     const team_event: TeamEvent = {
         teamKey: 1540,
-        scout: "Azalea",
-        eventKey: "2026testing",
+        scout: 'Azalea',
+        eventKey: '2026testing',
 
-        drivetrain: "Swerve",
-        maxClimb: "None",
+        drivetrain: 'Swerve',
+        maxClimb: 'None',
         canBump: false,
         canTrench: false,
         canHalfSteal: false,
@@ -16,9 +16,9 @@ export const load: PageServerLoad = async ({ params }) => {
         canShuffle: false,
         hopperCapacity: 0,
         maxShotDistance: 0,
-        robotIceCream: "",
-        biggestPride: "",
-        notes: "",
+        robotIceCream: '',
+        biggestPride: '',
+        notes: ''
     };
 
     return team_event;
