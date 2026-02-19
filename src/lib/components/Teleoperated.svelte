@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type { GameStage, TeamMatch } from '$lib/types';
 	import BottomButton from './BottomButton.svelte';
 	import PlusMinus from './PlusMinus.svelte';
 
-	let { match_data } = $props();
+	let { match_data = $bindable(), stage = $bindable() }: { match_data: TeamMatch, stage: GameStage } = $props();
 	let plusMinus: boolean = $state(false);
 	let activeKey: string | null = $state(null);
 </script>
@@ -49,4 +50,4 @@
 	</div>
 {/if}
 
-<BottomButton {match_data} bind:plusMinus />
+<BottomButton match_data={match_data} bind:stage bind:plusMinus />

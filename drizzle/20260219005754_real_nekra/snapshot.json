@@ -1,0 +1,806 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "81e26012-f7cb-413a-8fa3-0f1e08a552d9",
+  "prevIds": [
+    "e373e9df-daee-4b93-87d1-ad1068391b13"
+  ],
+  "ddl": [
+    {
+      "values": [
+        "Tower",
+        "Outpost",
+        "Depot"
+      ],
+      "name": "auto_start",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "Swerve",
+        "Tank",
+        "Other"
+      ],
+      "name": "drivetrain",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "L1",
+        "L2",
+        "L3",
+        "Failed",
+        "None"
+      ],
+      "name": "endgame",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "L1",
+        "L2",
+        "L3",
+        "None"
+      ],
+      "name": "maxEndgame",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "event",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "match",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "team",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "team_event",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "team_match",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "user",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "eventKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "event"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "matchKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "match"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "eventKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teamKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teamKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "eventKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "drivetrain",
+      "typeSchema": "public",
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "drivetrain",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "canBump",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "canTrench",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "maxEndgame",
+      "typeSchema": "public",
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "maxClimb",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "canShuffle",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "canHalfSteal",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "canSteal",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "maxShotDistance",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "hopperCapacity",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "robotIceCream",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "biggestPride",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "notes",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "scout",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "completed",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "type": "serial",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teamKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "matchKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "eventKey",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "auto_start",
+      "typeSchema": "public",
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "autoStart",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "fielded",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "autoHub",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "autoShuffle",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "autoClimb",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teleHub",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teleShuffle",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teleSteal",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "endgame",
+      "typeSchema": "public",
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "climb",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "skill",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "broken",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "died",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "notes",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "scout",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "scouted",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "username",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "eventKey"
+      ],
+      "schemaTo": "public",
+      "tableTo": "event",
+      "columnsTo": [
+        "eventKey"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "match_eventKey_event_eventKey_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "match"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "teamKey"
+      ],
+      "schemaTo": "public",
+      "tableTo": "team",
+      "columnsTo": [
+        "teamKey"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_event_teamKey_team_teamKey_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "eventKey"
+      ],
+      "schemaTo": "public",
+      "tableTo": "event",
+      "columnsTo": [
+        "eventKey"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_event_eventKey_event_eventKey_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "scout"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "username"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_event_scout_user_username_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_event"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "matchKey"
+      ],
+      "schemaTo": "public",
+      "tableTo": "match",
+      "columnsTo": [
+        "matchKey"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_match_matchKey_match_matchKey_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "eventKey"
+      ],
+      "schemaTo": "public",
+      "tableTo": "event",
+      "columnsTo": [
+        "eventKey"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_match_eventKey_event_eventKey_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "scout"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "username"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "team_match_scout_user_username_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "team_match"
+    },
+    {
+      "columns": [
+        "eventKey"
+      ],
+      "nameExplicit": false,
+      "name": "event_pkey",
+      "schema": "public",
+      "table": "event",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "matchKey"
+      ],
+      "nameExplicit": false,
+      "name": "match_pkey",
+      "schema": "public",
+      "table": "match",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "teamKey"
+      ],
+      "nameExplicit": false,
+      "name": "team_pkey",
+      "schema": "public",
+      "table": "team",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "team_match_pkey",
+      "schema": "public",
+      "table": "team_match",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "username"
+      ],
+      "nameExplicit": false,
+      "name": "user_pkey",
+      "schema": "public",
+      "table": "user",
+      "entityType": "pks"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "teamKey",
+        "matchKey"
+      ],
+      "nullsNotDistinct": false,
+      "name": "team_match_key",
+      "entityType": "uniques",
+      "schema": "public",
+      "table": "team_match"
+    }
+  ],
+  "renames": [
+    "public.team_event.scoutName->public.team_event.scout"
+  ]
+}

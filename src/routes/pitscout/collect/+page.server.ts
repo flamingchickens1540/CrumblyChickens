@@ -1,23 +1,25 @@
-import type { TeamEvent } from '$lib/types';
-import type { PageServerLoad } from './$types';
+import type { TeamEvent } from "$lib/types";
+import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
-	const team_event: TeamEvent = {
-		images: [],
-		drivetrain: 'Swerve',
-		l1: false,
-		l2: false,
-		l3: false,
-		bump: false,
-		trench: false,
-		oppToNeutral: false,
-		oppToAlliance: false,
-		neuToAlliance: false,
-		hopperCapacity: 0,
-		maxShoot: 0,
-		notes: '',
-		teamKey: ''
-	};
+    const team_event: TeamEvent = {
+        teamKey: 1540,
+        scout: "Azalea",
+        eventKey: "2026testing",
 
-	return team_event;
+        drivetrain: "Swerve",
+        maxClimb: "None",
+        canBump: false,
+        canTrench: false,
+        canHalfSteal: false,
+        canSteal: false,
+        canShuffle: false,
+        hopperCapacity: 0,
+        maxShotDistance: 0,
+        robotIceCream: "",
+        biggestPride: "",
+        notes: "",
+    };
+
+    return team_event;
 };
