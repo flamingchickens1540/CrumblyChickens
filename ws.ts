@@ -87,6 +87,7 @@ const wsServer = {
                     teams: { teamKey: number; color: "red" | "blue" }[];
                     key: string;
                 }) => {
+                    console.log(match.teams);
                     const script = spawn("python3", ["export/data_export.py"]);
 
                     script.stdout.on("data", (data) => {

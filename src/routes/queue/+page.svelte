@@ -39,9 +39,9 @@
         socket.disconnect();
         goto(resolve('/'));
     });
-    socket.on('recieve_robot', ({ team, match_key }: { team: { teamKey: number; color: 'red' | 'blue' }, match_key: string }) => {
+    socket.on('recieve_robot', ({ robot, match_key }: { robot: { teamKey: number; color: 'red' | 'blue' }, match_key: string }) => {
         const new_team_match: TeamMatch = {
-            teamKey: team.teamKey,
+            teamKey: robot.teamKey,
             matchKey: match_key,
             eventKey: '2026testing', // TODO Manually change or read from env or smth
 
@@ -67,7 +67,7 @@
         }
 
         socket.disconnect();
-        goto(resolve('/matchscout'));
+        goto(`/matchscout?color=${robot.color}`);
     });
     const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 </script>

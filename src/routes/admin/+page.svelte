@@ -64,8 +64,10 @@
     function sendMatch() {
         const parsedMatch = parseNextMatch();
         if (!parsedMatch) {
+            alert("Invalid Match Key")
             return;
         }
+        const key = parsedMatch.matchKey;
         nextMatch = emptyNextMatch();
 
         const robotQueue = [
@@ -76,7 +78,7 @@
                 return { teamKey: robot.teamKey, color: 'blue' };
             })
         ];
-        socket.emit('send_match', robotQueue);
+        socket.emit('send_match', { teams: robotQueue, key });
         currentMatch = parsedMatch;
     }
     function emptyNextMatch(): NewMatch {

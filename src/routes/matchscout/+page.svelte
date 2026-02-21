@@ -6,14 +6,21 @@
     import type { TeamMatch, GameStage } from '$lib/types';
     import { LocalStore, localStore } from '@/localStore.svelte';
 
+    const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props()
+
     let stage: GameStage = $state('PreMatch');
     // NOTE
     // This gets set in `/queue`, so we're probably always fine dw about it :P
     let match_data: LocalStore<TeamMatch> = $state(localStore("matchData", {})) as LocalStore<TeamMatch>;
+    console.log(data.allianceColor)
 </script>
 
 <center>
-    <p class="m-4 mb-0 font-[Poppins] text-6xl font-bold text-[#FF4848]">1540</p>
+    <p class="m-4 mb-0 font-[Poppins] text-6xl font-bold"
+        style={data.allianceColor === "blue"
+            ? "color: #2196F3 !important"
+            : "color: #F44336 !important"}
+    >{match_data.value.teamKey}</p>
     <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
         {stage}
     </p>
