@@ -14,6 +14,22 @@ export type AutoStart = 'Tower' | 'Outpost' | 'Depot';
 export type Climb = 'L1' | 'L2' | 'L3' | 'None' | 'Failed';
 export type DriverSkill = 1 | 2 | 3 | 4 | 5;
 
+type PendingRobot = {
+    status: 'Pending';
+    teamKey: number;
+    scout: string;
+};
+type UnassignedRobot = {
+    status: 'Unassigned';
+    teamKey: number;
+};
+export type Robot = PendingRobot | UnassignedRobot;
+export type Match = {
+    matchKey: string;
+    red: [Robot, Robot, Robot];
+    blue: [Robot, Robot, Robot];
+};
+
 export type TeamMatch = Full<Omit<typeof teamMatch.$inferInsert, 'id' | 'scouted'>>;
 
 export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, 'completed'>>;
