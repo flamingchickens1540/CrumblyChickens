@@ -1,7 +1,7 @@
 <script lang="ts">
     import { io, type Socket } from 'socket.io-client';
     import { type Match } from '$lib/types';
-    import type { PageProps, PageServerData } from './$types';
+    import type { PageProps } from './$types';
     type NewMatch = {
         matchKey: string;
         red: [string, string, string];
@@ -11,6 +11,8 @@
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
+
+    let event_key: string = $state("")
 
     let currentMatch: Match = $state(emptyMatch());
     let nextMatch: NewMatch = $state(emptyNextMatch());
@@ -135,6 +137,21 @@
                 return 'bg-jungle-green';
         }
     };
+
+    /// Loads the teams from the next match into the admin page
+    async function loadMatch() {
+        const res = await fetch(`/api/load/match?key=${nextMatch.matchKey}`)
+
+        // TODO Finish in the morning
+    }
+
+    /// Loads teams from an event to a DB
+    async function loadTeamsToDB() {
+        await fetch("/api/load/event", {
+            method: "POST",
+            body: event_key
+        })
+    }
 </script>
 
 <div class="grid grid-cols-3 gap-2 text-white">
@@ -200,5 +217,10 @@
         <div class="bg-gunmetal flex flex-col gap-2 p-2">
             <button onclick={clearRobots} class="bg-eerie-black rounded p-2">Clear Robots</button>
         </div>
+    </div>
+    <div class="grid grid-cols-1 grid-rows-2 gap-4">
+        <span class="text-center">Load Teams From Event</span>
+        <input type="text" bind:value={event_key} placeholder="Event Key">
+        <button onclick={loadTeamsToDB}>Load New Event</button>
     </div>
 </div>

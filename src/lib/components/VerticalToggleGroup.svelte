@@ -1,7 +1,7 @@
 <script lang="ts">
     const {
         items,
-        selectedValue,
+        selectedValue = $bindable(),
         bg_normal = '[#2C2C2C]',
         bg_selected = '[#E5AE32]',
         outline = true
