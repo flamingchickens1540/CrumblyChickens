@@ -1,5 +1,6 @@
 import { type ViteDevServer } from 'vite';
 import { Server } from 'socket.io';
+import { ChildProcess, spawn } from 'child_process';
 
 const info = (s: string) => console.log(`\x1b[32m${s}\x1b[0m`);
 const warn = (s: string) => console.log(`\x1b[33m${s}\x1b[0m`);
@@ -14,6 +15,7 @@ const wsServer = {
         io.on('connect', (socket) => {
             if (!socket.handshake.auth.username) {
                 warn(`User joined without username. Disconnecting. Socket id: ${socket.id}`);
+
                 socket.disconnect();
                 return;
             }
@@ -67,6 +69,15 @@ const wsServer = {
                 warn(`Attempted to remove a scout who wasn't in the queue: ${username}`);
             });
             socket.on('send_match', (robots: { teamKey: number; color: 'red' | 'blue' }[]) => {
+                const script = spawn('python3', ['export/data_export.py']);
+
+                script.stdout.on('data', (data) => {
+                    console.log(`Exported: ${data}`);
+                });
+
+                script.stderr.on('data', (data) => {
+                    console.error(`Error Exporting: ${data}`);
+                });
                 robotQueue = robots;
                 const scouts = io.of('/queue');
                 const formattedTeams: string = robots

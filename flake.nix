@@ -21,6 +21,7 @@
               nodejs
               nodePackages.prettier
               openssl
+
               python3
               python3.pkgs.pip
             ];

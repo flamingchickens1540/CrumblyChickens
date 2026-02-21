@@ -6,7 +6,8 @@ import psycopg
 
 # Connect to the sheet
 docID = '1rewhzFg4lzrm22D2ItMwvJBw2x2Fxnx_JfWCUeb-yZQ'
-sheets = GoogleSheets(docID, sheet="Data Export Testing", credentials_folder="google_credentials", service_account=True)
+# Note: When running this from `export/`, change the credentials folder
+sheets = GoogleSheets(docID, sheet="Data Export Testing", credentials_folder="export/google_credentials", service_account=True)
 
 # Connect to database
 password = os.environ['PGPASSWORD']
