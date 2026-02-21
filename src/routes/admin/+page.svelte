@@ -1,52 +1,202 @@
 <script lang="ts">
     import { io, type Socket } from 'socket.io-client';
+    import { type Match } from '$lib/types';
+    import type { PageProps, PageServerData } from './$types';
+    type NewMatch = {
+        matchKey: string;
+        red: [string, string, string];
+        blue: [string, string, string];
+    };
 
-    const username = 'Autumn';
-    const socket: Socket = io('/admin', { auth: { username } });
+    const { data }: PageProps = $props();
+    const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
-    let robots: { teamKey: number; color: 'red' | 'blue' }[] = $state([]);
+
+    let currentMatch: Match = $state(emptyMatch());
+    let nextMatch: NewMatch = $state(emptyNextMatch());
     socket.on(
         'handshake_data',
         ([scoutQueue, robotQueue]: [string[], { teamKey: number; color: 'red' | 'blue' }[]]) => {
             console.log(scouts);
             scouts = scoutQueue;
-            robots = robotQueue;
+            currentMatch = emptyMatch();
+            let redI = 0;
+            let blueI = 0;
+            for (const robot of robotQueue) {
+                if (robot.color === 'red') {
+                    currentMatch.red[redI].teamKey = robot.teamKey;
+                    redI += 1;
+                } else {
+                    currentMatch.blue[blueI].teamKey = robot.teamKey;
+                    blueI += 1;
+                }
+            }
         }
     );
     socket.on('scout_joined_queue', (username) => scouts.push(username));
-    socket.on('scout_recieved_robot', (robot, username) => {
-        robots.splice(robots.indexOf(robot), 1);
+    socket.on('scout_recieved_robot', (_robot, username) => {
         scouts.splice(scouts.indexOf(username), 1);
     });
+
+    function emptyMatch(): Match {
+        return {
+            matchKey: '',
+            red: [
+                { status: 'Unassigned', teamKey: NaN },
+                { status: 'Unassigned', teamKey: NaN },
+                { status: 'Unassigned', teamKey: NaN }
+            ],
+            blue: [
+                { status: 'Unassigned', teamKey: NaN },
+                { status: 'Unassigned', teamKey: NaN },
+                { status: 'Unassigned', teamKey: NaN }
+            ]
+        };
+    }
     function clearRobots() {
         socket.emit('clear_robots');
+        currentMatch = emptyMatch();
     }
     function removeScout(username: string) {
         scouts.splice(scouts.indexOf(username), 1);
         socket.emit('remove_scout', username);
     }
     function sendMatch() {
-        const match: { teamKey: number; color: 'red' | 'blue' }[] = [
-            { teamKey: 1540, color: 'red' },
-            { teamKey: 2910, color: 'blue' },
-            { teamKey: 2056, color: 'red' },
-            { teamKey: 254, color: 'red' },
-            { teamKey: 1678, color: 'blue' },
-            { teamKey: 4043, color: 'blue' }
+        const parsedMatch = parseNextMatch();
+        if (!parsedMatch) {
+            return;
+        }
+        nextMatch = emptyNextMatch();
+
+        const robotQueue = [
+            ...parsedMatch.red.map((robot) => {
+                return { teamKey: robot.teamKey, color: 'red' };
+            }),
+            ...parsedMatch.blue.map((robot) => {
+                return { teamKey: robot.teamKey, color: 'blue' };
+            })
         ];
-        socket.emit('send_match', match);
-        robots = match;
+        socket.emit('send_match', robotQueue);
+        currentMatch = parsedMatch;
     }
+    function emptyNextMatch(): NewMatch {
+        return { matchKey: '', red: ['', '', ''], blue: ['', '', ''] };
+    }
+    function parseNextMatch(): Match | null {
+        const parsed = {
+            matchKey: nextMatch.matchKey,
+            red: [
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.red[0]) },
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.red[1]) },
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.red[2]) }
+            ],
+
+            blue: [
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.blue[0]) },
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.blue[1]) },
+                { status: 'Unassigned', teamKey: parseInt(nextMatch.blue[2]) }
+            ]
+        } satisfies Match;
+        parsed.red.forEach((robot) => {
+            if (!robot.teamKey) {
+                return null;
+            }
+        });
+        parsed.blue.forEach((robot) => {
+            if (!robot.teamKey) {
+                return null;
+            }
+        });
+
+        return parsed;
+    }
+
+    function filter(n: number): string {
+        if (!n) {
+            return '-';
+        }
+        return n.toString();
+    }
+
+    const eventKey = '2026week0';
+
+    // For api stuff
+    let _matchKey = $derived(eventKey + '_' + (currentMatch.matchKey ?? ''));
+
+    const getColor = (status: 'Pending' | 'Unassigned' | 'Submitted'): string => {
+        switch (status) {
+            case 'Pending':
+                return 'bg-crayola-orange';
+            case 'Unassigned':
+                return 'bg-eerie-black';
+            case 'Submitted':
+                return 'bg-jungle-green';
+        }
+    };
 </script>
 
-<div class="flex flex-col text-white">
-    <button onclick={clearRobots}> Clear Robots </button>
-    <button onclick={sendMatch}>Send Match</button>
-    {#each scouts as scout (scout)}
-        <button onclick={() => removeScout(scout)}>{scout}</button>
-    {/each}
-    {#each robots as robot (robot.teamKey)}
-        {robot.teamKey}
-        <br />
-    {/each}
+<div class="grid grid-cols-3 gap-2 text-white">
+    <div class="flex flex-col gap-2">
+        <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
+            <div class="grid grid-cols-2 gap-4">
+                <input
+                    bind:value={nextMatch.matchKey}
+                    placeholder="Next Match"
+                    class="bg-eerie-black rounded p-2"
+                />
+                <button onclick={sendMatch} class="bg-eerie-black rounded p-2">Queue Match</button>
+            </div>
+            <div class="rounded-2 grid grid-cols-3 gap-2">
+                {#each nextMatch.red as _, i (i)}
+                    <input class="bg-first-red h-12 rounded p-2" bind:value={nextMatch.red[i]} />
+                {/each}
+                {#each nextMatch.blue as _, i (i)}
+                    <input class="bg-first-blue h-12 rounded p-2" bind:value={nextMatch.blue[i]} />
+                {/each}
+            </div>
+        </div>
+        <!-- Current Match Display -->
+        <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
+            <div class="grid grid-cols-3">
+                <span class="">{currentMatch?.matchKey}</span>
+                <span class="justify-self-center">Current Match</span>
+            </div>
+            <div class="grid max-h-28 grid-cols-3 gap-2">
+                {#each currentMatch.red as tm, i (i)}
+                    <button
+                        class="{getColor(
+                            tm.status
+                        )} grid h-12 grid-cols-2 place-items-center rounded p-2"
+                        >{filter(tm.teamKey)}
+                        <div class="bg-first-red size-6 rounded-full"></div>
+                    </button>
+                {/each}
+                {#each currentMatch.blue as tm, i (i)}
+                    <button
+                        class="{getColor(
+                            tm.status
+                        )} grid h-12 grid-cols-2 place-items-center rounded p-2"
+                        >{filter(tm.teamKey)}
+                        <div class="bg-first-blue size-6 rounded-full"></div>
+                    </button>
+                {/each}
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gunmetal flex flex-col rounded">
+            <span class="text-center">Scout Queue</span>
+            <div class="grid gap-2 p-2">
+                {#each scouts as scout (scout)}
+                    <button
+                        class="bg-eerie-black rounded p-1 text-center"
+                        onclick={() => removeScout(scout)}>{scout}</button
+                    >
+                {/each}
+            </div>
+        </div>
+        <div class="bg-gunmetal flex flex-col gap-2 p-2">
+            <button onclick={clearRobots} class="bg-eerie-black rounded p-2">Clear Robots</button>
+        </div>
+    </div>
 </div>

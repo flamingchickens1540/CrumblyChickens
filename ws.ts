@@ -50,7 +50,7 @@ const wsServer = {
                     .sockets.values()
                     .map((scout) => scout.handshake.auth.username)
             ];
-            info(`Admin aquired`);
+            info(`Admin aquired: ${socket.handshake.auth.username}`);
 
             socket.emit('handshake_data', [scoutQueue, robotQueue]);
 
@@ -68,7 +68,7 @@ const wsServer = {
                 }
                 warn(`Attempted to remove a scout who wasn't in the queue: ${username}`);
             });
-            socket.on('send_match', (robots: { teamKey: number; color: 'red' | 'blue' }[]) => {
+            socket.on('send_match', (match: { teamKey: number; color: 'red' | 'blue' }[]) => {
                 const script = spawn('python3', ['export/data_export.py']);
 
                 script.stdout.on('data', (data) => {
@@ -78,9 +78,9 @@ const wsServer = {
                 script.stderr.on('data', (data) => {
                     console.error(`Error Exporting: ${data}`);
                 });
-                robotQueue = robots;
+                robotQueue = match;
                 const scouts = io.of('/queue');
-                const formattedTeams: string = robots
+                const formattedTeams: string = match
                     .map((team) => {
                         if (team.color == 'red') {
                             return ` \x1b[31m${team.teamKey}\x1b[0m`;
