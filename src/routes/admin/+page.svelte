@@ -35,6 +35,12 @@
             }
         }
     );
+    socket.on('scout_left_queue', (username) => {
+        const i = scouts.indexOf(username)
+        if (i == -1) return;
+
+        scouts.splice(i, 1)
+    })
     socket.on('scout_joined_queue', (username) => scouts.push(username));
     socket.on('scout_recieved_robot', (_robot, username) => {
         scouts.splice(scouts.indexOf(username), 1);
