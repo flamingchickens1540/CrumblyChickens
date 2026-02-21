@@ -41,6 +41,6 @@
     import MatchDisplay from './MatchDisplay.svelte';
 </script>
 
-<div class="grid grid-cols-6">
+<div class="grid grid-cols-3">
     <MatchDisplay></MatchDisplay>
 </div>
