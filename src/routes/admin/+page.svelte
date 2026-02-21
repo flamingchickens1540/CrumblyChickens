@@ -9,7 +9,7 @@
     };
 
     const { data }: PageProps = $props();
-    const socket: Socket = io('/admin', { auth: { username: data.username } });
+    const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
     let currentMatch: Match = $state(emptyMatch());
