@@ -154,7 +154,7 @@
     }
 </script>
 
-<div class="grid grid-cols-3 gap-2 text-white">
+<div class="grid grid-cols-3 gap-2 text-white mt-2 mx-2">
     <div class="flex flex-col gap-2">
         <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
             <div class="grid grid-cols-2 gap-4">
@@ -167,10 +167,10 @@
             </div>
             <div class="rounded-2 grid grid-cols-3 gap-2">
                 {#each nextMatch.red as _, i (i)}
-                    <input class="bg-first-red h-12 rounded p-2" bind:value={nextMatch.red[i]} />
+                    <input class="bg-first-red h-12 rounded p-2" bind:value={nextMatch.red[i]} placeholder="Red{i + 1}"/>
                 {/each}
                 {#each nextMatch.blue as _, i (i)}
-                    <input class="bg-first-blue h-12 rounded p-2" bind:value={nextMatch.blue[i]} />
+                    <input class="bg-first-blue h-12 rounded p-2" bind:value={nextMatch.blue[i]} placeholder="Blue{i + 1}"/>
                 {/each}
             </div>
         </div>
@@ -202,8 +202,8 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-2 gap-4">
-        <div class="bg-gunmetal flex flex-col rounded">
+    <div class="grid grid-cols-2 gap-2">
+        <div class="bg-gunmetal flex flex-col rounded p-2">
             <span class="text-center">Scout Queue</span>
             <div class="grid gap-2 p-2">
                 {#each scouts as scout (scout)}
@@ -214,13 +214,11 @@
                 {/each}
             </div>
         </div>
-        <div class="bg-gunmetal flex flex-col gap-2 p-2">
+        <div class="bg-gunmetal flex flex-col gap-2 p-2 rounded">
             <button onclick={clearRobots} class="bg-eerie-black rounded p-2">Clear Robots</button>
+            <hr class="text-gray-500"/>
+            <input class="bg-eerie-black rounded p-2" type="text" bind:value={event_key} placeholder="Event Key">
+            <button class="bg-eerie-black p-2 rounded" onclick={loadTeamsToDB}>Load New Event</button>
         </div>
-    </div>
-    <div class="grid grid-cols-1 grid-rows-2 gap-4">
-        <span class="text-center">Load Teams From Event</span>
-        <input type="text" bind:value={event_key} placeholder="Event Key">
-        <button onclick={loadTeamsToDB}>Load New Event</button>
     </div>
 </div>
