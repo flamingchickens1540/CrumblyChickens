@@ -1,13 +1,15 @@
 <script lang="ts">
     import { io, type Socket } from 'socket.io-client';
     import { type Match } from '$lib/types';
+    import type { PageProps, PageServerData } from './$types';
     type NewMatch = {
         matchKey: string;
         red: [string, string, string];
         blue: [string, string, string];
     };
-    const username = 'Autumn';
-    const socket: Socket = io('/admin', { auth: { username } });
+
+    const { data }: PageProps = $props();
+    const socket: Socket = io('/admin', { auth: { username: data.username } });
     let scouts: string[] = $state([]);
 
     let currentMatch: Match = $state(emptyMatch());

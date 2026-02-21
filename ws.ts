@@ -50,7 +50,7 @@ const wsServer = {
                     .sockets.values()
                     .map((scout) => scout.handshake.auth.username)
             ];
-            info(`Admin aquired`);
+            info(`Admin aquired: ${socket.handshake.auth.username}`);
 
             socket.emit('handshake_data', [scoutQueue, robotQueue]);
 

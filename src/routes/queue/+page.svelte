@@ -4,10 +4,10 @@
     import { resolve } from '$app/paths';
     import { io, type Socket } from 'socket.io-client';
 
-    const username = 'Autumn';
+    const { data } = $props();
     const socket: Socket = io('/queue', {
         auth: {
-            username
+            username: data.user
         }
     });
 
