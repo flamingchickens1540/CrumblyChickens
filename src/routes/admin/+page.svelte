@@ -37,16 +37,10 @@
         socket.emit('send_match', match);
         robots = match;
     }
+
+    import MatchDisplay from './MatchDisplay.svelte';
 </script>
 
-<div class="flex flex-col text-white">
-    <button onclick={clearRobots}> Clear Robots </button>
-    <button onclick={sendMatch}>Send Match</button>
-    {#each scouts as scout (scout)}
-        <button onclick={() => removeScout(scout)}>{scout}</button>
-    {/each}
-    {#each robots as robot (robot.teamKey)}
-        {robot.teamKey}
-        <br />
-    {/each}
+<div class="grid grid-cols-6">
+    <MatchDisplay></MatchDisplay>
 </div>
