@@ -4,11 +4,12 @@
     import Teleoperated from '$lib/components/Teleoperated.svelte';
     import Autonomous from '$lib/components/Autonomous.svelte';
     import type { TeamMatch, GameStage } from '$lib/types';
-
-    const { data }: { data: TeamMatch } = $props();
+    import { LocalStore, localStore } from '@/localStore.svelte';
 
     let stage: GameStage = $state('PreMatch');
-    let match_data = $state(data);
+    // NOTE
+    // This gets set in `/queue`, so we're probably always fine dw about it :P
+    let match_data: LocalStore<TeamMatch> = $state(localStore("matchData", {})) as LocalStore<TeamMatch>;
 </script>
 
 <center>
@@ -19,19 +20,19 @@
 </center>
 
 {#if stage === 'PreMatch'}
-    <PreMatch bind:match_data bind:stage />
+    <PreMatch bind:match_data={match_data.value} bind:stage />
 {/if}
 
 {#if stage === 'Auto'}
-    <Autonomous bind:match_data bind:stage />
+    <Autonomous bind:match_data={match_data.value} bind:stage />
 {/if}
 
 {#if stage === 'Tele'}
-    <Teleoperated bind:match_data bind:stage />
+    <Teleoperated bind:match_data={match_data.value} bind:stage />
 {/if}
 
 {#if stage === 'PostMatch'}
-    <PostMatch bind:match_data bind:stage />
+    <PostMatch bind:match_data={match_data.value} bind:stage />
 {/if}
 
 <style>

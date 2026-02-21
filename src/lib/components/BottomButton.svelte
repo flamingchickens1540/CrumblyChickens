@@ -2,6 +2,7 @@
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
     import type { GameStage, TeamMatch } from '$lib/types';
+    import { localStore } from '@/localStore.svelte';
 
     let {
         match_data,
@@ -29,6 +30,7 @@
                 method: 'POST',
                 body: JSON.stringify(match_data)
             });
+            localStore("matchData", {}).reset()
             goto(resolve('/'));
 
             return;

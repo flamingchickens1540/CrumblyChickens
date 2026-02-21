@@ -2,6 +2,8 @@
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
+    import { LocalStore, localStore } from '@/localStore.svelte.js';
+    import type { TeamMatch } from '@/types.js';
     import { io, type Socket } from 'socket.io-client';
 
     const { data } = $props();
@@ -11,14 +13,59 @@
         }
     });
 
+    const team_match: LocalStore<TeamMatch> = localStore("matchData", {
+            teamKey: 0,
+            matchKey: "qm1",
+            eventKey: '2026testing', // TODO Manually change or read from env or smth
+
+            autoStart: 'Tower',
+            fielded: true,
+            autoHub: 0,
+            autoShuffle: 0,
+            autoClimb: false,
+            teleHub: 0,
+            teleShuffle: 0,
+            teleSteal: 0,
+            climb: 'None',
+            skill: 1,
+            broken: false,
+            died: false,
+            notes: '',
+
+            scout: data.user
+    })
+
     socket.on('leave_queue', () => {
         socket.disconnect();
         goto(resolve('/'));
     });
-    socket.on('recieve_robot', (_robot: { teamKey: number; color: 'red' | 'blue' }) => {
+    socket.on('recieve_robot', ({ team, match_key }: { team: { teamKey: number; color: 'red' | 'blue' }, match_key: string }) => {
+        const new_team_match: TeamMatch = {
+            teamKey: team.teamKey,
+            matchKey: match_key,
+            eventKey: '2026testing', // TODO Manually change or read from env or smth
+
+            autoStart: 'Tower',
+            fielded: true,
+            autoHub: 0,
+            autoShuffle: 0,
+            autoClimb: false,
+            teleHub: 0,
+            teleShuffle: 0,
+            teleSteal: 0,
+            climb: 'None',
+            skill: 1,
+            broken: false,
+            died: false,
+            notes: '',
+
+            scout: data.user
+        };
+
         if (browser) {
-            localStorage.setItem('matchData', ''); // TODO: connect to match scouting data
+            team_match.value = new_team_match;
         }
+
         socket.disconnect();
         goto(resolve('/matchscout'));
     });

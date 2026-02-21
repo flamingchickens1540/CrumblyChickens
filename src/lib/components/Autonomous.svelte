@@ -2,18 +2,18 @@
     import SoloToggleButton from './SoloToggleButton.svelte';
     import BottomButton from './BottomButton.svelte';
     import PlusMinus from './PlusMinus.svelte';
-    import type { GameStage, TeamMatch } from '$lib/types';
+    import type { GameStage, NumKey, TeamMatch } from '$lib/types';
 
     let {
         match_data = $bindable(),
         stage = $bindable()
     }: { match_data: TeamMatch; stage: GameStage } = $props();
     let plusMinus: boolean = $state(false);
-    let activeKey: 'autoHub' | 'autoShuffle' | null = $state(null);
+    let activeKey: NumKey<TeamMatch> | null = $state(null);
 </script>
 
 {#if plusMinus}
-    <PlusMinus {match_data} bind:plusMinus {stage} bind:value={match_data[activeKey!]} />
+    <PlusMinus {match_data} bind:plusMinus {stage} bind:value={match_data[activeKey!]!} />
 {:else}
     <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[35dvh] px-1 pt-0 pb-1">
         <button
