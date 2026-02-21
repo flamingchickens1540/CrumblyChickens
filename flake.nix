@@ -21,6 +21,9 @@
               nodejs
               nodePackages.prettier
               openssl
+
+              python3
+              python3.pkgs.pip
             ];
             shellHook = ''
               export PG=$PWD/.dev_postgres/
