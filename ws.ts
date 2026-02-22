@@ -129,7 +129,6 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
         return undefined;
     }
 
-    console.log(currentMatch);
     let color: 'red' | 'blue' | undefined;
     if (matchIdx < 3) {
         teamKey = currentMatch.red[matchIdx].teamKey;

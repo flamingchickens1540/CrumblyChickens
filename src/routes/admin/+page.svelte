@@ -90,17 +90,10 @@
         return parsed;
     }
 
-    function filter(n: number): string {
-        if (!n) {
-            return '-';
-        }
-        return n.toString();
-    }
-
     const eventKey = '2026week0';
 
     // For api stuff
-    let _matchKey = $derived(eventKey + '_' + (currentMatch?.matchKey ?? ''));
+    let _matchKey = $derived(eventKey + '_' + (currentMatch.matchKey ?? ''));
 
     const getColor = (status: 'Pending' | 'Unassigned' | 'Submitted'): string => {
         switch (status) {
@@ -185,7 +178,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{filter(tm.teamKey)}
+                            >{tm.teamKey}
                             <div class="bg-first-red size-6 rounded-full"></div>
                         </button>
                     {/each}
@@ -194,7 +187,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{filter(tm.teamKey)}
+                            >{tm.teamKey}
                             <div class="bg-first-blue size-6 rounded-full"></div>
                         </button>
                     {/each}
