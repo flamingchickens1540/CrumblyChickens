@@ -12,7 +12,7 @@
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let event_key: string = $state('');
+    let eventKey: string = $state('');
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
@@ -53,7 +53,6 @@
             return;
         }
         nextMatch = emptyNextMatch();
-
         socket.emit('send_match', parsedMatch);
         currentMatch = parsedMatch;
     }
@@ -86,14 +85,13 @@
             red: [red[0], red[1], red[2]],
             blue: [blue[0], blue[1], blue[2]]
         } satisfies Match;
-
         return parsed;
     }
 
     const eventKey = '2026week0';
 
     // For api stuff
-    let _matchKey = $derived(eventKey + '_' + (currentMatch.matchKey ?? ''));
+    // let _matchKey = $derived(eventKey + '_' + (currentMatch.matchKey ?? ''));
 
     const getColor = (status: 'Pending' | 'Unassigned' | 'Submitted'): string => {
         switch (status) {
@@ -117,7 +115,7 @@
     async function loadTeamsToDB() {
         await fetch('/api/load/event', {
             method: 'POST',
-            body: event_key
+            body: eventKey
         });
     }
 </script>
@@ -213,7 +211,7 @@
             <input
                 class="bg-eerie-black rounded p-2"
                 type="text"
-                bind:value={event_key}
+                bind:value={eventKey}
                 placeholder="Event Key"
             />
             <button class="bg-eerie-black rounded p-2" onclick={loadTeamsToDB}

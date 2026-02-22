@@ -5,9 +5,9 @@
     import type { GameStage, TeamMatch } from '$lib/types';
 
     let {
-        match_data = $bindable(),
+        matchData = $bindable(),
         stage = $bindable()
-    }: { match_data: TeamMatch; stage: GameStage } = $props();
+    }: { matchData: TeamMatch; stage: GameStage } = $props();
 
     let fakePlusMinus: boolean = $state(false);
 </script>
@@ -15,10 +15,10 @@
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
     <VerticalToggleGroup
         items={['Outpost', 'Tower', 'Depot']}
-        bind:selectedValue={match_data.autoStart}
+        bind:selectedValue={matchData.autoStart}
     />
     <!-- TODO Bind selected values as booleans here -->
     <HorizontalToggleGroup items={['Fielded', 'Missed Match']} />
 </div>
 
-<BottomButton {match_data} bind:stage bind:plusMinus={fakePlusMinus} />
+<BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />

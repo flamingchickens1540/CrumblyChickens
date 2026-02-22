@@ -5,7 +5,7 @@ export const load: PageServerLoad = async () => {
     const team_event: TeamEvent = {
         teamKey: 1540,
         scout: 'Azalea',
-        eventKey: '2026testing',
+        eventKey: '2026orco',
 
         drivetrain: 'Swerve',
         maxClimb: 'None',

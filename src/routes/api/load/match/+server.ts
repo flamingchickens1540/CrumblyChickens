@@ -3,10 +3,10 @@ import type { RequestHandler } from './$types';
 import { TBA_API_KEY } from '$env/static/private';
 
 export const GET: RequestHandler = async ({ url }) => {
-    const match_key = url.searchParams.get('key');
-    const event_key = '2026testing'; // TODO Change or env var or smth
+    const matchKey = url.searchParams.get('key');
+    const eventKey = '2026orco'; // TODO Change or env var or smth
     const res = await fetch(
-        `https://www.thebluealliance.com/api/v3/match/${event_key}_${match_key}/simple`,
+        `https://www.thebluealliance.com/api/v3/match/${eventKey}_${matchKey}/simple`,
         {
             method: 'GET',
             headers: {

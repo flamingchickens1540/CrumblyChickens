@@ -13,10 +13,10 @@
         }
     });
 
-    const team_match: LocalStore<TeamMatch> = localStore('matchData', {
+    const teamMatch: LocalStore<TeamMatch> = localStore('matchData', {
         teamKey: 0,
         matchKey: 'qm1',
-        eventKey: '2026testing', // TODO Manually change or read from env or smth
+        eventKey: '2026orco', // TODO Manually change or read from env or smth
 
         autoStart: 'Tower',
         fielded: true,
@@ -42,15 +42,15 @@
         'recieve_robot',
         ({
             robot,
-            match_key
+            matchKey
         }: {
             robot: { teamKey: number; color: 'red' | 'blue' };
-            match_key: string;
+            matchKey: string;
         }) => {
-            const new_team_match: TeamMatch = {
+            const newTeamMatch: TeamMatch = {
                 teamKey: robot.teamKey,
-                matchKey: match_key,
-                eventKey: '2026testing', // TODO Manually change or read from env or smth
+                matchKey: matchKey,
+                eventKey: '2026orco', // TODO Manually change or read from env or smth
 
                 autoStart: 'Tower',
                 fielded: true,
@@ -70,7 +70,7 @@
             };
 
             if (browser) {
-                team_match.value = new_team_match;
+                teamMatch.value = newTeamMatch;
             }
 
             goto(`/matchscout?color=${robot.color}`);

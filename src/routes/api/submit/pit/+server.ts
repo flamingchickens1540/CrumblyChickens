@@ -6,11 +6,10 @@ import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
     // TODO Store images
-    const { team_event, images: _ }: { team_event: TeamEvent; images: string[] } =
-        await request.json();
+    const { te, images: _ }: { te: TeamEvent; images: string[] } = await request.json();
 
     await db.insert(teamEvent).values({
-        ...team_event,
+        ...te,
         completed: true
     });
 

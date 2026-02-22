@@ -5,11 +5,11 @@
     import type { GameStage, TeamMatch } from '$lib/types';
 
     let {
-        match_data = $bindable(),
+        matchData = $bindable(),
         plusMinus = $bindable(),
         value = $bindable(),
         stage
-    }: { match_data: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
+    }: { matchData: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
 </script>
 
 <FuelCounter label="Fuel" {stage} count={value} />
@@ -23,4 +23,4 @@
     />
 </div>
 
-<BottomButton {match_data} bind:stage bind:plusMinus />
+<BottomButton {matchData} bind:stage bind:plusMinus />

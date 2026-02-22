@@ -11,7 +11,7 @@
     let stage: GameStage = $state('PreMatch');
     // NOTE
     // This gets set in `/queue`, so we're probably always fine dw about it :P
-    let match_data: LocalStore<TeamMatch> = $state(
+    let matchData: LocalStore<TeamMatch> = $state(
         localStore('matchData', {})
     ) as LocalStore<TeamMatch>;
     console.log(data.allianceColor);
@@ -24,7 +24,7 @@
             ? 'color: #2196F3 !important'
             : 'color: #F44336 !important'}
     >
-        {match_data.value.teamKey}
+        {matchData.value.teamKey}
     </p>
     <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
         {stage}
@@ -32,19 +32,19 @@
 </center>
 
 {#if stage === 'PreMatch'}
-    <PreMatch bind:match_data={match_data.value} bind:stage />
+    <PreMatch bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'Auto'}
-    <Autonomous bind:match_data={match_data.value} bind:stage />
+    <Autonomous bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'Tele'}
-    <Teleoperated bind:match_data={match_data.value} bind:stage />
+    <Teleoperated bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'PostMatch'}
-    <PostMatch bind:match_data={match_data.value} bind:stage />
+    <PostMatch bind:matchData={matchData.value} bind:stage />
 {/if}
 
 <style>

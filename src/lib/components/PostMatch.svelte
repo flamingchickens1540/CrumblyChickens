@@ -6,9 +6,9 @@
     import type { GameStage, TeamMatch } from '$lib/types';
 
     let {
-        match_data = $bindable(),
+        matchData = $bindable(),
         stage = $bindable()
-    }: { match_data: TeamMatch; stage: GameStage } = $props();
+    }: { matchData: TeamMatch; stage: GameStage } = $props();
 
     let fakePlusMinus: boolean = $state(false);
 </script>
@@ -23,9 +23,9 @@
         cols="40"
         rows="5"
         placeholder="Notes"
-        bind:value={match_data.notes}
+        bind:value={matchData.notes}
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
     ></textarea>
 </div>
 
-<BottomButton {match_data} bind:stage bind:plusMinus={fakePlusMinus} />
+<BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />

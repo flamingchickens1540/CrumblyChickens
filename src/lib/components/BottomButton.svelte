@@ -4,10 +4,10 @@
     import type { GameStage, TeamMatch } from '$lib/types';
 
     let {
-        match_data,
+        matchData,
         stage = $bindable(),
         plusMinus = $bindable()
-    }: { match_data: TeamMatch; stage: GameStage; plusMinus: boolean } = $props();
+    }: { matchData: TeamMatch; stage: GameStage; plusMinus: boolean } = $props();
 
     const label = $derived(plusMinus ? 'Back' : stage === 'PostMatch' ? 'Submit' : 'Next Stage');
     const flow = ['PreMatch', 'Auto', 'Tele', 'PostMatch'] as const;
@@ -23,11 +23,11 @@
             stage = 'PreMatch';
 
             console.log('Submitting match:');
-            console.log(JSON.stringify(match_data));
+            console.log(JSON.stringify(matchData));
 
             await fetch('/api/submit/match', {
                 method: 'POST',
-                body: JSON.stringify(match_data)
+                body: JSON.stringify(matchData)
             });
             goto(resolve('/'));
 

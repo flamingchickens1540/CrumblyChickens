@@ -1,3 +1,5 @@
+import { db } from '@/server/db';
+import { user } from '@/server/db/schema';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -15,6 +17,7 @@ export const actions = {
             sameSite: 'lax'
         });
 
+        await db.insert(user).values({ username }).onConflictDoNothing();
         throw redirect(303, '/');
     }
 };
