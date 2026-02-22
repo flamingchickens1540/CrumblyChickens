@@ -88,7 +88,7 @@
 </script>
 
 <center>
-    <p class="font-[Poppins] text-5xl font-semibold text-white">Leave</p>
+    <p class="font-[Poppins] text-5xl font-semibold text-white">Queue</p>
 </center>
 
 <div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
@@ -102,6 +102,6 @@
             goto(resolve('/'));
         }}
     >
-        <p class="font-[Poppins] text-4xl font-semibold text-white">Scout</p>
+        <p class="font-[Poppins] text-4xl font-semibold text-white">Leave</p>
     </button>
 </div>

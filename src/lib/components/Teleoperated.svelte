@@ -14,10 +14,10 @@
 {#if plusMinus}
     <PlusMinus {matchData} {plusMinus} bind:value={matchData[activeKey!]!} stage={'Tele'} />
 {:else}
-    <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[25dvh] px-1 pt-0 pb-1">
+    <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[22dvh] px-1 pt-0 pb-1">
         <button
             class="m-2.5 inline-flex items-center justify-center
-			rounded-md bg-[#6C3082] px-8 py-2 drop-shadow-xl transition-transform
+			rounded-md bg-[#6C3082] py-2 drop-shadow-xl transition-transform
 			duration-300 hover:scale-105"
             onclick={() => {
                 activeKey = 'teleHub';
@@ -29,7 +29,7 @@
 
         <button
             class="m-2.5 inline-flex items-center justify-center
-			rounded-md bg-[#6C3082] px-8 py-2 drop-shadow-xl transition-transform
+			rounded-md bg-[#6C3082] py-2 drop-shadow-xl transition-transform
 			duration-300 hover:scale-105"
             onclick={() => {
                 activeKey = 'teleShuffle';
@@ -41,7 +41,7 @@
 
         <button
             class="m-2.5 inline-flex items-center justify-center
-			rounded-md bg-[#6C3082] px-8 py-2 drop-shadow-xl transition-transform
+			rounded-md bg-[#6C3082] py-2 drop-shadow-xl transition-transform
 			duration-300 hover:scale-105"
             onclick={() => {
                 activeKey = 'teleSteal';
@@ -50,7 +50,8 @@
         >
             <p class="font-[Poppins] text-4xl font-semibold text-white">Steal</p>
         </button>
+
+        <BottomButton {matchData} bind:stage bind:plusMinus />
     </div>
 {/if}
 
-<BottomButton {matchData} bind:stage bind:plusMinus />

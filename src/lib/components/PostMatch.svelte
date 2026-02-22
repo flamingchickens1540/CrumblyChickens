@@ -31,11 +31,12 @@
     <textarea
         name="Notes"
         cols="40"
-        rows="5"
+        rows="2"
         placeholder="Notes"
         bind:value={matchData.notes}
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
     ></textarea>
+
+    <BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />
 </div>
 
-<BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />
