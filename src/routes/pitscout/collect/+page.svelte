@@ -12,7 +12,12 @@
     let inputFiles: FileList | null = $state(null);
 
     let { data }: { data: TeamEvent } = $props();
-    let team_event = $state(data);
+    let teamEvent: TeamEvent = $state(
+        (() => {
+            return data;
+        })()
+    );
+    console.log($state.snapshot(teamEvent));
     let images: string[] = [];
 
     function submitFile() {
@@ -29,18 +34,18 @@
 
     async function submit() {
         if (isFormComplete()) {
-            console.log('Yay submitting things');
-            await fetch('/api/submit/pit', {
+            const res = await fetch('/api/submit/pit', {
                 method: 'POST',
-                body: JSON.stringify({ team_event, images })
+                body: JSON.stringify({ data: teamEvent, images })
             });
+            console.log(`res: ${res.status}`);
             goto(resolve('/'));
         }
     }
 
     function isFormComplete(): boolean {
         return (
-            team_event.hopperCapacity == 0 || team_event.maxShotDistance == 0 || images.length == 0
+            teamEvent.hopperCapacity == 0 || teamEvent.maxShotDistance == 0 || images.length == 0
         );
     }
 
@@ -51,12 +56,12 @@
 </script>
 
 <center class="font-[Poppins] font-normal">
-    <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{team_event.teamKey}</p>
+    <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{teamEvent.teamKey}</p>
     <p class="text-3xl text-gray-400">Pitscout</p>
     <p class="mx-2.5 mt-3 text-left text-2xl text-gray-400">Drivetrain</p>
     <VerticalToggleGroup
         items={['Swerve', 'Tank', 'Other']}
-        value={team_event.drivetrain}
+        bind:value={teamEvent.drivetrain!}
         bg_selected="amber-400"
         bg_normal="gray-900"
         outline={false}
@@ -65,8 +70,8 @@
     <LabeledContainer label="Terrain Capabilities">
         <IndependentToggleGroup
             items={['Bump', 'Trench']}
-            keys={['bump', 'trench']}
-            bind:source={team_event}
+            keys={['canBump', 'canTrench']}
+            bind:source={teamEvent}
         />
     </LabeledContainer>
 
@@ -74,7 +79,7 @@
         <IndependentToggleGroup
             items={['L1', 'L2', 'L3']}
             keys={['l1', 'l2', 'l3']}
-            bind:source={team_event}
+            bind:source={teamEvent}
         />
     </LabeledContainer>
 
@@ -82,21 +87,21 @@
         <IndependentToggleGroup
             items={['Opposing to Neutral', 'Opposing to Alliance', 'Neutral to Alliance']}
             keys={['oppToNeutral', 'oppToAlliance', 'neuToAlliance']}
-            bind:source={team_event}
+            bind:source={teamEvent}
         />
     </LabeledContainer>
 
     <LabeledContainer label="Robot stuff">
         <LabeledTextArea label="Max hopper capacity">
             <input
-                bind:value={team_event.hopperCapacity}
+                bind:value={teamEvent.hopperCapacity}
                 class="w-full p-1 outline-none"
                 type="number"
             />
         </LabeledTextArea>
         <LabeledTextArea label="Max shoot distance">
             <input
-                bind:value={team_event.maxShotDistance}
+                bind:value={teamEvent.maxShotDistance}
                 class="w-full p-1 outline-none"
                 type="number"
             />
@@ -111,7 +116,7 @@
             <textarea class="w-full outline-none"></textarea>
         </LabeledTextArea>
         <LabeledTextArea label="Other notes">
-            <textarea bind:value={team_event.notes} class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.notes} class="w-full outline-none"></textarea>
         </LabeledTextArea>
     </LabeledContainer>
 

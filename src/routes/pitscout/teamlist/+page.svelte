@@ -22,7 +22,7 @@
             <div class="flex w-full p-2 {i == 0 ? '' : 'border-t-2 border-gray-400'}">
                 <Camera class={team.images ? 'text-amber-400' : 'text-white'} />
                 <ClipboardList class={team.data ? 'text-amber-400' : 'text-white'} />
-                <button onclick={() => goto(resolve(`/pitscout/collect`))} class="ml-2"
+                <button onclick={() => goto(`/pitscout/collect?team=${team.number}`)} class="ml-2"
                     >{team.number}</button
                 >
             </div>

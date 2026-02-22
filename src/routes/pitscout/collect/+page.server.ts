@@ -1,12 +1,12 @@
+import type { RouteParams } from '$app/types';
 import type { TeamEvent } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ cookies, url }) => {
     const team_event: TeamEvent = {
-        teamKey: 1540,
-        scout: 'Azalea',
+        teamKey: parseInt(url.searchParams.get('team') ?? '1540'),
+        scout: cookies.get('user'),
         eventKey: '2026orco',
-
         drivetrain: 'Swerve',
         maxClimb: 'None',
         canBump: false,
