@@ -8,16 +8,15 @@
     import type { TeamEvent } from '$lib/types';
     import IndependentToggleGroup from '$lib/components/IndependentToggleGroup.svelte';
     import { resolve } from '$app/paths';
+    import { browser } from '$app/environment';
 
     let inputFiles: FileList | null = $state(null);
 
     let { data }: { data: TeamEvent } = $props();
-    let teamEvent: TeamEvent = $state(
-        (() => {
-            return data;
-        })()
-    );
-    console.log($state.snapshot(teamEvent));
+    let teamEvent: TeamEvent = $state(data);
+    if (browser) {
+        console.log($state.snapshot(teamEvent));
+    }
     let images: string[] = [];
 
     function submitFile() {
@@ -33,20 +32,12 @@
     }
 
     async function submit() {
-        if (isFormComplete()) {
-            const res = await fetch('/api/submit/pit', {
-                method: 'POST',
-                body: JSON.stringify({ data: teamEvent, images })
-            });
-            console.log(`res: ${res.status}`);
-            goto(resolve('/'));
-        }
-    }
-
-    function isFormComplete(): boolean {
-        return (
-            teamEvent.hopperCapacity == 0 || teamEvent.maxShotDistance == 0 || images.length == 0
-        );
+        const res = await fetch('/api/submit/pit', {
+            method: 'POST',
+            body: JSON.stringify({ data: teamEvent, images })
+        });
+        console.log(`res: ${res.status}`);
+        goto(resolve('/'));
     }
 
     function splice(i: number) {
@@ -76,17 +67,19 @@
     </LabeledContainer>
 
     <LabeledContainer label="Climb">
-        <IndependentToggleGroup
-            items={['L1', 'L2', 'L3']}
-            keys={['l1', 'l2', 'l3']}
-            bind:source={teamEvent}
+        <VerticalToggleGroup
+            items={['None', 'L1', 'L2', 'L3']}
+            bind:value={teamEvent.maxClimb!}
+            bg_selected="amber-400"
+            bg_normal="gray-900"
+            outline={false}
         />
     </LabeledContainer>
 
     <LabeledContainer label="Shooting Capabilities">
         <IndependentToggleGroup
-            items={['Opposing to Neutral', 'Opposing to Alliance', 'Neutral to Alliance']}
-            keys={['oppToNeutral', 'oppToAlliance', 'neuToAlliance']}
+            items={['Opposing to Alliance', 'Neutral to Alliance']}
+            keys={['canSteal', 'canShuffle']}
             bind:source={teamEvent}
         />
     </LabeledContainer>
@@ -110,10 +103,10 @@
 
     <LabeledContainer label="Misc.">
         <LabeledTextArea label="If your robot was an ice cream flavor, what would it be?">
-            <textarea class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.robotIceCream} class="w-full outline-none"></textarea>
         </LabeledTextArea>
         <LabeledTextArea label="What are you most proud of about your robot?">
-            <textarea class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.biggestPride} class="w-full outline-none"></textarea>
         </LabeledTextArea>
         <LabeledTextArea label="Other notes">
             <textarea bind:value={teamEvent.notes} class="w-full outline-none"></textarea>
