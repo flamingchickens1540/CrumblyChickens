@@ -18,9 +18,7 @@
                 ? 'bg-amber-400 text-black'
                 : 'bg-gray-900 text-white'} p-2"
             onclick={() => {
-                if (typeof source[key] === 'boolean') {
-                    source[key] = !source[key];
-                }
+                source[key] = !source[key];
             }}
         >
             {items[i]}

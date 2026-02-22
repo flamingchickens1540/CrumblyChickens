@@ -9,13 +9,34 @@
     import IndependentToggleGroup from '$lib/components/IndependentToggleGroup.svelte';
     import { resolve } from '$app/paths';
     import { browser } from '$app/environment';
+    import { localStore, LocalStore } from '@/localStore.svelte';
 
     let inputFiles: FileList | null = $state(null);
 
+    let teamEvent: LocalStore<TeamEvent> = $state(
+        localStore('teamData', {
+            teamKey: 1540,
+            scout: 'Autumn',
+            eventKey: '2026orco',
+            drivetrain: 'Swerve',
+            maxClimb: 'None',
+            canBump: false,
+            canTrench: false,
+            canHalfSteal: false,
+            canSteal: false,
+            canShuffle: false,
+            hopperCapacity: 0,
+            maxShotDistance: 0,
+            robotIceCream: '',
+            biggestPride: '',
+            notes: '',
+            completed: false
+        })
+    );
+
     let { data }: { data: TeamEvent } = $props();
-    let teamEvent: TeamEvent = $state(data);
     if (browser) {
-        console.log($state.snapshot(teamEvent));
+        console.log($state.snapshot(teamEvent.value));
     }
     let images: string[] = [];
 
@@ -32,9 +53,11 @@
     }
 
     async function submit() {
+        console.log(`submitting`);
+        console.log(teamEvent.value);
         const res = await fetch('/api/submit/pit', {
             method: 'POST',
-            body: JSON.stringify({ data: teamEvent, images })
+            body: JSON.stringify({ data: teamEvent.value, images })
         });
         console.log(`res: ${res.status}`);
         goto(resolve('/'));
@@ -47,12 +70,12 @@
 </script>
 
 <center class="font-[Poppins] font-normal">
-    <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{teamEvent.teamKey}</p>
+    <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{teamEvent.value.teamKey}</p>
     <p class="text-3xl text-gray-400">Pitscout</p>
     <p class="mx-2.5 mt-3 text-left text-2xl text-gray-400">Drivetrain</p>
     <VerticalToggleGroup
         items={['Swerve', 'Tank', 'Other']}
-        bind:value={teamEvent.drivetrain!}
+        bind:value={teamEvent.value.drivetrain}
         bg_selected="amber-400"
         bg_normal="gray-900"
         outline={false}
@@ -62,14 +85,14 @@
         <IndependentToggleGroup
             items={['Bump', 'Trench']}
             keys={['canBump', 'canTrench']}
-            bind:source={teamEvent}
+            bind:source={teamEvent.value}
         />
     </LabeledContainer>
 
     <LabeledContainer label="Climb">
         <VerticalToggleGroup
             items={['None', 'L1', 'L2', 'L3']}
-            bind:value={teamEvent.maxClimb!}
+            bind:value={teamEvent.value.maxClimb}
             bg_selected="amber-400"
             bg_normal="gray-900"
             outline={false}
@@ -80,21 +103,21 @@
         <IndependentToggleGroup
             items={['Opposing to Alliance', 'Neutral to Alliance']}
             keys={['canSteal', 'canShuffle']}
-            bind:source={teamEvent}
+            bind:source={teamEvent.value}
         />
     </LabeledContainer>
 
     <LabeledContainer label="Robot stuff">
         <LabeledTextArea label="Max hopper capacity">
             <input
-                bind:value={teamEvent.hopperCapacity}
+                bind:value={teamEvent.value.hopperCapacity}
                 class="w-full p-1 outline-none"
                 type="number"
             />
         </LabeledTextArea>
         <LabeledTextArea label="Max shoot distance">
             <input
-                bind:value={teamEvent.maxShotDistance}
+                bind:value={teamEvent.value.maxShotDistance}
                 class="w-full p-1 outline-none"
                 type="number"
             />
@@ -103,13 +126,15 @@
 
     <LabeledContainer label="Misc.">
         <LabeledTextArea label="If your robot was an ice cream flavor, what would it be?">
-            <textarea bind:value={teamEvent.robotIceCream} class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.value.robotIceCream} class="w-full outline-none"
+            ></textarea>
         </LabeledTextArea>
         <LabeledTextArea label="What are you most proud of about your robot?">
-            <textarea bind:value={teamEvent.biggestPride} class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.value.biggestPride} class="w-full outline-none"
+            ></textarea>
         </LabeledTextArea>
         <LabeledTextArea label="Other notes">
-            <textarea bind:value={teamEvent.notes} class="w-full outline-none"></textarea>
+            <textarea bind:value={teamEvent.value.notes} class="w-full outline-none"></textarea>
         </LabeledTextArea>
     </LabeledContainer>
 

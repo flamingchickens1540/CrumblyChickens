@@ -9,10 +9,16 @@ export const POST: RequestHandler = async ({ request }) => {
     const { data: te, images: _ }: { data: TeamEvent; images: string[] } = await request.json();
 
     try {
-        await db.insert(teamEvent).values({
-            ...te,
-            completed: true
-        });
+        await db
+            .insert(teamEvent)
+            .values({
+                ...te,
+                completed: true
+            })
+            .onConflictDoUpdate({
+                target: [teamEvent.teamKey, teamEvent.eventKey],
+                set: { ...te, completed: true }
+            });
     } catch (error) {
         return json({ ok: false, status: 500 });
     }

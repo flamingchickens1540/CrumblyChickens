@@ -9,7 +9,7 @@
         outline = true
     }: {
         items: string[];
-        value: string;
+        value: string | null;
         bg_normal?: string;
         bg_selected?: string;
         outline?: boolean;
