@@ -17,7 +17,7 @@
 
 <div class="flex flex-col">
     {#if plusMinus}
-        <PlusMinus {matchData} {plusMinus} bind:value={matchData[activeKey!]!} stage={'Tele'} />
+        <PlusMinus {matchData} bind:plusMinus bind:value={matchData[activeKey!]!} stage={'Tele'} />
     {:else}
         <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[22dvh] px-1 pt-0 pb-1">
             <button

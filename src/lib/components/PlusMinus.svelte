@@ -10,10 +10,6 @@
         value = $bindable(),
         stage
     }: { matchData: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
-
-    function back() {
-        plusMinus = false
-    }
 </script>
 
 <FuelCounter label="Fuel" {stage} count={value} />
