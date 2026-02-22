@@ -8,13 +8,15 @@
         matchData = $bindable(),
         stage = $bindable()
     }: { matchData: TeamMatch; stage: GameStage } = $props();
-    let fielded = $state('Feilded');
+
+    let fielded = $state('Fielded');
     let autoStart = $state('Outpost');
+
     $effect(() => {
         matchData.fielded = fielded === 'Fielded';
         matchData.autoStart = autoStart as 'Outpost' | 'Tower' | 'Depot';
     });
-    let fakePlusMinus: boolean = $state(false);
+
 </script>
 
 <div class="flex flex-col">
