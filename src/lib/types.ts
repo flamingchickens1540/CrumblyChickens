@@ -41,4 +41,4 @@ export type Match = {
 
 export type TeamMatch = Full<Omit<typeof teamMatch.$inferInsert, 'id' | 'scouted'>>;
 
-export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, 'completed'>>;
+export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, 'id' | 'completed'>>;
