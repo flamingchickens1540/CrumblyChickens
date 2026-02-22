@@ -2,8 +2,10 @@
     import VerticalToggleGroup from './VerticalToggleGroup.svelte';
     import HorizontalToggleGroup from './HorizontalToggleGroup.svelte';
     import StarRating from '$lib/components/StarRating.svelte';
-    import BottomButton from '$lib/components/BottomButton.svelte';
     import type { GameStage, TeamMatch } from '$lib/types';
+    import { goto } from '$app/navigation';
+    import { resolve } from '$app/paths';
+    import DoubleButton from './DoubleButton.svelte';
 
     let {
         matchData = $bindable(),
@@ -14,13 +16,23 @@
     let broken: string = $state('Undamaged');
     let connected: string = $state('Functional');
     let rating: number = $state(1);
-    let fakePlusMinus: boolean = $state(false);
+
     $effect(() => {
         matchData.climb = endgame === 'Not Attempted' ? 'None' : (endgame as 'L1' | 'L2' | 'L3');
         matchData.broken = broken === 'Broken';
         matchData.died = connected === 'Died';
         matchData.skill = rating;
     });
+
+    async function submit() {
+        await fetch('/api/submit/match', {
+            method: 'POST',
+            body: JSON.stringify(matchData)
+        });
+
+        goto(resolve('/'));
+
+    }
 </script>
 
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
@@ -37,6 +49,6 @@
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
     ></textarea>
 
-    <BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />
+    <DoubleButton leftLabel="Back" rightLabel="Submit"  leftOnClick={() => stage = "Tele"} rightOnClick={submit}/>
 </div>
 

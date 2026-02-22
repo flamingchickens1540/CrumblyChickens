@@ -1,8 +1,8 @@
 <script lang="ts">
     import SoloToggleButton from './SoloToggleButton.svelte';
-    import BottomButton from './BottomButton.svelte';
     import PlusMinus from './PlusMinus.svelte';
     import type { GameStage, NumKey, TeamMatch } from '$lib/types';
+    import DoubleButton from './DoubleButton.svelte';
 
     let {
         matchData = $bindable(),
@@ -45,7 +45,7 @@
             <SoloToggleButton label="Auto Climb" />
         </div>
 
-        <BottomButton {matchData} bind:stage bind:plusMinus />
+        <DoubleButton leftLabel="Back" rightLabel="Next" leftOnClick={() => stage = "PreMatch"} rightOnClick={() => stage = "Tele"}/>
     {/if}
 </div>
 

@@ -1,8 +1,8 @@
 <script lang="ts">
     import VerticalToggleGroup from './VerticalToggleGroup.svelte';
     import HorizontalToggleGroup from './HorizontalToggleGroup.svelte';
-    import BottomButton from '$lib/components/BottomButton.svelte';
     import type { GameStage, TeamMatch } from '$lib/types';
+    import Button from './Button.svelte';
 
     let {
         matchData = $bindable(),
@@ -17,9 +17,12 @@
     let fakePlusMinus: boolean = $state(false);
 </script>
 
-<div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
-    <VerticalToggleGroup items={['Outpost', 'Tower', 'Depot']} bind:value={autoStart} />
-    <HorizontalToggleGroup bind:value={fielded} items={['Fielded', 'Missed Match']} />
+<div class="flex flex-col">
+    <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
+        <VerticalToggleGroup items={['Outpost', 'Tower', 'Depot']} bind:value={autoStart} />
+        <HorizontalToggleGroup bind:value={fielded} items={['Fielded', 'Missed Match']} />
+    </div>
+
+    <Button label="Next" onclick={() => stage = "Auto"} classes="px-8"/>
 </div>
 
-<BottomButton {matchData} bind:stage bind:plusMinus={fakePlusMinus} />
