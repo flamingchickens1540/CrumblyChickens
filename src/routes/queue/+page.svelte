@@ -13,62 +13,69 @@
         }
     });
 
-    const team_match: LocalStore<TeamMatch> = localStore("matchData", {
-            teamKey: 0,
-            matchKey: "qm1",
-            eventKey: '2026testing', // TODO Manually change or read from env or smth
+    const team_match: LocalStore<TeamMatch> = localStore('matchData', {
+        teamKey: 0,
+        matchKey: 'qm1',
+        eventKey: '2026testing', // TODO Manually change or read from env or smth
 
-            autoStart: 'Tower',
-            fielded: true,
-            autoHub: 0,
-            autoShuffle: 0,
-            autoClimb: false,
-            teleHub: 0,
-            teleShuffle: 0,
-            teleSteal: 0,
-            climb: 'None',
-            skill: 1,
-            broken: false,
-            died: false,
-            notes: '',
+        autoStart: 'Tower',
+        fielded: true,
+        autoHub: 0,
+        autoShuffle: 0,
+        autoClimb: false,
+        teleHub: 0,
+        teleShuffle: 0,
+        teleSteal: 0,
+        climb: 'None',
+        skill: 1,
+        broken: false,
+        died: false,
+        notes: '',
 
-            scout: data.user
-    })
+        scout: data.user
+    });
 
-    socket.on('leave_queue', () => {
-        socket.disconnect();
+    socket.on('disconnect', () => {
         goto(resolve('/'));
     });
-    socket.on('recieve_robot', ({ robot, match_key }: { robot: { teamKey: number; color: 'red' | 'blue' }, match_key: string }) => {
-        const new_team_match: TeamMatch = {
-            teamKey: robot.teamKey,
-            matchKey: match_key,
-            eventKey: '2026testing', // TODO Manually change or read from env or smth
+    socket.on(
+        'recieve_robot',
+        ({
+            robot,
+            match_key
+        }: {
+            robot: { teamKey: number; color: 'red' | 'blue' };
+            match_key: string;
+        }) => {
+            const new_team_match: TeamMatch = {
+                teamKey: robot.teamKey,
+                matchKey: match_key,
+                eventKey: '2026testing', // TODO Manually change or read from env or smth
 
-            autoStart: 'Tower',
-            fielded: true,
-            autoHub: 0,
-            autoShuffle: 0,
-            autoClimb: false,
-            teleHub: 0,
-            teleShuffle: 0,
-            teleSteal: 0,
-            climb: 'None',
-            skill: 1,
-            broken: false,
-            died: false,
-            notes: '',
+                autoStart: 'Tower',
+                fielded: true,
+                autoHub: 0,
+                autoShuffle: 0,
+                autoClimb: false,
+                teleHub: 0,
+                teleShuffle: 0,
+                teleSteal: 0,
+                climb: 'None',
+                skill: 1,
+                broken: false,
+                died: false,
+                notes: '',
 
-            scout: data.user
-        };
+                scout: data.user
+            };
 
-        if (browser) {
-            team_match.value = new_team_match;
+            if (browser) {
+                team_match.value = new_team_match;
+            }
+
+            goto(`/matchscout?color=${robot.color}`);
         }
-
-        socket.disconnect();
-        goto(`/matchscout?color=${robot.color}`);
-    });
+    );
     const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 </script>
 

@@ -18,7 +18,6 @@
     let nextMatch: NewMatch = $state(emptyNextMatch());
 
     socket.on('handshake_data', ([scoutQueue, match]: [string[], Match | null]) => {
-        console.log('replaced scout queue: ' + $state.snapshot(scouts));
         scouts = scoutQueue;
         currentMatch = match;
     });
@@ -30,9 +29,11 @@
     });
     socket.on('scout_joined_queue', (username) => scouts.push(username));
     socket.on('scout_recieved_robot', ([match, username]) => {
-        console.log(match);
         currentMatch = match;
-        scouts.splice(scouts.indexOf(username), 1);
+        const i = scouts.indexOf(username);
+        if (i == -1) return;
+
+        scouts.splice(i, 1);
     });
 
     function clearRobots() {
@@ -40,7 +41,10 @@
         currentMatch = null;
     }
     function removeScout(username: string) {
-        scouts.splice(scouts.indexOf(username), 1);
+        const i = scouts.indexOf(username);
+        if (i == -1) return;
+
+        scouts.splice(i, 1);
         socket.emit('remove_scout', username);
     }
     function sendMatch() {

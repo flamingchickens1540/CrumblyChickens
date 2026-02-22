@@ -1,12 +1,12 @@
 import { type ViteDevServer } from 'vite';
-import { Server } from 'socket.io';
+import { Server, type DisconnectReason } from 'socket.io';
 import { spawn } from 'child_process';
 import type { Match } from '@/types';
 
 const info = (s: string) => console.log(`\x1b[32m${s}\x1b[0m`);
 const warn = (s: string) => console.log(`\x1b[33m${s}\x1b[0m`);
 
-let currentMatch: Match | null;
+let currentMatch: Match | null = null;
 let matchIdx = 0;
 
 const wsServer = {
@@ -23,25 +23,36 @@ const wsServer = {
             }
         });
         io.of('/queue').on('connect', (socket) => {
-            let robot = getNextTeam(socket.handshake.auth.username);
+            const robot = getNextTeam(socket.handshake.auth.username);
             if (robot !== undefined) {
                 info(`${socket.handshake.auth.username} recieved robot ${robot.teamKey}`);
                 socket.emit('recieve_robot', { robot, matchKey: currentMatch!.matchKey });
                 socket.disconnect();
+                // Technically, all this does is update currentMatch
                 io.of('/admin').emit('scout_recieved_robot', [
                     currentMatch,
                     socket.handshake.auth.username
                 ]);
             } else {
-                io.of('/admin').emit('scout_joined_queue');
+                io.of('/admin').emit('scout_joined_queue', socket.handshake.auth.username);
                 info(`${socket.handshake.auth.username} joined scout queue`);
             }
 
-            socket.on('leave_queue', () => {
-                socket.disconnect();
-            });
-            socket.on('disconnect', async (_) => {
-                info(`${socket.handshake.auth.username} left queue`);
+            socket.on('disconnect', async (reason: DisconnectReason) => {
+                switch (reason) {
+                    case 'client namespace disconnect': {
+                        info(`${socket.handshake.auth.username} left queue`);
+                        break;
+                    }
+                    case 'transport error':
+                    case 'transport close':
+                    case 'parse error':
+                    case 'forced close': {
+                        info(
+                            `${socket.handshake.auth.username} disconnected because of a ${reason}`
+                        );
+                    }
+                }
                 io.of('admin').emit('scout_left_queue', socket.handshake.auth.username);
             });
         });
@@ -63,15 +74,15 @@ const wsServer = {
                 const scouts = io.of('/queue').sockets.values();
                 for (const scout of scouts) {
                     if (username === scout.handshake.auth.username) {
-                        // scout.disconnect();
-                        scout.emit('leave_queue');
+                        scout.disconnect();
                         info(`${username} removed from queue by admin`);
+                        return;
                     }
                 }
                 warn(`Attempted to remove a scout who wasn't in the queue: ${username}`);
             });
             socket.on('send_match', (match: Match) => {
-                /* const script = spawn('python3', ['export/data_export.py']);
+                const script = spawn('python3', ['export/data_export.py']);
 
                 script.stdout.on('data', (data) => {
                     console.log(`Exported: ${data}`);
@@ -79,7 +90,7 @@ const wsServer = {
 
                 script.stderr.on('data', (data) => {
                     console.error(`Error Exporting: ${data}`);
-                });*/
+                });
                 matchIdx = 0;
                 currentMatch = match;
                 const scouts = io.of('/queue');
@@ -94,10 +105,6 @@ const wsServer = {
                         robot,
                         matchKey: match.matchKey
                     });
-                    io.of('/admin').emit('scout_recieved_robot', [
-                        match,
-                        scout.handshake.auth.username
-                    ]);
                     info(
                         `${scout.handshake.auth.username} recieved robot ${robot.teamKey} from queue`
                     );
@@ -121,6 +128,8 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
     if (currentMatch === null) {
         return undefined;
     }
+
+    console.log(currentMatch);
     let color: 'red' | 'blue' | undefined;
     if (matchIdx < 3) {
         teamKey = currentMatch.red[matchIdx].teamKey;
@@ -131,7 +140,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
         };
         color = 'red';
     } else if (matchIdx < 6) {
-        teamKey = currentMatch.red[matchIdx - 3].teamKey;
+        teamKey = currentMatch.blue[matchIdx - 3].teamKey;
         currentMatch.red[matchIdx - 3] = {
             status: 'Pending',
             teamKey,
