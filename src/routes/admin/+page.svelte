@@ -12,7 +12,7 @@
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let eventKey: string = $state('');
+    let eventKey: string = $state('2026week0');
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
@@ -87,8 +87,6 @@
         } satisfies Match;
         return parsed;
     }
-
-    const eventKey = '2026week0';
 
     // For api stuff
     // let _matchKey = $derived(eventKey + '_' + (currentMatch.matchKey ?? ''));

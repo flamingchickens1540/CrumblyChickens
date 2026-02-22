@@ -10,14 +10,24 @@
         stage = $bindable()
     }: { matchData: TeamMatch; stage: GameStage } = $props();
 
+    let endgame: string = $state('L1');
+    let broken: string = $state('Undamaged');
+    let connected: string = $state('Functional');
+    let rating: number = $state(1);
     let fakePlusMinus: boolean = $state(false);
+    $effect(() => {
+        matchData.climb = endgame === 'Not Attempted' ? 'None' : (endgame as 'L1' | 'L2' | 'L3');
+        matchData.broken = broken === 'Broken';
+        matchData.died = connected === 'Died';
+        matchData.skill = rating;
+    });
 </script>
 
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
-    <VerticalToggleGroup items={['L1', 'L2', 'L3', 'Not Attempted']} />
-    <StarRating />
-    <HorizontalToggleGroup items={['Undamaged', 'Broken']} />
-    <HorizontalToggleGroup items={['Functional', 'Died on Field']} />
+    <VerticalToggleGroup bind:value={endgame} items={['L1', 'L2', 'L3', 'Not Attempted']} />
+    <StarRating bind:value={rating} />
+    <HorizontalToggleGroup bind:value={broken} items={['Undamaged', 'Broken']} />
+    <HorizontalToggleGroup bind:value={connected} items={['Functional', 'Died on Field']} />
     <textarea
         name="Notes"
         cols="40"

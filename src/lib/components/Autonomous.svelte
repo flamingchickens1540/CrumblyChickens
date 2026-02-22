@@ -13,7 +13,7 @@
 </script>
 
 {#if plusMinus}
-    <PlusMinus {matchDat} bind:plusMinus {stage} bind:value={matchData[activeKey!]!} />
+    <PlusMinus {matchData} bind:plusMinus {stage} bind:value={matchData[activeKey!]!} />
 {:else}
     <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[35dvh] px-1 pt-0 pb-1">
         <button

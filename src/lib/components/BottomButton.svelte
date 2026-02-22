@@ -20,11 +20,6 @@
         }
 
         if (stage === 'PostMatch') {
-            stage = 'PreMatch';
-
-            console.log('Submitting match:');
-            console.log(JSON.stringify(matchData));
-
             await fetch('/api/submit/match', {
                 method: 'POST',
                 body: JSON.stringify(matchData)

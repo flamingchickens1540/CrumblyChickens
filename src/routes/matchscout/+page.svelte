@@ -14,7 +14,6 @@
     let matchData: LocalStore<TeamMatch> = $state(
         localStore('matchData', {})
     ) as LocalStore<TeamMatch>;
-    console.log(data.allianceColor);
 </script>
 
 <center>

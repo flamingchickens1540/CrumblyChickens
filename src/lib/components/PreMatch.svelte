@@ -13,10 +13,7 @@
 </script>
 
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
-    <VerticalToggleGroup
-        items={['Outpost', 'Tower', 'Depot']}
-        bind:selectedValue={matchData.autoStart}
-    />
+    <VerticalToggleGroup items={['Outpost', 'Tower', 'Depot']} bind:value={matchData.autoStart} />
     <!-- TODO Bind selected values as booleans here -->
     <HorizontalToggleGroup items={['Fielded', 'Missed Match']} />
 </div>

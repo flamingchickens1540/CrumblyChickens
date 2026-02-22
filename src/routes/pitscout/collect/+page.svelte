@@ -56,7 +56,7 @@
     <p class="mx-2.5 mt-3 text-left text-2xl text-gray-400">Drivetrain</p>
     <VerticalToggleGroup
         items={['Swerve', 'Tank', 'Other']}
-        selectedValue={team_event.drivetrain}
+        value={team_event.drivetrain}
         bg_selected="amber-400"
         bg_normal="gray-900"
         outline={false}
