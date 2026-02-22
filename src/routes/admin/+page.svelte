@@ -69,12 +69,14 @@
         scouts.splice(scouts.indexOf(username), 1);
         socket.emit('remove_scout', username);
     }
+
     function sendMatch() {
         const parsedMatch = parseNextMatch();
         if (!parsedMatch) {
             alert("Invalid Match Key")
             return;
         }
+
         const key = parsedMatch.matchKey;
         nextMatch = emptyNextMatch();
 
@@ -86,12 +88,15 @@
                 return { teamKey: robot.teamKey, color: 'blue' };
             })
         ];
+
         socket.emit('send_match', { teams: robotQueue, key });
         currentMatch = parsedMatch;
     }
+
     function emptyNextMatch(): NewMatch {
         return { matchKey: '', red: ['', '', ''], blue: ['', '', ''] };
     }
+
     function parseNextMatch(): Match | null {
         const parsed = {
             matchKey: nextMatch.matchKey,
@@ -107,16 +112,18 @@
                 { status: 'Unassigned', teamKey: parseInt(nextMatch.blue[2]) }
             ]
         } satisfies Match;
-        parsed.red.forEach((robot) => {
+
+        for (const robot of parsed.red) {
             if (!robot.teamKey) {
                 return null;
             }
-        });
-        parsed.blue.forEach((robot) => {
+        }
+
+        for (const robot of parsed.blue) {
             if (!robot.teamKey) {
                 return null;
             }
-        });
+        }
 
         return parsed;
     }

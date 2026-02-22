@@ -48,6 +48,8 @@
               alias pg_stop="pg_ctl -D $PGDATA stop"
               alias pg_drop="psql -U $PGUSER -c 'DROP DATABASE $PGDATABASE'"
               alias exit="(! pidof postgres || pg_ctl -D $PGDATA stop) && exit"
+
+              source $PWD/export/.venv/bin/activate
             '';
           };
       });
