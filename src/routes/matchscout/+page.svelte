@@ -4,34 +4,46 @@
     import Teleoperated from '$lib/components/Teleoperated.svelte';
     import Autonomous from '$lib/components/Autonomous.svelte';
     import type { TeamMatch, GameStage } from '$lib/types';
+    import { LocalStore, localStore } from '@/localStore.svelte';
 
-    const { data }: { data: TeamMatch } = $props();
+    const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
 
     let stage: GameStage = $state('PreMatch');
-    let match_data = $state(data);
+    // NOTE
+    // This gets set in `/queue`, so we're probably always fine dw about it :P
+    let matchData: LocalStore<TeamMatch> = $state(
+        localStore('matchData', {})
+    ) as LocalStore<TeamMatch>;
 </script>
 
 <center>
-    <p class="m-4 mb-0 font-[Poppins] text-6xl font-bold text-[#FF4848]">1540</p>
+    <p
+        class="m-4 mb-0 font-[Poppins] text-6xl font-bold"
+        style={data.allianceColor === 'blue'
+            ? 'color: #2196F3 !important'
+            : 'color: #F44336 !important'}
+    >
+        {matchData.value.teamKey}
+    </p>
     <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
         {stage}
     </p>
 </center>
 
 {#if stage === 'PreMatch'}
-    <PreMatch bind:match_data bind:stage />
+    <PreMatch bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'Auto'}
-    <Autonomous bind:match_data bind:stage />
+    <Autonomous bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'Tele'}
-    <Teleoperated bind:match_data bind:stage />
+    <Teleoperated bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'PostMatch'}
-    <PostMatch bind:match_data bind:stage />
+    <PostMatch bind:matchData={matchData.value} bind:stage />
 {/if}
 
 <style>

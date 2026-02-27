@@ -7,6 +7,10 @@ type RequiredNotNull<T> = {
 type Ensure<T, K extends keyof T> = T & RequiredNotNull<Pick<T, K>>;
 type Full<T> = Ensure<T, keyof T>;
 
+export type NumKey<T> = {
+    [K in keyof T]: T[K] extends number | undefined | null ? K : never;
+}[keyof T];
+
 export type GameStage = 'PreMatch' | 'Auto' | 'Tele' | 'PostMatch';
 
 export type DriveTrain = 'Swerve' | 'Tank';
@@ -23,7 +27,12 @@ type UnassignedRobot = {
     status: 'Unassigned';
     teamKey: number;
 };
-export type Robot = PendingRobot | UnassignedRobot;
+type SubmittedRobot = {
+    status: 'Submitted';
+    teamKey: number;
+    scout: string;
+};
+export type Robot = PendingRobot | UnassignedRobot | SubmittedRobot;
 export type Match = {
     matchKey: string;
     red: [Robot, Robot, Robot];
@@ -32,4 +41,4 @@ export type Match = {
 
 export type TeamMatch = Full<Omit<typeof teamMatch.$inferInsert, 'id' | 'scouted'>>;
 
-export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, 'completed'>>;
+export type TeamEvent = Full<Omit<typeof teamEvent.$inferInsert, 'id'>>;
