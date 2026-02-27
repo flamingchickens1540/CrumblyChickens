@@ -1,39 +1,74 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background: var(--color-slate-950);
+    background: var(--color-slate-950);
 }
 
 textarea {
-  box-sizing: border-box;
-  resize: none;
+    box-sizing: border-box;
+    resize: none;
+}
+
+/*
+Source - https://stackoverflow.com/a/40189766
+Posted by saghar.fadaei, modified by community. See post 'Timeline' for change history
+Retrieved 2026-02-15, License - CC BY-SA 4.0
+*/
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 @layer base {
-  @font-face {
-    font-family: 'Poppins';
-    src: url('./lib/poppins/Poppins-Medium.otf');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
+    @font-face {
+        font-family: 'Poppins';
+        src: url('./lib/poppins/Poppins-Medium.otf');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
 
-  @font-face {
-    font-family: 'Poppins';
-    src: url('./lib/poppins/Poppins-Bold.otf');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-  }
+    @font-face {
+        font-family: 'Poppins';
+        src: url('./lib/poppins/Poppins-Bold.otf');
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+    }
 
-  @font-face {
-    font-family: 'Poppins';
-    src: url('./lib/poppins/Poppins-SemiBold.otf');
-    font-weight: semibold;
-    font-style: normal;
-    font-display: swap;
-  }
+    @font-face {
+        font-family: 'Poppins';
+        src: url('./lib/poppins/Poppins-SemiBold.otf');
+        font-weight: semibold;
+        font-style: normal;
+        font-display: swap;
+    }
+}
+body {
+    @apply accent-xanthous bg-eerie-black text-white;
+}
+
+@theme {
+    --color-first-blue: #0066b3;
+    --color-first-red: #ed1c24;
+    --color-white: #ffffff;
+    --color-eerie-black: #1c1c1c;
+    --color-xanthous: #f6b14b;
+    --color-imperial-red: #ff4848;
+    --color-crayola-orange: #ff8547;
+    --color-steel-blue: #3581b8;
+    --color-bittersweet: #ff6663;
+    --color-gunmetal: #20282c;
+    --color-indigo-dye: #294f6a;
+    --color-eminence: #6c3082;
+    --color-jungle-green: #49a078;
 }

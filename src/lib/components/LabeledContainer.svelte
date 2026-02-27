@@ -1,11 +1,19 @@
 <script lang="ts">
     //Container with label
-    const { label, isYellow = false, padded = false }: {label: string, isYellow?: boolean, padded?: boolean} = $props()
+    const {
+        label,
+        isYellow = false,
+        padded = false
+    }: { label: string; isYellow?: boolean; padded?: boolean } = $props();
 </script>
 
-<p class="text-2xl text-gray-400 mt-4 mb-2 text-left mx-2.5">
+<p class="mx-2.5 mt-4 mb-2 text-left text-2xl text-gray-400">
     {label}
 </p>
-<div class="rounded justify-self-start mx-2.5 {isYellow ? 'bg-amber-300 text-black' : 'bg-gray-900 text-white'} {padded ? 'p-3' : 'p-0 bg-transparent'} text-center text-xl">
-    <slot/>
+<div
+    class="mx-2.5 rounded {isYellow ? 'bg-amber-300 text-black' : 'bg-gray-900 text-white'} {padded
+        ? 'p-3'
+        : 'bg-transparent p-0'} text-center text-xl"
+>
+    <slot />
 </div>
