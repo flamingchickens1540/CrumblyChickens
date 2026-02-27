@@ -25,13 +25,10 @@
             aria-pressed={value === item}
             class={`
 				relative m-0 inline-flex flex-1
-<<<<<<< HEAD
-				items-center justify-center border border-[#C2C2C2] px-8 py-2 text-center
-				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
-=======
 				items-center justify-center border border-[#C2C2C2] py-2 text-center
 				${value === item ? 'bg-[#E5AE32] text-black' : 'bg-[#2C2C2C] text-white'}
->>>>>>> 11e6456829f9b745ea87c4cd76683cc06285f3a0
+				items-center justify-center border border-[#C2C2C2] px-8 py-2 text-center
+				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
 				${isFirst(i) ? 'rounded-l-lg' : ''}
 				${isLast(i) ? 'rounded-r-lg' : ''}
 			`}
