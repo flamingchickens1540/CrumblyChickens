@@ -27,7 +27,7 @@
 			class={`
 				relative m-0 inline-flex items-center
 				justify-start border border-[#C2C2C2] px-8 py-2 text-left
-				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-[#2C2C2C] text-white'}
+				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
 				${isFirst(i) ? 'rounded-t-lg' : ''}
 				${isLast(i) ? 'rounded-b-lg' : ''}
 			`}

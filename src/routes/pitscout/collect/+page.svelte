@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import LabeledTextArea from "$lib/components/LabeledTextArea.svelte";
 
-    let inputFiles: FileList
+    let inputFiles: FileList = new FileList();
 
 
     let {data}: PageProps = $props();
@@ -87,10 +87,10 @@
     </LabeledContainer>
 
     <LabeledContainer label="Robot stuff">
-        <LabeledTextArea label="Max hopper capacity">
+        <LabeledTextArea label="Max hopper capacity (m^3)">
             <textarea bind:value={hopperCapacity} class="outline-none w-full"></textarea>
         </LabeledTextArea>
-        <LabeledTextArea label="Max shoot distance">
+        <LabeledTextArea label="Max shoot distance (m)">
             <textarea bind:value={maxShoot} class="outline-none w-full"></textarea>
         </LabeledTextArea>
     </LabeledContainer>
@@ -130,4 +130,4 @@
     <button onclick={submit} class="bg-gray-800 text-white block rounded mx-2.5 my-3 text-2xl p-3">Submit</button>
 </center>
 
-<ButtonBack label="To team list" link="/pitscout/teamlist"/>
+<ButtonBack link="/pitscout/teamlist"/>
