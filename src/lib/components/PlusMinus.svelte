@@ -1,15 +1,15 @@
 <script lang="ts">
     import FuelCounter from './FuelCounter.svelte';
     import PlusMinusButton from './PlusMinusButton.svelte';
-    import BottomButton from './BottomButton.svelte';
     import type { GameStage, TeamMatch } from '$lib/types';
+    import Button from './Button.svelte';
 
     let {
-        match_data = $bindable(),
+        matchData = $bindable(),
         plusMinus = $bindable(),
         value = $bindable(),
         stage
-    }: { match_data: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
+    }: { matchData: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
 </script>
 
 <FuelCounter label="Fuel" {stage} count={value} />
@@ -23,4 +23,4 @@
     />
 </div>
 
-<BottomButton {match_data} bind:stage bind:plusMinus />
+<Button label="Back" onclick={() => plusMinus = false}/>

@@ -5,12 +5,17 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
-    const team_match: TeamMatch = await request.json();
+    const tm: TeamMatch = await request.json();
 
-    await db.insert(teamMatch).values({
-        ...team_match,
-        scouted: true
-    });
+    try {
+        await db.insert(teamMatch).values({
+            ...tm,
+            scouted: true
+        });
+    } catch (error) {
+        console.log(error);
+        return json({ ok: false });
+    }
 
     return json({ ok: true });
 };

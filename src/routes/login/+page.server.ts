@@ -1,20 +1,26 @@
-import { redirect } from '@sveltejs/kit';
+import { db } from "@/server/db";
+import { user } from "@/server/db/schema";
+import { redirect } from "@sveltejs/kit";
 
 export const actions = {
     login: async ({ cookies, request }) => {
         const data = await request.formData();
-        const username = data.get('username');
+        const username = data.get("username");
 
         if (!username) {
             return;
         }
 
-        cookies.set('user', username.toString(), {
-            path: '/',
+        cookies.set("user", username.toString(), {
+            path: "/",
             httpOnly: true,
-            sameSite: 'lax'
+            sameSite: "lax",
         });
 
-        throw redirect(303, '/');
-    }
+        try {
+            await db.insert(user).values({ username }).onConflictDoNothing();
+        } catch {}
+
+        throw redirect(303, "/");
+    },
 };

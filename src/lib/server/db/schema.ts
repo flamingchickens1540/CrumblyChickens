@@ -30,6 +30,7 @@ export const team = table('team', {
 export const teamEvent = table(
     'team_event',
     {
+        id: serial().primaryKey(),
         teamKey: integer()
             .notNull()
             .references(() => team.teamKey),
@@ -51,7 +52,7 @@ export const teamEvent = table(
         scout: varchar({ length: 64 }).references(() => user.username),
         completed: boolean().notNull()
     },
-    (table) => [primaryKey({ columns: [table.eventKey, table.teamKey] })]
+    (table) => [unique('team_event_key').on(table.eventKey, table.teamKey)]
 );
 
 // Expanded with data from TBA (once they release that info)
