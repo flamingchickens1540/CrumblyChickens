@@ -10,6 +10,7 @@
     import { resolve } from '$app/paths';
     import { browser } from '$app/environment';
     import { localStore, LocalStore } from '@/localStore.svelte';
+    // import heic2any from 'heic2any';
 
     let inputFiles: FileList | null = $state(null);
 
@@ -40,13 +41,33 @@
     }
     let images: string[] = [];
 
-    function submitFile() {
+    async function submitFile() {
+        const heic2any = await import('heic2any')
         const reader = new FileReader();
         inputFiles ??= new FileList();
+        console.log(inputFiles)
         for (let i = 0; i < inputFiles.length; i++) {
-            reader.readAsDataURL(inputFiles[i]);
+            let file = inputFiles[i]
+            reader.readAsDataURL(file);
             reader.onload = () => {
-                images[images.length] = reader.result as string;
+                console.log(inputFiles)
+                console.log(file)
+                if (file.type == "image/heic") {
+                    fetch(reader.result as string)
+                    .then((res) => res.blob())
+                    .then((blob) => heic2any.heic2any({ blob }))
+                    .then((conversionResult) => {
+                        const reader2 = new FileReader();
+                        reader2.readAsDataURL(conversionResult)
+                        reader2.onload = () => {
+                            images[i] = reader2.result as string;
+                        }
+                    });
+                } else {
+                    console.log("hi")
+                    images[i] = reader.result as string;
+                }
+                console.log(images[i])
             };
         }
         inputFiles = new DataTransfer().files;
@@ -65,7 +86,6 @@
 
     function splice(i: number) {
         images.splice(i, 1);
-        console.log('spliced index ' + i);
     }
 </script>
 
@@ -166,7 +186,7 @@
                 +
                 <input
                     type="file"
-                    accept="image/png, image/jpeg, image/jpg"
+                    accept="image/png, image/jpeg, image/jpg, image/heic"
                     bind:files={inputFiles}
                     class="hidden w-full"
                     onchange={submitFile}
