@@ -39,7 +39,8 @@
     if (browser) {
         console.log($state.snapshot(teamEvent.value));
     }
-    let images: string[] = [];
+    let images: string[] = $state([]);
+
 
     async function submitFile() {
         const heic2any = await import('heic2any')
@@ -48,10 +49,11 @@
         console.log(inputFiles)
         for (let i = 0; i < inputFiles.length; i++) {
             let file = inputFiles[i]
+            let startingLength = images.length
             reader.readAsDataURL(file);
             reader.onload = () => {
-                console.log(inputFiles)
-                console.log(file)
+                // console.log(inputFiles)
+                // console.log(file)
                 if (file.type == "image/heic") {
                     fetch(reader.result as string)
                     .then((res) => res.blob())
@@ -60,14 +62,16 @@
                         const reader2 = new FileReader();
                         reader2.readAsDataURL(conversionResult)
                         reader2.onload = () => {
-                            images[i] = reader2.result as string;
+                            images[i+startingLength] = reader2.result as string;
                         }
+                    }).catch((e) => {
+                        console.log(e)
                     });
                 } else {
                     console.log("hi")
-                    images[i] = reader.result as string;
+                    images[i+startingLength] = reader.result as string;
                 }
-                console.log(images[i])
+                // console.log(images[i])
             };
         }
         inputFiles = new DataTransfer().files;
@@ -91,13 +95,11 @@
 
 <center class="font-[Poppins] font-normal">
     <p class="m-4 mb-0 text-6xl font-bold text-amber-400">{teamEvent.value.teamKey}</p>
-    <p class="text-3xl text-gray-400">Pitscout</p>
-    <p class="mx-2.5 mt-3 text-left text-2xl text-gray-400">Drivetrain</p>
+    <p class="text-3xl text-[#B2B2B2]">Pitscout</p>
+    <p class="mx-2.5 mt-3 text-left text-2xl text-[#B2B2B2]">Drivetrain</p>
     <VerticalToggleGroup
         items={['Swerve', 'Tank', 'Other']}
         bind:value={teamEvent.value.drivetrain}
-        bg_selected="amber-400"
-        bg_normal="gray-900"
         outline={false}
     />
 
@@ -113,8 +115,6 @@
         <VerticalToggleGroup
             items={['None', 'L1', 'L2', 'L3']}
             bind:value={teamEvent.value.maxClimb}
-            bg_selected="amber-400"
-            bg_normal="gray-900"
             outline={false}
         />
     </LabeledContainer>
@@ -128,14 +128,14 @@
     </LabeledContainer>
 
     <LabeledContainer label="Robot stuff">
-        <LabeledTextArea label="Max hopper capacity">
+        <LabeledTextArea label="Max hopper capacity (fuel)">
             <input
                 bind:value={teamEvent.value.hopperCapacity}
                 class="w-full p-1 outline-none"
                 type="number"
             />
         </LabeledTextArea>
-        <LabeledTextArea label="Max shoot distance">
+        <LabeledTextArea label="Max shoot distance (meters)">
             <input
                 bind:value={teamEvent.value.maxShotDistance}
                 class="w-full p-1 outline-none"
@@ -168,7 +168,7 @@
                         style="background: url({src}); background-size: cover; background-repeat: no-repeat; background-position: center"
                     >
                         <button
-                            class="rounded-full bg-gray-900 p-1 text-white"
+                            class="rounded-full bg-[#2c2c2c] p-1 text-white"
                             onclick={() => splice(i)}
                         >
                             <X class="text-2xl text-white "></X>
@@ -180,8 +180,8 @@
             {/if}
             <label
                 class="block {images.length > 0
-                    ? 'bg-amber-500 text-black'
-                    : 'bg-gray-800 text-white'} mt-2 rounded p-2 text-center text-2xl text-white"
+                    ? 'bg-[#de7e18] text-black'
+                    : 'bg-[#4c4c4c] text-white'} mt-2 rounded p-2 text-center text-2xl text-white"
             >
                 +
                 <input
@@ -194,7 +194,7 @@
             </label>
         </div>
     </LabeledContainer>
-    <button onclick={submit} class="mx-2.5 my-3 block rounded bg-gray-800 p-3 text-2xl text-white"
+    <button onclick={submit} class="mx-2.5 my-3 block rounded bg-[#4c4c4c] p-3 text-2xl text-white"
         >Submit</button
     >
 </center>

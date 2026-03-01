@@ -44,6 +44,7 @@
 	},
 	"dependencies": {
 		"esbuild": "^0.27.3",
+		"gifshot": "^0.4.5",
 		"heic2any": "^0.0.4",
 		"lucide-svelte": "^0.563.0",
 		"postgres": "^3.4.8"

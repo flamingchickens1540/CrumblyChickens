@@ -6,7 +6,7 @@
 </script>
 
 <button
-    class="fixed top-2 left-2 rounded-full bg-gray-800 p-2 hover:bg-gray-700"
+    class="fixed top-2 left-2 rounded-full bg-[#4c4c4c] p-2 hover:bg-[#ff77d3]"
     onclick={() => goto(resolve(link))}
 >
     <ArrowBigLeft class="text-white" />
