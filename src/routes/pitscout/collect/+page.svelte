@@ -39,7 +39,9 @@
     if (browser) {
         console.log($state.snapshot(teamEvent.value));
     }
+
     let images: string[] = $state([]);
+    let isConverting: boolean = $state(false);
 
 
     async function submitFile() {
@@ -49,29 +51,27 @@
         console.log(inputFiles)
         for (let i = 0; i < inputFiles.length; i++) {
             let file = inputFiles[i]
-            let startingLength = images.length
             reader.readAsDataURL(file);
             reader.onload = () => {
-                // console.log(inputFiles)
-                // console.log(file)
                 if (file.type == "image/heic") {
+                    isConverting = true
                     fetch(reader.result as string)
                     .then((res) => res.blob())
-                    .then((blob) => heic2any.heic2any({ blob }))
+                    .then((blob) => heic2any.default({ blob }))
                     .then((conversionResult) => {
+                        isConverting = false;
                         const reader2 = new FileReader();
                         reader2.readAsDataURL(conversionResult)
                         reader2.onload = () => {
-                            images[i+startingLength] = reader2.result as string;
+                            console.log("done")
+                            images[i] = reader2.result as string;
                         }
                     }).catch((e) => {
                         console.log(e)
                     });
                 } else {
-                    console.log("hi")
-                    images[i+startingLength] = reader.result as string;
+                    images[i] = reader.result as string;
                 }
-                // console.log(images[i])
             };
         }
         inputFiles = new DataTransfer().files;
@@ -176,6 +176,9 @@
                 {/each}
             {:else}
                 Please attach a photo
+            {/if}
+            {#if (isConverting)}
+                Converting...
             {/if}
             <label
                 class="block {images.length > 0
