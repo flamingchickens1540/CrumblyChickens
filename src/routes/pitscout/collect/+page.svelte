@@ -64,13 +64,13 @@
                         reader2.readAsDataURL(conversionResult)
                         reader2.onload = () => {
                             console.log("done")
-                            images[i] = reader2.result as string;
+                            images[images.length] = reader2.result as string;
                         }
                     }).catch((e) => {
                         console.log(e)
                     });
                 } else {
-                    images[i] = reader.result as string;
+                    images[images.length] = reader.result as string;
                 }
             };
         }
