@@ -111,13 +111,12 @@
         />
     </LabeledContainer>
 
-    <LabeledContainer label="Climb">
+    <p class="mx-2.5 mt-3 text-left text-2xl text-[#B2B2B2]">Climb</p>
         <VerticalToggleGroup
             items={['None', 'L1', 'L2', 'L3']}
             bind:value={teamEvent.value.maxClimb}
             outline={false}
         />
-    </LabeledContainer>
 
     <LabeledContainer label="Shooting Capabilities">
         <IndependentToggleGroup
