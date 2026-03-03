@@ -71,6 +71,7 @@
                     });
                 } else {
                     images[images.length] = reader.result as string;
+                    console.log(images[images.length-1])
                 }
             };
         }
