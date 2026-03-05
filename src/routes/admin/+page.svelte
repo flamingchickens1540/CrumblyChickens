@@ -16,7 +16,6 @@
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
-
     socket.on('handshake_data', ([scoutQueue, match]: [string[], Match | null]) => {
         scouts = scoutQueue;
         currentMatch = match;
