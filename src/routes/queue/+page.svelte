@@ -91,7 +91,7 @@
     <p class="font-[Poppins] text-5xl font-semibold text-white">Queue</p>
 </center>
 
-<div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
+<div class={`${gridClass} mt-3 grid auto-rows-[90dvh]`}>
     <button
         class="m-2.5 inline-flex items-center justify-center rounded-md
 					bg-[#5C5C5C] p-2 px-8

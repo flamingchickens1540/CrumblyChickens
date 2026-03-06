@@ -16,19 +16,21 @@
     ) as LocalStore<TeamMatch>;
 </script>
 
-<center>
-    <p
-        class="m-4 mb-0 font-[Poppins] text-6xl font-bold"
-        style={data.allianceColor === 'blue'
-            ? 'color: #2196F3 !important'
-            : 'color: #F44336 !important'}
-    >
-        {matchData.value.teamKey}
-    </p>
-    <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
-        {stage}
-    </p>
-</center>
+<div class="grid-wrap grid auto-rows-[16dvh]">
+    <center>
+        <p
+            class="m-4 mb-0 font-[Poppins] text-6xl font-bold"
+            style={data.allianceColor === 'blue'
+                ? 'color: #2196F3 !important'
+                : 'color: #F44336 !important'}
+        >
+            {matchData.value.teamKey}
+        </p>
+        <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
+            {stage}
+        </p>
+    </center>
+</div>
 
 {#if stage === 'PreMatch'}
     <PreMatch bind:matchData={matchData.value} bind:stage />
