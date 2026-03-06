@@ -5,15 +5,22 @@
     import Autonomous from '$lib/components/Autonomous.svelte';
     import type { TeamMatch, GameStage } from '$lib/types';
     import { LocalStore, localStore } from '@/localStore.svelte';
+    import { io, Socket} from 'socket.io-client';
 
-    const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
-
+        const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
     let stage: GameStage = $state('PreMatch');
+
     // NOTE
     // This gets set in `/queue`, so we're probably always fine dw about it :P
     let matchData: LocalStore<TeamMatch> = $state(
         localStore('matchData', {})
     ) as LocalStore<TeamMatch>;
+let socket: Socket = io('/match', {
+            auth: {
+                username: matchData.value.scout
+            }
+        });
+
 </script>
 
 <div class="grid-wrap grid auto-rows-[16dvh]">
@@ -45,7 +52,7 @@
 {/if}
 
 {#if stage === 'PostMatch'}
-    <PostMatch bind:matchData={matchData.value} bind:stage />
+    <PostMatch bind:matchData={matchData.value} bind:stage {socket} />
 {/if}
 
 <style>

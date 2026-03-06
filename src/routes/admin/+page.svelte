@@ -53,6 +53,7 @@
         }
         nextMatch = emptyNextMatch();
         socket.emit('send_match', parsedMatch);
+        console.log(parsedMatch);
         currentMatch = parsedMatch;
     }
     function emptyNextMatch(): NewMatch {

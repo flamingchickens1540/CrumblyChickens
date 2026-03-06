@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { TBA_API_KEY, EVENT_KEY } from '$env/static/private';
+import { TBA_API_KEY, EVENT_KEY, DATABASE_URL } from '$env/static/private';
 import { db } from '@/server/db';
 import { match, teamMatch } from '@/server/db/schema';
 
@@ -17,16 +17,17 @@ export const GET: RequestHandler = async ({ url }) => {
     );
 
     if (!res.ok) {
-        alert('Failed to load event from tba into db');
+        console.error('Failed to load event from tba into db: ' + res.status);
         return json({ ok: false });
     }
 
     const data: any = await res.json();
     try {
-        db.insert(match).values({ matchKey: `${EVENT_KEY}_${matchKey}`, eventKey: EVENT_KEY });
+        db.insert(match).values({ matchKey: `${EVENT_KEY}_${matchKey}`, eventKey: "2026orsal" });
     } catch (e) {
-        console.error(e);
+        console.error(`Could not insert match into db: ${e}`);
     }
+    console.log(DATABASE_URL);
     const alliances = data['alliances'];
     const red = alliances['red']['team_keys'];
     const blue = alliances['blue']['team_keys'];
