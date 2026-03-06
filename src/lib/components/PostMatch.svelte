@@ -12,7 +12,7 @@
         stage = $bindable()
     }: { matchData: TeamMatch; stage: GameStage } = $props();
 
-    let endgame: string = $state('L1');
+    let endgame: string = $state('Not Attempted');
     let broken: string = $state('Undamaged');
     let connected: string = $state('Functional');
     let rating: number = $state(3);
@@ -37,7 +37,7 @@
 </script>
 
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
-    <VerticalToggleGroup bind:value={endgame} items={['L1', 'L2', 'L3', 'Not Attempted']} />
+    <VerticalToggleGroup bind:value={endgame} items={['Not Attempted', 'L1', 'L2', 'L3']} />
     <StarRating bind:value={rating} />
     <p class="text-xl text-[#B2B2B2]">How accurately did you scout?</p>
     <StarRating bind:value={accuracy} text="Your Accuracy" />
