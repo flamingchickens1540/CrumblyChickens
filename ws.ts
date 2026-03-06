@@ -178,6 +178,21 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
         return undefined;
     }
 
+    for (const i = 0; i < 3; i++) {
+        const red = currentMatch.red[i];
+        if (red.status === 'Pending') {
+            if (red.scout === scout) {
+                return { teamKey: red.teamKey, color: 'red' };
+            }
+        }
+        const blue = currentMatch.blue[i];
+        if (blue.status === 'Pending') {
+            if (blue.scout === scout) {
+                return { teamKey: blue.teamKey, color: 'blue' };
+            }
+        }
+    }
+
     let color: 'red' | 'blue' | undefined;
     if (matchIdx < 3) {
         teamKey = currentMatch.red[matchIdx].teamKey;
