@@ -11,13 +11,13 @@
     let activeKey: NumKey<TeamMatch> | null = $state(null);
 
     function back() {
-        stage = "Auto"
+        stage = 'Auto';
     }
 </script>
 
 <div class="flex flex-col">
     {#if plusMinus}
-        <PlusMinus {matchData} bind:plusMinus bind:value={matchData[activeKey!]!} stage={'Tele'} />
+        <PlusMinus {matchData} bind:plusMinus bind:value={matchData[activeKey!]!} stage="Tele" />
     {:else}
         <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[22dvh] px-1 pt-0 pb-1">
             <button
@@ -55,11 +55,13 @@
             >
                 <p class="font-[Poppins] text-4xl font-semibold text-white">Steal</p>
             </button>
-
         </div>
 
-        <DoubleButton leftLabel="Back" rightLabel="Next" leftOnClick={() => stage = "Auto"} rightOnClick={() => stage = "PostMatch"}/>
+        <DoubleButton
+            leftLabel="Back"
+            rightLabel="Next"
+            leftOnClick={() => (stage = 'Auto')}
+            rightOnClick={() => (stage = 'PostMatch')}
+        />
     {/if}
-
 </div>
-

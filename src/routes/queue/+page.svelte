@@ -15,7 +15,7 @@
         teamMatch = localStore('matchData', {
             teamKey: 0,
             matchKey: 'qm1',
-            eventKey: '2026orco', // TODO Manually change or read from env or smth
+            eventKey: '2026orsal', // TODO Manually change or read from env or smth
 
             autoStart: 'Tower',
             fielded: true,
@@ -56,7 +56,7 @@
                 const newTeamMatch: TeamMatch = {
                     teamKey: robot.teamKey,
                     matchKey: matchKey,
-                    eventKey: '2026orco', // TODO Manually change or read from env or smth
+                    eventKey: '2026orsal', // TODO Manually change or read from env or smth
 
                     autoStart: 'Tower',
                     fielded: true,

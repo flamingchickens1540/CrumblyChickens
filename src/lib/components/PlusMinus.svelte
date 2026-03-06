@@ -23,4 +23,4 @@
     />
 </div>
 
-<Button label="Back" onclick={() => plusMinus = false}/>
+<Button label="Back" onclick={() => (plusMinus = false)} />

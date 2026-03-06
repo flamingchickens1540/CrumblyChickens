@@ -12,7 +12,7 @@
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let eventKey: string = $state('2026week0');
+    let eventKey: string = $state('2026orsal');
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
