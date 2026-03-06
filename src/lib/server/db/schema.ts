@@ -9,8 +9,6 @@ import {
     serial
 } from 'drizzle-orm/pg-core';
 import { defineRelations } from 'drizzle-orm';
-import { primaryKey } from 'drizzle-orm/cockroach-core';
-
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'Failed', 'None']);
 export const maxEndgame = pgEnum('maxEndgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
@@ -83,6 +81,7 @@ export const teamMatch = table(
         teleSteal: integer(),
         climb: endgame(),
         skill: integer(),
+        accuracy: integer(),
         broken: boolean(),
         died: boolean(),
         notes: text(),
