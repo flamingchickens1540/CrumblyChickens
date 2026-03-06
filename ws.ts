@@ -58,8 +58,8 @@ const wsConfig = function configureServer(server: HttpServer) {
             }
             let teamKey;
             for (let i = 0; i < 3; i++) {
-                let red = currentMatch.red[i];
-                let blue = currentMatch.blue[i];
+                const red = currentMatch.red[i];
+                const blue = currentMatch.blue[i];
                 if (red.status === 'Pending' && red.scout === socket.handshake.auth.username) {
                     teamKey = currentMatch.red[i].teamKey;
                     currentMatch.red[i] = {
@@ -71,7 +71,7 @@ const wsConfig = function configureServer(server: HttpServer) {
                     blue.status === 'Pending' &&
                     blue.scout === socket.handshake.auth.username
                 ) {
-                    let teamKey = currentMatch.blue[i].teamKey;
+                    const teamKey = currentMatch.blue[i].teamKey;
                     currentMatch.blue[i] = {
                         status: 'Unassigned',
                         teamKey

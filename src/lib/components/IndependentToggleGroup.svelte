@@ -13,10 +13,10 @@
             class="{i == 0
                 ? 'rounded-t'
                 : i == last
-                  ? 'rounded-b border-t border-gray-400'
-                  : 'border-t border-gray-400'} w-full {source[key]
-                ? 'bg-amber-400 text-black'
-                : 'bg-gray-900 text-white'} p-2"
+                  ? 'rounded-b border-t border-[#B2B2B2]'
+                  : 'border-t border-[#B2B2B2]'} w-full {source[key]
+                ? 'bg-[#E5AE32] text-black'
+                : 'bg-[#2c2c2c] text-white'} p-2"
             onclick={() => {
                 source[key] = !source[key];
             }}

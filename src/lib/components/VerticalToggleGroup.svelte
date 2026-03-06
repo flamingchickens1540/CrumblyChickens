@@ -4,14 +4,10 @@
     let {
         items,
         value = $bindable(),
-        bg_normal = '[#2C2C2C]',
-        bg_selected = '[#E5AE32]',
         outline = true
     }: {
         items: string[];
         value: string | null;
-        bg_normal?: string;
-        bg_selected?: string;
         outline?: boolean;
     } = $props();
 
@@ -37,7 +33,7 @@
             class={`
 				relative m-0 inline-flex items-center
 				justify-start ${outline ? 'border border-[#C2C2C2]' : i != 0 ? 'border-t border-gray-400' : ''} px-8 py-2 text-left
-				${value === item ? `bg-${bg_selected} text-black` : `bg-${bg_normal} text-white`}
+				${value === item ? `bg-[#E5AE32] text-black` : `bg-[#2c2c2c] text-white`}
 				${isFirst(i) ? 'rounded-t-lg' : ''}
 				${isLast(i) ? 'rounded-b-lg' : ''}
 			`}
