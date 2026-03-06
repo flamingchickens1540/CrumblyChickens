@@ -81,6 +81,28 @@ const wsConfig = function configureServer(server: HttpServer) {
             }
             info(`${socket.handshake.auth.username}`);
         });
+        socket.on('submit_match', () => {
+            if (currentMatch === null) {
+                return;
+            }
+            let teamKey;
+            for (let i = 0; i < 3; i++) {
+                const red = currentMatch.red[i];
+                const blue = currentMatch.blue[i];
+                if (red.status === 'Pending' && red.scout === socket.handshake.auth.username) {
+                    teamKey = currentMatch.red[i].teamKey;
+                    currentMatch.red[i].status = 'Submitted' ;
+                    break;
+                } else if (
+                    blue.status === 'Pending' &&
+                    blue.scout === socket.handshake.auth.username
+                ) {
+                    const teamKey = currentMatch.blue[i].teamKey;
+                    currentMatch.blue[i].status = 'Submitted';
+                    break;
+                }
+            }
+        })
     });
     io.of('/admin').on('connect', (socket) => {
         const scoutQueue: string[] = io
@@ -106,32 +128,6 @@ const wsConfig = function configureServer(server: HttpServer) {
                 }
             }
             warn(`Attempted to remove a scout who wasn't in the queue: ${username}`);
-        });
-        socket.on('send_match', async (match: Match) => {
-            const script = spawn('python3', ['export/data_export.py']);
-
-            script.stdout.on('data', (data) => {
-                console.log(`Exported: ${data}`);
-            });
-
-            script.stderr.on('data', (data) => {
-                console.error(`Error Exporting: ${data}`);
-            });
-
-            matchIdx = 0;
-            currentMatch = match;
-            const scouts = io.of('/queue');
-            info(`New Match ${formatMatch()}`);
-
-            for (const scout of scouts.sockets.values()) {
-                const robot = getNextTeam(scout.handshake.auth.username);
-                if (robot === undefined) {
-                    break;
-                }
-                warn(
-                    `Attempted to remove a scout who wasn't in the queue: ${scout.handshake.auth.username}`
-                );
-            }
         });
         socket.on('send_match', (match: Match) => {
             const script = spawn('python3', ['export/data_export.py']);
@@ -178,7 +174,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
         return undefined;
     }
 
-    for (const i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         const red = currentMatch.red[i];
         if (red.status === 'Pending') {
             if (red.scout === scout) {
@@ -204,7 +200,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
         color = 'red';
     } else if (matchIdx < 6) {
         teamKey = currentMatch.blue[matchIdx - 3].teamKey;
-        currentMatch.red[matchIdx - 3] = {
+        currentMatch.blue[matchIdx - 3] = {
             status: 'Pending',
             teamKey,
             scout

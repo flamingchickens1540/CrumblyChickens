@@ -6,11 +6,13 @@
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
     import DoubleButton from './DoubleButton.svelte';
+    import type { Socket } from 'socket.io-client';
 
     let {
         matchData = $bindable(),
-        stage = $bindable()
-    }: { matchData: TeamMatch; stage: GameStage } = $props();
+        stage = $bindable(),
+        socket
+    }: { matchData: TeamMatch; stage: GameStage; socket: Socket} = $props();
 
     let endgame: string = $state('Not Attempted');
     let broken: string = $state('Undamaged');
@@ -31,7 +33,7 @@
             method: 'POST',
             body: JSON.stringify(matchData)
         });
-
+        socket.emit("submit_match");
         goto(resolve('/'));
     }
 </script>
