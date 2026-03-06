@@ -104,8 +104,15 @@
     /// Loads the teams from the next match into the admin page
     async function loadMatch() {
         const res = await fetch(`/api/load/match?key=${nextMatch.matchKey}`);
-
-        // TODO Finish in the morning
+        if (!res.ok) {
+            console.error(res.status);
+            return;
+        }
+        const match = await res.json();
+        for (let i = 0; i < 3; i++) {
+            nextMatch.red[i] = match.red[i].slice(3);
+            nextMatch.blue[i] = match.blue[i].slice(3);
+        }
     }
 
     /// Loads teams from an event to a DB
@@ -120,12 +127,13 @@
 <div class="mx-2 mt-2 grid grid-cols-3 gap-2 text-white">
     <div class="flex flex-col gap-2">
         <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-3 gap-4">
                 <input
                     bind:value={nextMatch.matchKey}
                     placeholder="Next Match"
                     class="bg-eerie-black rounded p-2"
                 />
+                <button onclick={loadMatch} class="bg-eerie-black rounded p-2">Load Match</button>
                 <button onclick={sendMatch} class="bg-eerie-black rounded p-2">Queue Match</button>
             </div>
             <div class="rounded-2 grid grid-cols-3 gap-2">
