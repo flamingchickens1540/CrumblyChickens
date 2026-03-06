@@ -12,11 +12,11 @@
 
 <center class="font-[Poppins] font-normal">
     <p class="m-4 mb-0 text-6xl font-bold text-amber-400">Team List</p>
-    <p class="text-3xl text-gray-400">Pitscout</p>
+    <p class="text-3xl text-[#B2B2B2]">Pitscout</p>
 
     <div class="mx-2.5 mt-3 rounded bg-gray-900 p-1 text-center text-xl text-white">
         {#each teamEvents as team, i (team.teamKey)}
-            <div class="flex w-full p-2 {i == 0 ? '' : 'border-t-2 border-gray-400'}">
+            <div class="flex w-full p-2 {i == 0 ? '' : 'border-t-2 border-[#B2B2B2]'}">
                 <Camera class={'text-amber-400'} />
                 <ClipboardList class={team.completed ? 'text-amber-400' : 'text-white'} />
                 <button
