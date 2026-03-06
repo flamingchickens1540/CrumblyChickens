@@ -1,14 +1,14 @@
 <script lang="ts">
-    const { items, selectedValue = $bindable() } = $props<{
+    const { items, value = $bindable() } = $props<{
         items: string[];
-        selectedValue?: string;
+        value?: string;
     }>();
 
     let selected = $state<string | undefined>(undefined);
 
     $effect(() => {
-        if (selectedValue !== undefined) {
-            selected = selectedValue;
+        if (value !== undefined) {
+            selected = value;
         } else if (items.length && selected === undefined) {
             selected = items[0];
         }

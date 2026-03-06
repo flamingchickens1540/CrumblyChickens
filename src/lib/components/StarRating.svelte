@@ -2,7 +2,7 @@
     import { Star } from 'lucide-svelte';
     import { onMount } from 'svelte';
 
-    let { value = $bindable() }: { value: number } = $props();
+    let { value = $bindable(), text = 'Driver Skill' }: { value: number; text: string } = $props();
     onMount(() => {
         if (value === undefined) {
             value = 1;
@@ -15,7 +15,7 @@
         class="absolute -top-2 left-3 bg-[#2c2c2c]
            px-2 font-[Poppins] text-sm text-[#C2C2C2]"
     >
-        Driver Skill
+        {text}
     </span>
 
     <div class="flex w-full items-center">

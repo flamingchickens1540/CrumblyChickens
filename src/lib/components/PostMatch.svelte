@@ -15,13 +15,15 @@
     let endgame: string = $state('L1');
     let broken: string = $state('Undamaged');
     let connected: string = $state('Functional');
-    let rating: number = $state(1);
+    let rating: number = $state(3);
+    let accuracy: number = $state(0);
 
     $effect(() => {
         matchData.climb = endgame === 'Not Attempted' ? 'None' : (endgame as 'L1' | 'L2' | 'L3');
         matchData.broken = broken === 'Broken';
         matchData.died = connected === 'Died';
         matchData.skill = rating;
+        matchData.accuracy = accuracy;
     });
 
     async function submit() {
@@ -37,6 +39,8 @@
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
     <VerticalToggleGroup bind:value={endgame} items={['L1', 'L2', 'L3', 'Not Attempted']} />
     <StarRating bind:value={rating} />
+    <p class="text-xl text-[#B2B2B2]">How accurately did you scout?</p>
+    <StarRating bind:value={accuracy} text="Your Accuracy" />
     <HorizontalToggleGroup bind:value={broken} items={['Undamaged', 'Broken']} />
     <HorizontalToggleGroup bind:value={connected} items={['Functional', 'Died on Field']} />
     <textarea
