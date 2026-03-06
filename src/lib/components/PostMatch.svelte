@@ -31,7 +31,6 @@
         });
 
         goto(resolve('/'));
-
     }
 </script>
 
@@ -49,6 +48,10 @@
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
     ></textarea>
 
-    <DoubleButton leftLabel="Back" rightLabel="Submit"  leftOnClick={() => stage = "Tele"} rightOnClick={submit}/>
+    <DoubleButton
+        leftLabel="Back"
+        rightLabel="Submit"
+        leftOnClick={() => (stage = 'Tele')}
+        rightOnClick={submit}
+    />
 </div>
-

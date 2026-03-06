@@ -16,7 +16,6 @@
         matchData.fielded = fielded === 'Fielded';
         matchData.autoStart = autoStart as 'Outpost' | 'Tower' | 'Depot';
     });
-
 </script>
 
 <div class="flex flex-col">
@@ -25,6 +24,5 @@
         <HorizontalToggleGroup bind:value={fielded} items={['Fielded', 'Missed Match']} />
     </div>
 
-    <Button label="Next" onclick={() => stage = "Auto"} classes="px-8"/>
+    <Button label="Next" onclick={() => (stage = 'Auto')} classes="px-8" />
 </div>
-

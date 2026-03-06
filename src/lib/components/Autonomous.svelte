@@ -16,7 +16,7 @@
     {#if plusMinus}
         <PlusMinus {matchData} bind:plusMinus {stage} bind:value={matchData[activeKey!]!} />
     {:else}
-        <div class="grid grid-wrap mx-3 mt-0 mb-3 auto-rows-[35dvh] px-1 pt-0 pb-1">
+        <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[35dvh] px-1 pt-0 pb-1">
             <button
                 class="m-2.5 inline-flex items-center justify-center
                 rounded-md bg-[#315F94] py-2 drop-shadow-xl transition-transform
@@ -45,7 +45,11 @@
             <SoloToggleButton label="Auto Climb" />
         </div>
 
-        <DoubleButton leftLabel="Back" rightLabel="Next" leftOnClick={() => stage = "PreMatch"} rightOnClick={() => stage = "Tele"}/>
+        <DoubleButton
+            leftLabel="Back"
+            rightLabel="Next"
+            leftOnClick={() => (stage = 'PreMatch')}
+            rightOnClick={() => (stage = 'Tele')}
+        />
     {/if}
 </div>
-
