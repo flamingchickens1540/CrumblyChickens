@@ -2,7 +2,9 @@
     import VerticalToggleGroup from './VerticalToggleGroup.svelte';
     import HorizontalToggleGroup from './HorizontalToggleGroup.svelte';
     import type { GameStage, TeamMatch } from '$lib/types';
-    import Button from './Button.svelte';
+    import DoubleButton from './DoubleButton.svelte';
+    import { resolve } from 'path';
+    import { goto } from '$app/navigation';
 
     let {
         matchData = $bindable(),
@@ -17,6 +19,11 @@
         matchData.autoStart = autoStart as 'Outpost' | 'Tower' | 'Depot';
     });
 
+    function leave() {
+        // TODO Put team back in ws queue
+        goto(resolve("/"));
+    }
+
 </script>
 
 <div class="flex flex-col">
@@ -25,6 +32,6 @@
         <HorizontalToggleGroup bind:value={fielded} items={['Fielded', 'Missed Match']} />
     </div>
 
-    <Button label="Next" onclick={() => stage = "Auto"} classes="px-8"/>
+    <DoubleButton leftLabel="Leave" leftOnClick={leave} rightLabel="Next" rightOnClick={() => stage = "Auto"} classes="px-8"/>
 </div>
 
