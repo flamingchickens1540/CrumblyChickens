@@ -1,5 +1,5 @@
 <script lang="ts">
-    const { items, selectedValue } = $props<{
+    const { items, selectedValue = $bindable() } = $props<{
         items: string[];
         selectedValue?: string;
     }>();
@@ -28,7 +28,7 @@
             aria-pressed={selected === item}
             class={`
 				relative m-0 inline-flex flex-1
-				items-center justify-center border border-[#C2C2C2] px-8 py-2 text-center
+				items-center justify-center border border-[#C2C2C2] px-2 py-2 text-center
 				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
 				${isFirst(i) ? 'rounded-l-lg' : ''}
 				${isLast(i) ? 'rounded-r-lg' : ''}

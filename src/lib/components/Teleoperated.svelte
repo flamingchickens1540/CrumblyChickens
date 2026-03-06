@@ -19,7 +19,7 @@
     {#if plusMinus}
         <PlusMinus {matchData} bind:plusMinus bind:value={matchData[activeKey!]!} stage="Tele" />
     {:else}
-        <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[22dvh] px-1 pt-0 pb-1">
+        <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[23dvh] px-1 pt-0 pb-1">
             <button
                 class="m-2.5 inline-flex items-center justify-center
                 rounded-md bg-[#6C3082] py-2 drop-shadow-xl transition-transform
@@ -57,11 +57,14 @@
             </button>
         </div>
 
-        <DoubleButton
-            leftLabel="Back"
-            rightLabel="Next"
-            leftOnClick={() => (stage = 'Auto')}
-            rightOnClick={() => (stage = 'PostMatch')}
-        />
-    {/if}
+        <div class="grid-wrap grid auto-rows-[10dvh]">
+            <DoubleButton
+                leftLabel="Back"
+                rightLabel="Next"
+                leftOnClick={() => (stage = 'Auto')}
+                rightOnClick={() => (stage = 'PostMatch')}
+            />
+
+        </div>
+            {/if}
 </div>
