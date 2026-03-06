@@ -5,9 +5,9 @@ import os
 import psycopg
 from dotenv import load_dotenv
 # Connect to the sheet
-docID = '1rewhzFg4lzrm22D2ItMwvJBw2x2Fxnx_JfWCUeb-yZQ'
+docID = '1mmZj-DzpUKKT_NgLldgNYy70Qy9qSIr7xzw6EsGJ6J4'
 # Note: When running this from `export/`, change the credentials folder
-sheets = GoogleSheets(docID, sheet="2026orsal Scouting", credentials_folder="export/google_credentials", service_account=True)
+sheets = GoogleSheets(docID, sheet="TeamMatches", credentials_folder="export/google_credentials", service_account=True)
 load_dotenv()
 # Connect to database
 test = os.environ['DATABASE_URL']
