@@ -6,6 +6,7 @@ body {
     background: var(--color-slate-950);
 }
 
+
 textarea {
     box-sizing: border-box;
     resize: none;
