@@ -91,7 +91,7 @@ const wsConfig = function configureServer(server: HttpServer) {
                 const blue = currentMatch.blue[i];
                 if (red.status === 'Pending' && red.scout === socket.handshake.auth.username) {
                     teamKey = currentMatch.red[i].teamKey;
-                    currentMatch.red[i].status = 'Submitted' ;
+                    currentMatch.red[i].status = 'Submitted';
                     break;
                 } else if (
                     blue.status === 'Pending' &&
@@ -102,7 +102,7 @@ const wsConfig = function configureServer(server: HttpServer) {
                     break;
                 }
             }
-        })
+        });
     });
     io.of('/admin').on('connect', (socket) => {
         const scoutQueue: string[] = io

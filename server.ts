@@ -7,7 +7,7 @@ const app = express();
 const server = createServer(app);
 wsConfig(server);
 
-console.log("Begin running in prod with Socket.IO configured");
+console.log('Begin running in prod with Socket.IO configured');
 app.use(handler);
 
 server.listen(3000, () => {

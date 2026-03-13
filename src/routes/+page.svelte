@@ -24,7 +24,7 @@
         {
             label: 'Pit Scout',
             onClick: () => goto(resolve('/pitscout/teamlist'))
-        },
+        }
         // {
         //     label: 'Analysis',
         //     onClick: () => goto(resolve('/analysis'))
@@ -45,9 +45,7 @@
             Hello, {data.user}
         </p>
     </center>
-
 </div>
-
 
 <div class={`m-3 grid auto-rows-[30dvh] gap-5`}>
     {#each actions as action (action.label)}
@@ -62,23 +60,18 @@
             </p>
         </button>
     {/each}
-
-
 </div>
 
-<div class="grid grid-wrap auto-rows-[15dvh]">
-<button
-        class="justify-center rounded-md
-               px-8 py-2 drop-shadow-xl
-               transition-transform duration-300 hover:scale-105 bg-[#5C5C5C] hover:bg-[#7D7D7D] m-2"
+<div class="grid-wrap grid auto-rows-[15dvh]">
+    <button
+        class="m-2 justify-center
+               rounded-md bg-[#5C5C5C] px-8
+               py-2 drop-shadow-xl transition-transform duration-300 hover:scale-105 hover:bg-[#7D7D7D]"
         onclick={() => goto(resolve('/login'))}
     >
         <p class="font-[Poppins] text-4xl font-semibold text-white">Log Out</p>
     </button>
-
 </div>
-
-
 
 <style>
     :global(body) {

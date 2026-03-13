@@ -197,7 +197,7 @@
             </label>
         </div>
     </LabeledContainer>-->
-        <button onclick={submit} class="mx-2.5 my-3 block rounded bg-[#4c4c4c] p-3 text-2xl text-white"
+    <button onclick={submit} class="mx-2.5 my-3 block rounded bg-[#4c4c4c] p-3 text-2xl text-white"
         >Submit</button
     >
 </center>

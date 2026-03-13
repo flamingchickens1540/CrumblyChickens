@@ -23,7 +23,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
     const data: any = await res.json();
     try {
-        db.insert(match).values({ matchKey: `${EVENT_KEY}_${matchKey}`, eventKey: "2026orsal" });
+        db.insert(match).values({ matchKey: `${EVENT_KEY}_${matchKey}`, eventKey: '2026orsal' });
     } catch (e) {
         console.error(`Could not insert match into db: ${e}`);
     }

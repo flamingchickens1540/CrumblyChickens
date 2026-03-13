@@ -12,7 +12,7 @@
         matchData = $bindable(),
         stage = $bindable(),
         socket
-    }: { matchData: TeamMatch; stage: GameStage; socket: Socket} = $props();
+    }: { matchData: TeamMatch; stage: GameStage; socket: Socket } = $props();
 
     let endgame: string = $state('Not Attempted');
     let broken: string = $state('Undamaged');
@@ -33,7 +33,7 @@
             method: 'POST',
             body: JSON.stringify(matchData)
         });
-        socket.emit("submit_match");
+        socket.emit('submit_match');
         goto(resolve('/'));
     }
 </script>
