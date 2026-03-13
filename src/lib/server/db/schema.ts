@@ -58,7 +58,9 @@ export const match = table('match', {
     matchKey: varchar({ length: 64 }).primaryKey(),
     eventKey: varchar({ length: 64 })
         .notNull()
-        .references(() => event.eventKey)
+        .references(() => event.eventKey),
+    redScore: integer(),
+    blueScore: integer()
 });
 export const teamMatch = table(
     'team_match',
