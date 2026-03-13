@@ -5,9 +5,9 @@
     import Autonomous from '$lib/components/Autonomous.svelte';
     import type { TeamMatch, GameStage } from '$lib/types';
     import { LocalStore, localStore } from '@/localStore.svelte';
-    import { io, Socket} from 'socket.io-client';
+    import { io, Socket } from 'socket.io-client';
 
-        const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
+    const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
     let stage: GameStage = $state('PreMatch');
 
     // NOTE
@@ -15,15 +15,14 @@
     let matchData: LocalStore<TeamMatch> = $state(
         localStore('matchData', {})
     ) as LocalStore<TeamMatch>;
-let socket: Socket = io('/match', {
-            auth: {
-                username: matchData.value.scout
-            }
-        });
-
+    let socket: Socket = io('/match', {
+        auth: {
+            username: matchData.value.scout
+        }
+    });
 </script>
 
-<div class="grid-wrap grid auto-rows-[16dvh]">
+<div class="grid-wrap grid auto-rows-[14dvh]">
     <center>
         <p
             class="m-4 mb-0 font-[Poppins] text-6xl font-bold"

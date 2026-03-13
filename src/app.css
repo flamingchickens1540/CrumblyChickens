@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    touch-action: manipulation;    
+    touch-action: manipulation;
 }
 
 body {
