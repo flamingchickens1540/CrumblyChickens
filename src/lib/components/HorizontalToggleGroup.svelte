@@ -1,16 +1,12 @@
 <script lang="ts">
-    const { items, value = $bindable() } = $props<{
+    let { items, value = $bindable() } = $props<{
         items: string[];
         value?: string;
     }>();
 
-    let selected = $state<string | undefined>(undefined);
-
     $effect(() => {
-        if (value !== undefined) {
-            selected = value;
-        } else if (items.length && selected === undefined) {
-            selected = items[0];
+        if (items.length && value === undefined) {
+            value = items[0];
         }
     });
 
@@ -23,18 +19,18 @@
         <button
             type="button"
             onclick={() => {
-                selected = item;
+                value = item;
             }}
-            aria-pressed={selected === item}
+            aria-pressed={value === item}
             class={`
 				relative m-0 inline-flex flex-1
 				items-center justify-center border border-[#C2C2C2] px-2 py-2 text-center
-				${selected === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
+				${value === item ? 'bg-[#E5AE32] text-black' : 'bg-transparent text-white'}
 				${isFirst(i) ? 'rounded-l-lg' : ''}
 				${isLast(i) ? 'rounded-r-lg' : ''}
 			`}
         >
-            {#if selected === item}
+            {#if value === item}
                 <span class="mr-2 font-[Poppins] font-bold">✓</span>
             {/if}
             <span class="font-[Poppins] text-xl whitespace-nowrap">
