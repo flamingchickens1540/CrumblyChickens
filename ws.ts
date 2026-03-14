@@ -97,7 +97,7 @@ const wsConfig = function configureServer(server: HttpServer) {
                     blue.status === 'Pending' &&
                     blue.scout === socket.handshake.auth.username
                 ) {
-                    const teamKey = currentMatch.blue[i].teamKey;
+                    teamKey = currentMatch.blue[i].teamKey;
                     currentMatch.blue[i].status = 'Submitted';
                     break;
                 }
