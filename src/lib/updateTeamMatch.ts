@@ -5,7 +5,7 @@ import { json } from '@sveltejs/kit';
 import type { TeamMatch } from './types';
 type DBTeamMatch = TeamMatch & { id: number };
 const updateMatch = async (tbaMatch: any) => {
-    const matchKey = tbaMatch.key.split('_')[1];
+    const matchKey = tbaMatch.key;
     const match = await db.query.match.findFirst({
         where: {
             matchKey
