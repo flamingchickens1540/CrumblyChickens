@@ -1,13 +1,14 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { TBA_API_KEY, EVENT_KEY, DATABASE_URL } from '$env/static/private';
+import { TBA_API_KEY, DATABASE_URL } from '$env/static/private';
 import { db } from '@/server/db';
 import { match, teamMatch } from '@/server/db/schema';
+import { PUBLIC_EVENT_KEY } from '$env/static/public';
 
 export const GET: RequestHandler = async ({ url }) => {
     const matchKey = url.searchParams.get('key');
     const res = await fetch(
-        `https://www.thebluealliance.com/api/v3/match/${EVENT_KEY}_${matchKey}/simple`,
+        `https://www.thebluealliance.com/api/v3/match/${PUBLIC_EVENT_KEY}_${matchKey}/simple`,
         {
             method: 'GET',
             headers: {
@@ -25,7 +26,7 @@ export const GET: RequestHandler = async ({ url }) => {
     try {
         await db
             .insert(match)
-            .values({ matchKey: `${EVENT_KEY}_${matchKey}`, eventKey: '2026orsal' });
+            .values({ matchKey: `${PUBLIC_EVENT_KEY}_${matchKey}`, eventKey: PUBLIC_EVENT_KEY });
     } catch (e) {
         console.error(e);
     }

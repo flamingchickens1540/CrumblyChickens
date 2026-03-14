@@ -6,8 +6,8 @@
     import type { TeamMatch } from '@/types.js';
     import { io, type Socket } from 'socket.io-client';
     import { onMount } from 'svelte';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     const { data } = $props();
-    import { page } from '$app/stores';
     let socket: Socket;
     let teamMatch: LocalStore<TeamMatch>;
     let recievedMatch = false;
@@ -15,8 +15,7 @@
         teamMatch = localStore('matchData', {
             teamKey: 0,
             matchKey: 'qm1',
-            eventKey: '2026orsal', // TODO Manually change or read from env or smth
-
+            eventKey: PUBLIC_EVENT_KEY,
             autoStart: 'Tower',
             fielded: true,
             autoHub: 0,
@@ -56,7 +55,7 @@
                 const newTeamMatch: TeamMatch = {
                     teamKey: robot.teamKey,
                     matchKey: matchKey,
-                    eventKey: '2026orsal', // TODO Manually change or read from env or smth
+                    eventKey: PUBLIC_EVENT_KEY,
 
                     autoStart: 'Tower',
                     fielded: true,

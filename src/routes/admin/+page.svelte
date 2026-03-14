@@ -2,6 +2,7 @@
     import { io, type Socket } from 'socket.io-client';
     import { type Match, type Robot } from '$lib/types';
     import type { PageProps } from './$types';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     type NewMatch = {
         matchKey: string;
         red: [string, string, string];
@@ -12,7 +13,7 @@
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let eventKey: string = $state('2026orsal');
+    let eventKey: string = $state(PUBLIC_EVENT_KEY);
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());

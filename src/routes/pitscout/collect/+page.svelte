@@ -10,6 +10,7 @@
     import { resolve } from '$app/paths';
     import { browser } from '$app/environment';
     import { localStore, LocalStore } from '@/localStore.svelte';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     // import heic2any from 'heic2any';
 
     let inputFiles: FileList | null = $state(null);
@@ -18,7 +19,7 @@
         localStore('teamData', {
             teamKey: 1540,
             scout: 'Autumn',
-            eventKey: '2026orsal',
+            eventKey: PUBLIC_EVENT_KEY,
             drivetrain: 'Swerve',
             maxClimb: 'None',
             canBump: false,
