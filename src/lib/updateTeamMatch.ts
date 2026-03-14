@@ -3,9 +3,8 @@ import { db } from './server/db';
 import { teamMatch } from './server/db/schema';
 import { json } from '@sveltejs/kit';
 import type { TeamMatch } from './types';
-type DBTeamMatch = TeamMatch & {id: number};
+type DBTeamMatch = TeamMatch & { id: number };
 const updateMatch = async (tbaMatch: any) => {
-    console.log(tbaMatch);
     const matchKey = tbaMatch.key.split('_')[1];
     const match = await db.query.match.findFirst({
         where: {
@@ -62,12 +61,15 @@ const updateAlliance = async (teamMatches: DBTeamMatch[], breakdown: any) => {
     const diffTele = breakdown.hubScore.teleopPoints - sumTele;
     for (const tm of teamMatches) {
         const confidence = 6.0 - (tm.accuracy ? tm.accuracy : 3.0);
-        const autoP = diffAuto * (((tm.autoHub ?? 0.0) + confidence) * confidence) / weightedAutoSum;
-        const teleP = diffTele * (((tm.teleHub ?? 0.0) + confidence) * confidence) / weightedTeleSum;
+        const autoP =
+            (diffAuto * (((tm.autoHub ?? 0.0) + confidence) * confidence)) / weightedAutoSum;
+        const teleP =
+            (diffTele * (((tm.teleHub ?? 0.0) + confidence) * confidence)) / weightedTeleSum;
         const newAuto = Math.trunc((tm.autoHub ?? 0.0) + autoP);
-        const newTele= Math.trunc((tm.teleHub ?? 0.0) + teleP);
+        const newTele = Math.trunc((tm.teleHub ?? 0.0) + teleP);
         console.log(`team: ${tm.teamKey} auto diff: ${newAuto}\ntele: ${newTele}`);
-        let res = await db.update(teamMatch)
+        let res = await db
+            .update(teamMatch)
             .set({
                 autoShuffle: newAuto,
                 teleShuffle: newTele

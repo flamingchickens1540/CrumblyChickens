@@ -7,15 +7,12 @@ import { PUBLIC_EVENT_KEY } from '$env/static/public';
 
 export const GET: RequestHandler = async ({ url }) => {
     const matchKey = url.searchParams.get('key');
-    const res = await fetch(
-        `https://www.thebluealliance.com/api/v3/match/${PUBLIC_EVENT_KEY}_${matchKey}/simple`,
-        {
-            method: 'GET',
-            headers: {
-                'X-TBA-Auth-Key': TBA_API_KEY
-            }
+    const res = await fetch(`https://www.thebluealliance.com/api/v3/match/${matchKey}/simple`, {
+        method: 'GET',
+        headers: {
+            'X-TBA-Auth-Key': TBA_API_KEY
         }
-    );
+    });
 
     if (!res.ok) {
         console.error('Failed to load event from tba into db: ' + res.status);
@@ -24,9 +21,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
     const data: any = await res.json();
     try {
-        await db
-            .insert(match)
-            .values({ matchKey: `${PUBLIC_EVENT_KEY}_${matchKey}`, eventKey: PUBLIC_EVENT_KEY });
+        await db.insert(match).values({ matchKey: `${matchKey}`, eventKey: PUBLIC_EVENT_KEY });
     } catch (e) {
         console.error(e);
     }

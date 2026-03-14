@@ -183,7 +183,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{tm.teamKey}
+                            >{tm.status === 'Unassigned' ? tm.teamKey : tm.scout}
                             <div class="bg-first-red size-6 rounded-full"></div>
                         </button>
                     {/each}

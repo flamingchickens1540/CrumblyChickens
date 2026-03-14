@@ -102,8 +102,9 @@ const wsConfig = function configureServer(server: HttpServer) {
                     break;
                 }
             }
-                info(`${socket.handshake.auth.username} submitted teamMatch ${teamKey}`)
-        })});
+            info(`${socket.handshake.auth.username} submitted teamMatch ${teamKey}`);
+        });
+    });
     io.of('/admin').on('connect', (socket) => {
         const scoutQueue: string[] = io
             .of('/queue')
@@ -132,13 +133,6 @@ const wsConfig = function configureServer(server: HttpServer) {
         socket.on('send_match', (match: Match) => {
             const script = spawn('python3', ['export/data_export.py']);
 
-            script.stdout.on('data', (data) => {
-                console.log(`Exported: ${data}`);
-            });
-
-            script.stderr.on('data', (data) => {
-                console.error(`Error Exporting: ${data}`);
-            });
             matchIdx = 0;
             currentMatch = match;
             const scouts = io.of('/queue');
