@@ -1,11 +1,11 @@
 import { eq } from 'drizzle-orm';
 import { db } from './server/db';
-import { match, teamMatch } from './server/db/schema';
-import { TBA_API_KEY } from '$env/static/private';
+import { teamMatch } from './server/db/schema';
 import { json } from '@sveltejs/kit';
 import type { TeamMatch } from './types';
-
+type DBTeamMatch = TeamMatch & {id: number};
 const updateMatch = async (tbaMatch: any) => {
+    console.log(tbaMatch);
     const matchKey = tbaMatch.key.split('_')[1];
     const match = await db.query.match.findFirst({
         where: {
@@ -18,8 +18,8 @@ const updateMatch = async (tbaMatch: any) => {
     if (!match) {
         return json({ status: 500 });
     }
-    let redTMs: TeamMatch[] = [];
-    let blueTMs: TeamMatch[] = [];
+    let redTMs: DBTeamMatch[] = [];
+    let blueTMs: DBTeamMatch[] = [];
     for (const tm of match.teamMatches) {
         if (
             tbaMatch.alliances.blue.team_keys.find(
@@ -43,30 +43,36 @@ const updateMatch = async (tbaMatch: any) => {
     updateAlliance(blueTMs, tbaMatch.score_breakdown.blue);
 };
 
-const updateAlliance = async (teamMatches: TeamMatch[], breakdown: any) => {
+const updateAlliance = async (teamMatches: DBTeamMatch[], breakdown: any) => {
+    if (teamMatches.length != 3) {
+        return;
+    }
     let sumAuto = 0;
     let sumTele = 0;
-    let weightedAutoSum = 0;
-    let weightedTeleSum = 0;
+    let weightedAutoSum = 0.0;
+    let weightedTeleSum = 0.0;
     for (const tm of teamMatches) {
         sumAuto += tm.autoHub ?? 0;
         sumTele += tm.teleHub ?? 0;
-        const confidence = 6 - (tm.accuracy ? tm.accuracy : 3);
-        weightedAutoSum += confidence * (tm.autoHub ?? 0 + confidence);
-        weightedTeleSum += confidence * (tm.teleHub ?? 0 + confidence);
+        const confidence = 6.0 - (tm.accuracy ? tm.accuracy : 3.0);
+        weightedAutoSum += confidence * ((tm.autoHub ?? 0.0) + confidence);
+        weightedTeleSum += confidence * ((tm.teleHub ?? 0.0) + confidence);
     }
     const diffAuto = breakdown.hubScore.autoPoints - sumAuto;
     const diffTele = breakdown.hubScore.teleopPoints - sumTele;
     for (const tm of teamMatches) {
-        const confidence = 6 - (tm.accuracy ? tm.accuracy : 3);
-        const autoP = ((tm.autoHub ?? 0 + confidence) * confidence) / weightedAutoSum;
-        const teleP = ((tm.teleHub ?? 0 + confidence) * confidence) / weightedTeleSum;
-        db.update(teamMatch)
+        const confidence = 6.0 - (tm.accuracy ? tm.accuracy : 3.0);
+        const autoP = diffAuto * (((tm.autoHub ?? 0.0) + confidence) * confidence) / weightedAutoSum;
+        const teleP = diffTele * (((tm.teleHub ?? 0.0) + confidence) * confidence) / weightedTeleSum;
+        const newAuto = Math.trunc((tm.autoHub ?? 0.0) + autoP);
+        const newTele= Math.trunc((tm.teleHub ?? 0.0) + teleP);
+        console.log(`team: ${tm.teamKey} auto diff: ${newAuto}\ntele: ${newTele}`);
+        let res = await db.update(teamMatch)
             .set({
-                autoShuffle: tm.autoHub ?? 0 + diffAuto * autoP,
-                teleShuffle: tm.teleHub ?? 0 + diffTele * teleP
+                autoShuffle: newAuto,
+                teleShuffle: newTele
             })
-            .where(eq(teamMatch.teamKey, tm.teamKey));
+            .where(eq(teamMatch.id, tm.id));
     }
 };
 

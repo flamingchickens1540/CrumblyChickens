@@ -7,7 +7,7 @@ export const POST = async ({ request }: any) => {
     }
     const match = res.message_data.match;
     try {
-        updateMatch(match);
+        await updateMatch(match);
     } catch (e) {
         console.error(`Bad match: ${match.key}`);
         console.error(e);
