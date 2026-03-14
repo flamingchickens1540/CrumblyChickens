@@ -102,8 +102,8 @@ const wsConfig = function configureServer(server: HttpServer) {
                     break;
                 }
             }
-        });
-    });
+                info(`${socket.handshake.auth.username} submitted teamMatch ${teamKey}`)
+        })});
     io.of('/admin').on('connect', (socket) => {
         const scoutQueue: string[] = io
             .of('/queue')

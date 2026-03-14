@@ -29,7 +29,6 @@ export const GET: RequestHandler = async ({ url }) => {
     } catch (e) {
         console.error(e);
     }
-    console.log(DATABASE_URL);
     const alliances = data['alliances'];
     const red = alliances['red']['team_keys'];
     const blue = alliances['blue']['team_keys'];
