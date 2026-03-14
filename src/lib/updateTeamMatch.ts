@@ -46,22 +46,25 @@ const updateMatch = async (tbaMatch: any) => {
 const updateAlliance = async (teamMatches: TeamMatch[], breakdown: any) => {
     let sumAuto = 0;
     let sumTele = 0;
-    let sumConfidence = 0;
+    let weightedAutoSum = 0;
+    let weightedTeleSum = 0;
     for (const tm of teamMatches) {
         sumAuto += tm.autoHub ?? 0;
         sumTele += tm.teleHub ?? 0;
-        sumConfidence += Math.max(tm.accuracy ?? 1, 1);
+        const confidence = 6 - (tm.accuracy ? tm.accuracy : 3);
+        weightedAutoSum += confidence * (tm.autoHub ?? 0 + confidence);
+        weightedTeleSum += confidence * (tm.teleHub ?? 0 + confidence);
     }
     const diffAuto = breakdown.hubScore.autoPoints - sumAuto;
     const diffTele = breakdown.hubScore.teleopPoints - sumTele;
-    const autoPerConfidence = diffAuto / sumConfidence;
-    const telePerConfidence = diffTele / sumConfidence;
     for (const tm of teamMatches) {
-        const accuracy = Math.max(tm.accuracy ?? 1, 1);
+        const confidence = 6 - (tm.accuracy ? tm.accuracy : 3);
+        const autoP = ((tm.autoHub ?? 0 + confidence) * confidence) / weightedAutoSum;
+        const teleP = ((tm.teleHub ?? 0 + confidence) * confidence) / weightedTeleSum;
         db.update(teamMatch)
             .set({
-                autoShuffle: accuracy * autoPerConfidence,
-                teleShuffle: accuracy * telePerConfidence
+                autoShuffle: tm.autoHub ?? 0 + diffAuto * autoP,
+                teleShuffle: tm.teleHub ?? 0 + diffTele * teleP
             })
             .where(eq(teamMatch.teamKey, tm.teamKey));
     }
