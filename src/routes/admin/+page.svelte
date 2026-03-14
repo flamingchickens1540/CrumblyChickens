@@ -192,7 +192,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{tm.teamKey}
+                            >{tm.status === 'Unassigned' ? tm.teamKey : tm.scout}
                             <div class="bg-first-blue size-6 rounded-full"></div>
                         </button>
                     {/each}
@@ -202,7 +202,7 @@
     </div>
     <div class="grid grid-cols-2 gap-2">
         <div class="bg-gunmetal flex flex-col rounded p-2">
-            <span class="text-center">Scout Queue</span>
+            <span class="text-center">Scout Queue: {scouts.length}</span>
             <div class="grid gap-2 p-2">
                 {#each scouts as scout (scout)}
                     <button
