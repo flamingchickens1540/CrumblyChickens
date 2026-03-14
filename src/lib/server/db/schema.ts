@@ -91,7 +91,7 @@ export const teamMatch = table(
         scouted: boolean().notNull()
     },
     (table) => {
-        return [unique('team_match_key').on(table.teamKey, table.matchKey)];
+        return [unique('team_match_key').on(table.eventKey, table.matchKey, table.teamKey)];
     }
 );
 
