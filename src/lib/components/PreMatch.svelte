@@ -5,11 +5,13 @@
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
     import Button from './Button.svelte';
+    import type { Socket } from 'socket.io-client';
 
     let {
         matchData = $bindable(),
-        stage = $bindable()
-    }: { matchData: TeamMatch; stage: GameStage } = $props();
+        stage = $bindable(),
+        socket
+    }: { matchData: TeamMatch; stage: GameStage; socket: Socket } = $props();
 
     let fielded = $state('Fielded');
     let autoStart = $state('Outpost');
@@ -28,7 +30,13 @@
 
     <div class="grid-wrap grid">
         <Button label="Next" onclick={() => (stage = 'Auto')} />
-        <Button label="Exit" onclick={() => goto(resolve('/'))} />
+        <Button
+            label="Exit"
+            onclick={() => {
+                socket.emit('leave_scouting');
+                goto(resolve('/'));
+            }}
+        />
     </div>
 </div>
 

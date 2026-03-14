@@ -39,7 +39,7 @@
 </div>
 
 {#if stage === 'PreMatch'}
-    <PreMatch bind:matchData={matchData.value} bind:stage />
+    <PreMatch {socket} bind:matchData={matchData.value} bind:stage />
 {/if}
 
 {#if stage === 'Auto'}
