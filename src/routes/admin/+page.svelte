@@ -204,7 +204,7 @@
         <div class="bg-gunmetal flex flex-col rounded p-2">
             <span class="text-center">Scout Queue: {scouts.length}</span>
             <div class="grid gap-2 p-2">
-                {#each scouts as scout (scout)}
+                {#each scouts as scout}
                     <button
                         class="bg-eerie-black rounded p-1 text-center"
                         onclick={() => removeScout(scout)}>{scout}</button

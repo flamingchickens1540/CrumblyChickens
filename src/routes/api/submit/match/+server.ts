@@ -10,10 +10,16 @@ export const POST: RequestHandler = async ({ request }) => {
     tm.teleShuffle = tm.teleHub;
 
     try {
-        await db.insert(teamMatch).values({
-            ...tm,
-            scouted: true
-        });
+        await db
+            .insert(teamMatch)
+            .values({
+                ...tm,
+                scouted: true
+            })
+            .onConflictDoUpdate({
+                target: [teamMatch.teamKey, teamMatch.matchKey, teamMatch.eventKey],
+                set: { ...tm }
+            });
     } catch (error) {
         console.log(error);
         return json({ ok: false });

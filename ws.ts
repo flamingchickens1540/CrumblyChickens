@@ -200,6 +200,17 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
             scout
         };
         color = 'blue';
+    } else {
+        for (let i = 0; i < 3; i++) {
+            if (currentMatch.red[i].status === 'Unassigned') {
+                teamKey = currentMatch.red[i].teamKey;
+                currentMatch.red[i] = {
+                    status: 'Pending',
+                    teamKey,
+                    scout
+                };
+            }
+        }
     }
     matchIdx++;
     if (teamKey !== undefined && color !== undefined) {
