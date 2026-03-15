@@ -117,6 +117,11 @@
         }
     }
 
+    async function updateMatches() {
+        await fetch('/api/update/matches', {
+            method: 'POST'
+        });
+    }
     /// Loads teams from an event to a DB
     async function loadTeamsToDB() {
         await fetch('/api/load/event', {
@@ -223,6 +228,9 @@
             />
             <button class="bg-eerie-black rounded p-2" onclick={loadTeamsToDB}
                 >Load New Event</button
+            >
+            <button class="bg-eerie-black rounded p-2" onclick={updateMatches}
+                >Update Match Data</button
             >
         </div>
     </div>
