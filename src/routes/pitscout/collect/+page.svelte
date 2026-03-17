@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { X } from 'lucide-svelte';
+    // import { X } from 'lucide-svelte';
     import ButtonBack from '$lib/components/ButtonBack.svelte';
     import VerticalToggleGroup from '$lib/components/VerticalToggleGroup.svelte';
     import LabeledContainer from '$lib/components/LabeledContainer.svelte';
@@ -44,7 +44,7 @@
     let images: string[] = $state([]);
     let isConverting: boolean = $state(false);
 
-    async function submitFile() {
+    /*async function submitFile() {
         const heic2any = await import('heic2any');
         const reader = new FileReader();
         inputFiles ??= new FileList();
@@ -76,7 +76,7 @@
             };
         }
         inputFiles = new DataTransfer().files;
-    }
+    }*/
 
     async function submit() {
         console.log(`submitting`);
@@ -89,9 +89,9 @@
         goto(resolve('/'));
     }
 
-    function splice(i: number) {
+    /*function splice(i: number) {
         images.splice(i, 1);
-    }
+    }*/
 </script>
 
 <center class="font-[Poppins] font-normal">

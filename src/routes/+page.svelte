@@ -39,7 +39,7 @@
     // const bottomBtnClass = 'fixed bottom-2 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]';
 </script>
 
-<div class={`m-5 auto-rows-[20dvh]`}>
+<div class="m-5 auto-rows-[20dvh]">
     <center>
         <p class="p-1 font-[Poppins] text-4xl font-semibold text-white">
             Hello, {data.user}
@@ -47,7 +47,7 @@
     </center>
 </div>
 
-<div class={`m-3 grid auto-rows-[30dvh] gap-5`}>
+<div class="m-3 grid auto-rows-[30dvh] gap-5">
     {#each actions as action (action.label)}
         <button
             class="inline-flex items-center justify-center rounded-md

@@ -7,7 +7,7 @@
         outline = true
     }: {
         items: string[];
-        value: string | null;
+        value: string | null | undefined;
         outline?: boolean;
     } = $props();
 

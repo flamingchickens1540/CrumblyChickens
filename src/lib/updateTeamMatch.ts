@@ -17,8 +17,8 @@ const updateMatch = async (tbaMatch: any) => {
     if (!match) {
         return json({ status: 500 });
     }
-    let redTMs: DBTeamMatch[] = [];
-    let blueTMs: DBTeamMatch[] = [];
+    const redTMs: DBTeamMatch[] = [];
+    const blueTMs: DBTeamMatch[] = [];
     for (const tm of match.teamMatches) {
         if (
             tbaMatch.alliances.blue.team_keys.find(
@@ -68,7 +68,7 @@ const updateAlliance = async (teamMatches: DBTeamMatch[], breakdown: any) => {
         const newAuto = Math.trunc((tm.autoHub ?? 0.0) + autoP);
         const newTele = Math.trunc((tm.teleHub ?? 0.0) + teleP);
         console.log(`team: ${tm.teamKey} auto diff: ${newAuto}\ntele: ${newTele}`);
-        let res = await db
+        const res = await db
             .update(teamMatch)
             .set({
                 autoShuffle: newAuto,

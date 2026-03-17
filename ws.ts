@@ -132,7 +132,12 @@ const wsConfig = function configureServer(server: HttpServer) {
         });
         socket.on('send_match', (match: Match) => {
             const script = spawn('python3', ['export/data_export.py']);
-
+            script.stdout.on('data', (_) => {
+                info(`Succesfully exported data`);
+            });
+            script.stderr.on('error', (e) => {
+                console.error(e);
+            });
             matchIdx = 0;
             currentMatch = match;
             const scouts = io.of('/queue');
