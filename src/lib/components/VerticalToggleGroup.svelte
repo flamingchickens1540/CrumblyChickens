@@ -32,7 +32,7 @@
             aria-pressed={value === item}
             class={`
 				relative m-0 inline-flex items-center
-				justify-start ${outline ? 'border border-[#C2C2C2]' : i != 0 ? 'border-t border-gray-400' : ''} px-8 py-2 text-left
+				justify-start ${outline ? 'border border-[#C2C2C2]' : i != 0 ? 'border-t border-[#B2B2B2]' : ''} px-8 py-2 text-left
 				${value === item ? `bg-[#E5AE32] text-black` : `bg-[#2c2c2c] text-white`}
 				${isFirst(i) ? 'rounded-t-lg' : ''}
 				${isLast(i) ? 'rounded-b-lg' : ''}
