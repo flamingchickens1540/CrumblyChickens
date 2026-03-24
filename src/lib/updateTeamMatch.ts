@@ -19,7 +19,7 @@ const updateMatch = async (tbaMatch: any) => {
     }
     const redTMs: DBTeamMatch[] = [];
     const blueTMs: DBTeamMatch[] = [];
-    for (const tm of match.teamMatches) {
+    for (const tm of match.teamMatches as DBTeamMatch[]) {
         if (
             tbaMatch.alliances.blue.team_keys.find(
                 (teamKey: string) => teamKey === 'frc' + tm.teamKey
@@ -37,6 +37,17 @@ const updateMatch = async (tbaMatch: any) => {
                 `TeamMatch recorded when it isn't from the correct match. The correct match is ${tbaMatch.key}. TM: ${tm}`
             );
         }
+    }
+
+    for (const red of redTMs) {
+        const idx = tbaMatch.alliances.red.team_keys.indexOf('frc' + red.teamKey);
+        if (idx === -1) {
+            console.error('TeamMatch in Match not in TBAMatch');
+            return;
+        }
+
+        // Did they climb in auto?
+        // What did they do in endgame?
     }
     updateAlliance(redTMs, tbaMatch.score_breakdown.red);
     updateAlliance(blueTMs, tbaMatch.score_breakdown.blue);

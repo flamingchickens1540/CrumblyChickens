@@ -20,13 +20,13 @@
 
 <div class="flex w-screen flex-row justify-center">
     <button class={bottomBtnClass} onclick={leftOnClick}>
-        <p class="mb-1 font-[Poppins] text-3xl font-semibold text-white">
+        <p class="mt-1 mb-1 font-[Poppins] text-3xl font-semibold text-white">
             {leftLabel}
         </p>
     </button>
 
     <button class={bottomBtnClass} onclick={rightOnClick}>
-        <p class="mb-1 font-[Poppins] text-3xl font-semibold text-white">
+        <p class="mt-1 mb-1 font-[Poppins] text-3xl font-semibold text-white">
             {rightLabel}
         </p>
     </button>

@@ -22,7 +22,7 @@
     });
 </script>
 
-<div class="grid-wrap grid auto-rows-[14dvh]">
+<div class="grid-wrap mb-4 grid auto-rows-[14dvh]">
     <center>
         <p
             class="m-4 mb-0 font-[Poppins] text-6xl font-bold"
