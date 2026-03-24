@@ -20,9 +20,7 @@
         label="Hub Fuel"
     />
 
-    <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-rows-[10dvh] gap-2">
-        <SoloToggleButton label="Auto Climb" />
-
+    <div class="grid-wrap grid auto-rows-[10dvh]">
         <DoubleButton
             leftLabel="Back"
             rightLabel="Next"

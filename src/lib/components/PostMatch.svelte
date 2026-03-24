@@ -54,10 +54,12 @@
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"
     ></textarea>
 
-    <DoubleButton
-        leftLabel="Back"
-        rightLabel="Submit"
-        leftOnClick={() => (stage = 'Tele')}
-        rightOnClick={submit}
-    />
+    <div class="grid-wrap grid auto-rows-[10dvh]">
+        <DoubleButton
+            leftLabel="Back"
+            rightLabel="Submit"
+            leftOnClick={() => (stage = 'Tele')}
+            rightOnClick={submit}
+        />
+    </div>
 </div>

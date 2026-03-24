@@ -17,7 +17,10 @@
         label: string;
         stage: GameStage;
     } = $props();
-    const color = stage === 'Auto' ? 'bg-[#315F94]' : 'bg-eminence';
+    const color =
+        stage === 'Auto'
+            ? 'bg-[#315F94] hover:bg-[#4870B0] active:bg-[#7098D0]'
+            : 'bg-[#6c0382] hover:bg-[#8918A0] active:bg-[#B030D0]';
 </script>
 
 <FuelCounter {label} {stage} count={value} />

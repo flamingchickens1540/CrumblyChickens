@@ -38,21 +38,23 @@
     </center>
 </div>
 
-{#if stage === 'PreMatch'}
-    <PreMatch {socket} bind:matchData={matchData.value} bind:stage />
-{/if}
+<div class="h-full">
+    {#if stage === 'PreMatch'}
+        <PreMatch {socket} bind:matchData={matchData.value} bind:stage />
+    {/if}
 
-{#if stage === 'Auto'}
-    <Autonomous bind:matchData={matchData.value} bind:stage />
-{/if}
+    {#if stage === 'Auto'}
+        <Autonomous bind:matchData={matchData.value} bind:stage />
+    {/if}
 
-{#if stage === 'Tele'}
-    <Teleoperated bind:matchData={matchData.value} bind:stage />
-{/if}
+    {#if stage === 'Tele'}
+        <Teleoperated bind:matchData={matchData.value} bind:stage />
+    {/if}
 
-{#if stage === 'PostMatch'}
-    <PostMatch bind:matchData={matchData.value} bind:stage {socket} />
-{/if}
+    {#if stage === 'PostMatch'}
+        <PostMatch bind:matchData={matchData.value} bind:stage {socket} />
+    {/if}
+</div>
 
 <style>
     :global(body) {
