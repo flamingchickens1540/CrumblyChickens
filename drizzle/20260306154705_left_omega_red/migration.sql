@@ -1,0 +1,1 @@
+ALTER TABLE "team_match" ADD COLUMN "accuracy" integer;

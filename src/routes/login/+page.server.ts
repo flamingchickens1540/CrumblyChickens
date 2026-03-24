@@ -17,9 +17,7 @@ export const actions = {
             sameSite: 'lax'
         });
 
-        try {
-            await db.insert(user).values({ username }).onConflictDoNothing();
-        } catch {}
+        await db.insert(user).values({ username }).onConflictDoNothing();
 
         throw redirect(303, '/');
     }

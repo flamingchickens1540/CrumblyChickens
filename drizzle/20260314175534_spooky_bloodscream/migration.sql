@@ -1,0 +1,1 @@
+ALTER TABLE "team_match" ADD CONSTRAINT "team_match_key" UNIQUE("eventKey","matchKey","teamKey");

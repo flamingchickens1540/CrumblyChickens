@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { X } from 'lucide-svelte';
+    // import { X } from 'lucide-svelte';
     import ButtonBack from '$lib/components/ButtonBack.svelte';
     import VerticalToggleGroup from '$lib/components/VerticalToggleGroup.svelte';
     import LabeledContainer from '$lib/components/LabeledContainer.svelte';
@@ -10,6 +10,7 @@
     import { resolve } from '$app/paths';
     import { browser } from '$app/environment';
     import { localStore, LocalStore } from '@/localStore.svelte';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     // import heic2any from 'heic2any';
 
     let inputFiles: FileList | null = $state(null);
@@ -18,7 +19,7 @@
         localStore('teamData', {
             teamKey: 1540,
             scout: 'Autumn',
-            eventKey: '2026orco',
+            eventKey: PUBLIC_EVENT_KEY,
             drivetrain: 'Swerve',
             maxClimb: 'None',
             canBump: false,
@@ -43,39 +44,39 @@
     let images: string[] = $state([]);
     let isConverting: boolean = $state(false);
 
-
-    async function submitFile() {
-        const heic2any = await import('heic2any')
+    /*async function submitFile() {
+        const heic2any = await import('heic2any');
         const reader = new FileReader();
         inputFiles ??= new FileList();
-        console.log(inputFiles)
+        console.log(inputFiles);
         for (let i = 0; i < inputFiles.length; i++) {
-            let file = inputFiles[i]
+            let file = inputFiles[i];
             reader.readAsDataURL(file);
             reader.onload = () => {
-                if (file.type == "image/heic") {
-                    isConverting = true
+                if (file.type == 'image/heic') {
+                    isConverting = true;
                     fetch(reader.result as string)
-                    .then((res) => res.blob())
-                    .then((blob) => heic2any.default({ blob }))
-                    .then((conversionResult) => {
-                        isConverting = false;
-                        const reader2 = new FileReader();
-                        reader2.readAsDataURL(conversionResult)
-                        reader2.onload = () => {
-                            console.log("done")
-                            images[images.length] = reader2.result as string;
-                        }
-                    }).catch((e) => {
-                        console.log(e)
-                    });
+                        .then((res) => res.blob())
+                        .then((blob) => heic2any.default({ blob }))
+                        .then((conversionResult) => {
+                            isConverting = false;
+                            const reader2 = new FileReader();
+                            reader2.readAsDataURL(conversionResult);
+                            reader2.onload = () => {
+                                console.log('done');
+                                images[images.length] = reader2.result as string;
+                            };
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
                 } else {
                     images[images.length] = reader.result as string;
                 }
             };
         }
         inputFiles = new DataTransfer().files;
-    }
+    }*/
 
     async function submit() {
         console.log(`submitting`);
@@ -88,9 +89,9 @@
         goto(resolve('/'));
     }
 
-    function splice(i: number) {
+    /*function splice(i: number) {
         images.splice(i, 1);
-    }
+    }*/
 </script>
 
 <center class="font-[Poppins] font-normal">
@@ -112,11 +113,11 @@
     </LabeledContainer>
 
     <p class="mx-2.5 mt-3 text-left text-2xl text-[#B2B2B2]">Climb</p>
-        <VerticalToggleGroup
-            items={['None', 'L1', 'L2', 'L3']}
-            bind:value={teamEvent.value.maxClimb}
-            outline={false}
-        />
+    <VerticalToggleGroup
+        items={['None', 'L1', 'L2', 'L3']}
+        bind:value={teamEvent.value.maxClimb}
+        outline={false}
+    />
 
     <LabeledContainer label="Shooting Capabilities">
         <IndependentToggleGroup
@@ -177,7 +178,7 @@
             {:else}
                 Please attach a photo
             {/if}
-            {#if (isConverting)}
+            {#if isConverting}
                 Converting...
             {/if}
             <label

@@ -1,0 +1,17 @@
+import { json } from '@sveltejs/kit';
+import updateMatch from '@/updateTeamMatch';
+export const POST = async ({ request }: any) => {
+    const res = await request.json();
+    if (res.message_type === 'ping') {
+        return json({ status: 200 });
+    }
+    const match = res.message_data.match;
+    try {
+        await updateMatch(match);
+    } catch (e) {
+        console.error(`Bad match: ${match.key}`);
+        console.error(e);
+        return json({ status: 500 });
+    }
+    return json({ status: 200 });
+};

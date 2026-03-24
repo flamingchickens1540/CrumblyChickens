@@ -6,8 +6,8 @@
     import type { TeamMatch } from '@/types.js';
     import { io, type Socket } from 'socket.io-client';
     import { onMount } from 'svelte';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     const { data } = $props();
-    import { page } from '$app/stores';
     let socket: Socket;
     let teamMatch: LocalStore<TeamMatch>;
     let recievedMatch = false;
@@ -15,8 +15,7 @@
         teamMatch = localStore('matchData', {
             teamKey: 0,
             matchKey: 'qm1',
-            eventKey: '2026orco', // TODO Manually change or read from env or smth
-
+            eventKey: PUBLIC_EVENT_KEY,
             autoStart: 'Tower',
             fielded: true,
             autoHub: 0,
@@ -56,7 +55,7 @@
                 const newTeamMatch: TeamMatch = {
                     teamKey: robot.teamKey,
                     matchKey: matchKey,
-                    eventKey: '2026orco', // TODO Manually change or read from env or smth
+                    eventKey: PUBLIC_EVENT_KEY,
 
                     autoStart: 'Tower',
                     fielded: true,
@@ -91,7 +90,7 @@
     <p class="font-[Poppins] text-5xl font-semibold text-white">Queue</p>
 </center>
 
-<div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
+<div class={`${gridClass} mt-3 grid auto-rows-[90dvh]`}>
     <button
         class="m-2.5 inline-flex items-center justify-center rounded-md
 					bg-[#5C5C5C] p-2 px-8

@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background: var(--color-slate-950);
+* {
+    touch-action: manipulation;
 }
 
+body {
+    /* overflow-x: hidden; */
+    background: var(--color-slate-950);
+}
 
 textarea {
     box-sizing: border-box;
