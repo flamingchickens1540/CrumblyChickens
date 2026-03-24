@@ -23,7 +23,7 @@
                 method: 'POST',
                 body: JSON.stringify(matchData)
             });
-            // goto(resolve('/'));
+            goto(resolve('/'));
 
             return;
         }
@@ -42,27 +42,26 @@
 		bottom-3 left-3 right-3 p-2 bg-[#5C5C5C] hover:bg-[#7D7D7D]`;
 </script>
 
-{#if (stage == "Auto" || stage == "Tele") && !plusMinus}
-    <div class="flex flex-row items-center justify-center grow">
+{#if (stage == 'Auto' || stage == 'Tele') && !plusMinus}
+    <div class="flex grow flex-row items-center justify-center">
         <button class={bottomBtnClass} onclick={back}>
-            <p class="font-[Poppins] text-4xl font-semibold text-white mb-1">Back</p>
+            <p class="mb-1 font-[Poppins] text-4xl font-semibold text-white">Back</p>
         </button>
         <button class={bottomBtnClass} onclick={handleBottomButton}>
-            <p class="font-[Poppins] text-4xl font-semibold text-white mb-1">Next</p>
+            <p class="mb-1 font-[Poppins] text-4xl font-semibold text-white">Next</p>
         </button>
     </div>
-{:else if stage == "PostMatch" && !plusMinus}
-    <div class="flex flex-row justify-center mb-2">
+{:else if stage == 'PostMatch' && !plusMinus}
+    <div class="mb-2 flex flex-row justify-center">
         <button class={bottomBtnClass} onclick={back}>
-            <p class="font-[Poppins] text-4xl font-semibold text-white mb-1">Back</p>
+            <p class="mb-1 font-[Poppins] text-4xl font-semibold text-white">Back</p>
         </button>
         <button class={bottomBtnClass} onclick={handleBottomButton}>
-            <p class="font-[Poppins] text-4xl font-semibold text-white mb-1">{label}</p>
+            <p class="mb-1 font-[Poppins] text-4xl font-semibold text-white">{label}</p>
         </button>
     </div>
 {:else}
-    <button class={bottomBtnClass + " fixed"} onclick={handleBottomButton}>
-        <p class="font-[Poppins] text-4xl font-semibold text-white mb-1">{label}</p>
+    <button class={bottomBtnClass + ' fixed'} onclick={handleBottomButton}>
+        <p class="mb-1 font-[Poppins] text-4xl font-semibold text-white">{label}</p>
     </button>
 {/if}
-
