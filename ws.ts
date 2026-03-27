@@ -1,7 +1,7 @@
 import { type HttpServer } from 'vite';
 import { Server, type DisconnectReason } from 'socket.io';
 import { spawn } from 'child_process';
-import type { Match } from '@/types';
+import type { Match, TeamMatch } from '@/types';
 
 const info = (s: string) => console.log(`\x1b[32m${s}\x1b[0m`);
 const warn = (s: string) => console.log(`\x1b[33m${s}\x1b[0m`);
@@ -81,28 +81,28 @@ const wsConfig = function configureServer(server: HttpServer) {
             }
             info(`${socket.handshake.auth.username}`);
         });
-        socket.on('submit_match', () => {
+        socket.on('submit_match', (match: TeamMatch) => {
             if (currentMatch === null) {
                 return;
             }
-            let teamKey;
             for (let i = 0; i < 3; i++) {
-                const red = currentMatch.red[i];
-                const blue = currentMatch.blue[i];
-                if (red.status === 'Pending' && red.scout === socket.handshake.auth.username) {
-                    teamKey = currentMatch.red[i].teamKey;
-                    currentMatch.red[i].status = 'Submitted';
-                    break;
-                } else if (
-                    blue.status === 'Pending' &&
-                    blue.scout === socket.handshake.auth.username
-                ) {
-                    teamKey = currentMatch.blue[i].teamKey;
-                    currentMatch.blue[i].status = 'Submitted';
-                    break;
+                if (currentMatch.red[i].teamKey === match.teamKey) {
+                    currentMatch.red[i] = {
+                        status: 'Submitted',
+                        scout: socket.handshake.auth.username,
+                        teamKey: match.teamKey,
+                        data: match
+                    };
+                } else if (currentMatch.blue[i].teamKey === match.teamKey) {
+                    currentMatch.blue[i] = {
+                        status: 'Submitted',
+                        scout: socket.handshake.auth.username,
+                        teamKey: match.teamKey,
+                        data: match
+                    };
                 }
             }
-            info(`${socket.handshake.auth.username} submitted teamMatch ${teamKey}`);
+            info(`${socket.handshake.auth.username} submitted teamMatch ${match.teamKey}`);
         });
     });
     io.of('/admin').on('connect', (socket) => {

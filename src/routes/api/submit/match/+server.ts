@@ -3,6 +3,7 @@ import { teamMatch } from '$lib/server/db/schema';
 import type { TeamMatch } from '$lib/types';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { eq } from 'drizzle-orm';
 
 export const POST: RequestHandler = async ({ request }) => {
     const tm: TeamMatch = await request.json();
@@ -18,6 +19,7 @@ export const POST: RequestHandler = async ({ request }) => {
             })
             .onConflictDoUpdate({
                 target: [teamMatch.teamKey, teamMatch.matchKey, teamMatch.eventKey],
+                targetWhere: eq(teamMatch.teamKey, tm.teamKey),
                 set: { ...tm }
             });
     } catch (error) {

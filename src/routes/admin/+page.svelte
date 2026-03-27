@@ -9,26 +9,34 @@
         blue: [string, string, string];
     };
 
+    type Scouting = { slot: string; scouters: string[] };
+
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
-
+    let scoutSchedule: Scouting | null = $state(null);
     let eventKey: string = $state(PUBLIC_EVENT_KEY);
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
     socket.on('handshake_data', ([scoutQueue, match]: [string[], Match | null]) => {
+        console.log('handshake_data');
         scouts = scoutQueue;
         currentMatch = match;
     });
     socket.on('scout_left_queue', (username) => {
+        console.log('scout_left_queue');
         const i = scouts.indexOf(username);
         if (i == -1) return;
 
         scouts.splice(i, 1);
     });
-    socket.on('scout_joined_queue', (username) => scouts.push(username));
+    socket.on('scout_joined_queue', (username) => {
+        console.log('scout_joined_queue');
+        scouts.push(username);
+    });
     socket.on('scout_recieved_robot', ([match, username]) => {
+        console.log('scout_recieved_robot');
         currentMatch = match;
         const i = scouts.indexOf(username);
         if (i == -1) return;
@@ -39,6 +47,11 @@
     function clearRobots() {
         socket.emit('clear_robots');
         currentMatch = null;
+    }
+    async function getSchedule() {
+        const res = await fetch('/api/schedule');
+        const data = await res.json();
+        scoutSchedule = data;
     }
     function removeScout(username: string) {
         const i = scouts.indexOf(username);
@@ -232,6 +245,20 @@
             <button class="bg-eerie-black rounded p-2" onclick={updateMatches}
                 >Update Match Data</button
             >
+            <button class="bg-eerie-black rounded p-2" onclick={getSchedule}>Update Schedule</button
+            >
         </div>
+    </div>
+    <div class="bg-gunmetal flex flex-col rounded p-2">
+        {#if scoutSchedule}
+            <span class="text-center">{scoutSchedule.slot}</span>
+            <div class="grid gap-2 p-2">
+                {#each scoutSchedule.scouters as scout}
+                    <button class="bg-eerie-black rounded p-1 text-center">{scout}</button>
+                {/each}
+            </div>
+        {:else}
+            <span class="text-center">Schedule not loaded!</span>
+        {/if}
     </div>
 </div>
