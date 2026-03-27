@@ -214,6 +214,15 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
                     teamKey,
                     scout
                 };
+                break;
+            } else if (currentMatch.red[i].status === 'Unassigned') {
+                teamKey = currentMatch.red[i].teamKey;
+                currentMatch.red[i] = {
+                    status: 'Pending',
+                    teamKey,
+                    scout
+                };
+                break;
             }
         }
     }

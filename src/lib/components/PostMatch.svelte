@@ -33,7 +33,7 @@
             method: 'POST',
             body: JSON.stringify(matchData)
         });
-        socket.emit('submit_match');
+        socket.emit('submit_match', matchData);
         goto(resolve('/'));
     }
 </script>

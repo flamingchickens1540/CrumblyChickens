@@ -12,26 +12,7 @@
     let teamMatch: LocalStore<TeamMatch>;
     let recievedMatch = false;
     onMount(() => {
-        teamMatch = localStore('matchData', {
-            teamKey: 0,
-            matchKey: 'qm1',
-            eventKey: PUBLIC_EVENT_KEY,
-            autoStart: 'Tower',
-            fielded: true,
-            autoHub: 0,
-            autoShuffle: 0,
-            autoClimb: false,
-            teleHub: 0,
-            teleShuffle: 0,
-            teleSteal: 0,
-            climb: 'None',
-            skill: 1,
-            broken: false,
-            died: false,
-            notes: '',
-
-            scout: data.user
-        });
+        teamMatch = localStore('matchData', {});
         socket = io('/queue', {
             auth: {
                 username: data.user
@@ -74,9 +55,7 @@
                     scout: data.user
                 };
 
-                if (browser) {
-                    teamMatch.value = newTeamMatch;
-                }
+                teamMatch.value = newTeamMatch;
                 recievedMatch = true;
                 socket.emit('scouting');
                 goto(`/matchscout?color=${robot.color}`);
