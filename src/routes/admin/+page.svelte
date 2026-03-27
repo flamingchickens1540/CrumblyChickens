@@ -9,7 +9,7 @@
         blue: [string, string, string];
     };
 
-    type Scouting = { slot: string; scouters: string[] };
+    type Scouting = { slot: string; scouts: [string, boolean][] };
 
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
@@ -51,7 +51,8 @@
     async function getSchedule() {
         const res = await fetch('/api/schedule');
         const data = await res.json();
-        scoutSchedule = data;
+        const scouts = data.scouters.map((scout: string) => [scout, false]);
+        scoutSchedule = { slot: data.slot, scouts };
     }
     function removeScout(username: string) {
         const i = scouts.indexOf(username);
@@ -253,8 +254,13 @@
         {#if scoutSchedule}
             <span class="text-center">{scoutSchedule.slot}</span>
             <div class="grid gap-2 p-2">
-                {#each scoutSchedule.scouters as scout}
-                    <button class="bg-eerie-black rounded p-1 text-center">{scout}</button>
+                {#each scoutSchedule.scouts as scout}
+                    <button
+                        class="rounded p-1 text-center {scout[1]
+                            ? 'bg-jungle-green'
+                            : 'bg-eerie-black'}"
+                        onclick={() => (scout[1] = !scout[1])}>{scout[0]}</button
+                    >
                 {/each}
             </div>
         {:else}
