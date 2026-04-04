@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
     const allianceColor = url.searchParams.get('color');
 
     if (!user) {
-        throw redirect(303, '/login');
+        // throw redirect(303, '/login');
     }
 
     return { allianceColor };

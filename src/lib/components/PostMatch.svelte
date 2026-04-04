@@ -33,22 +33,25 @@
             method: 'POST',
             body: JSON.stringify(matchData)
         });
-        socket.emit('submit_match');
+        socket.emit('submit_match', matchData);
         goto(resolve('/'));
     }
 </script>
 
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
-    <VerticalToggleGroup bind:value={endgame} items={['Not Attempted', 'L1', 'L2', 'L3']} />
-    <StarRating bind:value={rating} />
+    <p class="text-xl text-[#B2B2B2]">How effectively was the robot driven?</p>
+    <StarRating bind:value={rating} text="Driver Skill" />
+
     <p class="text-xl text-[#B2B2B2]">How accurately did you scout?</p>
     <StarRating bind:value={accuracy} text="Your Accuracy" />
+
     <HorizontalToggleGroup bind:value={broken} items={['Undamaged', 'Broken']} />
     <HorizontalToggleGroup bind:value={connected} items={['Functional', 'Died on Field']} />
+
     <textarea
         name="Notes"
         cols="40"
-        rows="2"
+        rows="3"
         placeholder="Notes"
         bind:value={matchData.notes}
         class="m-2.5 rounded-lg border border-[#C2C2C2] p-3 text-[#C2C2C2]"

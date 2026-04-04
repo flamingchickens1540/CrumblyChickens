@@ -4,11 +4,13 @@ from googleSheets import GoogleSheets
 import os
 import psycopg
 from dotenv import load_dotenv
+
 # Connect to the sheet
-docID = '1xSzKLAEYiBv4NnNsxcVKHya1Cmt1o-8H0V_7laJ5JhM'
+docID = '1uq3kNYa3giIsW3fgGRsGgSwXoLewTAq4KAfULmVfq1E'
 # Note: When running this from `export/`, change the credentials folder
 sheets = GoogleSheets(docID, sheet="TeamMatches", credentials_folder="export/google_credentials", service_account=True)
 load_dotenv()
+
 # Connect to database
 test = os.environ['DATABASE_URL']
 password = os.environ['PGPASSWORD']

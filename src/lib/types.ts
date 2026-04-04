@@ -31,6 +31,7 @@ type SubmittedRobot = {
     status: 'Submitted';
     teamKey: number;
     scout: string;
+    data: TeamMatch;
 };
 export type Robot = PendingRobot | UnassignedRobot | SubmittedRobot;
 export type Match = {

@@ -192,7 +192,6 @@
                     accept="image/png, image/jpeg, image/jpg, image/heic"
                     bind:files={inputFiles}
                     class="hidden w-full"
-                    onchange={submitFile}
                 />
             </label>
         </div>
