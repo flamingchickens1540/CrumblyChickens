@@ -14,7 +14,9 @@
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
+
     let scoutSchedule: Scouting | null = $state(null);
+
     let eventKey: string = $state(PUBLIC_EVENT_KEY);
 
     let currentMatch: Match | null = $state(null);

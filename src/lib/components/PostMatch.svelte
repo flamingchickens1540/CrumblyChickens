@@ -41,10 +41,13 @@
 <div class="grid-wrap mx-3 mt-0 mb-3 grid auto-cols-fr px-1 pt-0 pb-1">
     <p class="text-xl text-[#B2B2B2]">How effectively was the robot driven?</p>
     <StarRating bind:value={rating} text="Driver Skill" />
+
     <p class="text-xl text-[#B2B2B2]">How accurately did you scout?</p>
     <StarRating bind:value={accuracy} text="Your Accuracy" />
+
     <HorizontalToggleGroup bind:value={broken} items={['Undamaged', 'Broken']} />
     <HorizontalToggleGroup bind:value={connected} items={['Functional', 'Died on Field']} />
+
     <textarea
         name="Notes"
         cols="40"
