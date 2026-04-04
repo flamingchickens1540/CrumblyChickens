@@ -12,30 +12,7 @@
     let teamMatch: LocalStore<TeamMatch>;
     let recievedMatch = false;
     onMount(() => {
-<<<<<<< HEAD
         teamMatch = localStore('matchData', {});
-=======
-        teamMatch = localStore('matchData', {
-            teamKey: 0,
-            matchKey: 'qm1',
-            eventKey: PUBLIC_EVENT_KEY,
-            autoStart: 'Tower',
-            fielded: true,
-            autoHub: 0,
-            autoShuffle: 0,
-            autoClimb: false,
-            teleHub: 0,
-            teleShuffle: 0,
-            teleSteal: 0,
-            climb: 'None',
-            skill: 1,
-            broken: false,
-            died: false,
-            notes: '',
-
-            scout: data.user
-        });
->>>>>>> 71a2a66944849559fb9e6c8e751202e3c442f5cc
         socket = io('/queue', {
             auth: {
                 username: data.user

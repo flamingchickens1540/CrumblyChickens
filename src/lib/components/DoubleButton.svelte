@@ -20,21 +20,13 @@
 
 <div class="flex w-screen flex-row justify-center">
     <button class={bottomBtnClass} onclick={leftOnClick}>
-<<<<<<< HEAD
         <p class="mt-1 mb-1 font-[Poppins] text-3xl font-semibold text-white">
-=======
-        <p class="mb-1 font-[Poppins] text-3xl font-semibold text-white">
->>>>>>> 71a2a66944849559fb9e6c8e751202e3c442f5cc
             {leftLabel}
         </p>
     </button>
 
     <button class={bottomBtnClass} onclick={rightOnClick}>
-<<<<<<< HEAD
         <p class="mt-1 mb-1 font-[Poppins] text-3xl font-semibold text-white">
-=======
-        <p class="mb-1 font-[Poppins] text-3xl font-semibold text-white">
->>>>>>> 71a2a66944849559fb9e6c8e751202e3c442f5cc
             {rightLabel}
         </p>
     </button>
