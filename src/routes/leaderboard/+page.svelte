@@ -17,7 +17,7 @@
 
         const matches: { name: string, matches: number }[] = await res.json()
         users = matches;
-        console.log(matches)
+        console.log(JSON.stringify(matches[0]))
 
         totalMatches = users.reduce((total, user) => {
             return total + user.matches;
