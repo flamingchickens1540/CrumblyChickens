@@ -3,29 +3,31 @@
     import { type Match, type Robot } from '$lib/types';
     import type { PageProps } from './$types';
     import { PUBLIC_EVENT_KEY } from '$env/static/public';
+
     type NewMatch = {
-        matchKey: string;
         red: [string, string, string];
         blue: [string, string, string];
     };
 
-    type Scouting = { slot: string; scouts: [string, boolean][] };
+    type CurrentlyScouting = { slot: string; scouts: [string, boolean][] };
 
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let scoutSchedule: Scouting | null = $state(null);
+    let scoutSchedule: CurrentlyScouting | null = $state(null);
 
     let eventKey: string = $state(PUBLIC_EVENT_KEY);
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
+
     socket.on('handshake_data', ([scoutQueue, match]: [string[], Match | null]) => {
         console.log('handshake_data');
         scouts = scoutQueue;
         currentMatch = match;
     });
+
     socket.on('scout_left_queue', (username) => {
         console.log('scout_left_queue');
         const i = scouts.indexOf(username);
@@ -33,10 +35,12 @@
 
         scouts.splice(i, 1);
     });
+
     socket.on('scout_joined_queue', (username) => {
         console.log('scout_joined_queue');
         scouts.push(username);
     });
+
     socket.on('scout_recieved_robot', ([match, username]) => {
         console.log('scout_recieved_robot');
         currentMatch = match;
@@ -50,12 +54,14 @@
         socket.emit('clear_robots');
         currentMatch = null;
     }
+
     async function getSchedule() {
         const res = await fetch('/api/schedule');
         const data = await res.json();
         const scouts = data.scouters.map((scout: string) => [scout, false]);
         scoutSchedule = { slot: data.slot, scouts };
     }
+
     function removeScout(username: string) {
         const i = scouts.indexOf(username);
         if (i == -1) return;
@@ -63,19 +69,23 @@
         scouts.splice(i, 1);
         socket.emit('remove_scout', username);
     }
+
     function sendMatch() {
         const parsedMatch = parseNextMatch();
         if (!parsedMatch) {
             return;
         }
+
         nextMatch = emptyNextMatch();
         socket.emit('send_match', parsedMatch);
         console.log(parsedMatch);
         currentMatch = parsedMatch;
     }
+
     function emptyNextMatch(): NewMatch {
-        return { matchKey: '', red: ['', '', ''], blue: ['', '', ''] };
+        return {  red: ['', '', ''], blue: ['', '', ''] };
     }
+
     function parseNextMatch(): Match | null {
         const red = nextMatch.red.map((key) => {
             return { status: 'Unassigned', teamKey: parseInt(key) };
@@ -98,7 +108,7 @@
         }
 
         const parsed = {
-            matchKey: nextMatch.matchKey,
+            matchKey: nextMatchKey,
             red: [red[0], red[1], red[2]],
             blue: [blue[0], blue[1], blue[2]]
         } satisfies Match;
@@ -121,11 +131,12 @@
 
     /// Loads the teams from the next match into the admin page
     async function loadMatch() {
-        const res = await fetch(`/api/load/match?key=${nextMatch.matchKey}`);
+        const res = await fetch(`/api/load/match?key=${nextMatchKey}`)
         if (!res.ok) {
             console.error(res.status);
             return;
         }
+
         const match = await res.json();
         for (let i = 0; i < 3; i++) {
             nextMatch.red[i] = match.red[i].slice(3);
@@ -138,6 +149,7 @@
             method: 'POST'
         });
     }
+
     /// Loads teams from an event to a DB
     async function loadTeamsToDB() {
         await fetch('/api/load/event', {
@@ -145,6 +157,12 @@
             body: eventKey
         });
     }
+
+    let nextMatchNum = $state("")
+    let nextMatchKey = $derived(`${PUBLIC_EVENT_KEY}_qm${nextMatchNum}`)
+
+    const isInteger = (value: string): boolean => /^\d+$/.test(value);
+    let validMatchKey = $derived(isInteger(nextMatchNum))
 </script>
 
 <div class="mx-2 mt-2 grid grid-cols-3 gap-2 text-white">
@@ -152,11 +170,11 @@
         <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
             <div class="grid grid-cols-3 gap-4">
                 <input
-                    bind:value={nextMatch.matchKey}
+                    bind:value={nextMatchNum}
                     placeholder="Next Match"
                     class="bg-eerie-black rounded p-2"
                 />
-                <button onclick={loadMatch} class="bg-eerie-black rounded p-2">Load Match</button>
+                <button onclick={loadMatch} class="bg-eerie-black rounded p-2" disabled={!validMatchKey}>Load Match</button>
                 <button onclick={sendMatch} class="bg-eerie-black rounded p-2">Queue Match</button>
             </div>
             <div class="rounded-2 grid grid-cols-3 gap-2">
@@ -176,6 +194,7 @@
                 {/each}
             </div>
         </div>
+
         <!-- Current Match Display -->
         <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
             <div class="grid grid-cols-3">
