@@ -1,28 +1,28 @@
 import { db } from "@/server/db";
-import { count, eq } from "drizzle-orm";
-import { team, teamMatch, user } from "@/server/db/schema";
-import type { RequestHandler } from "@sveltejs/kit";
+import { eq } from "drizzle-orm";
+import { teamMatch } from "@/server/db/schema";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { PUBLIC_EVENT_KEY } from "$env/static/public";
 
 export const GET: RequestHandler = async ({ request: _ }) => {
-    let user_list = await db.select().from(user);
+    const team_matches = await db
+        .select()
+        .from(teamMatch)
+        .where(eq(teamMatch.eventKey, PUBLIC_EVENT_KEY));
 
-    return await Promise.all(
-        user_list.map(async ({ username }) => {
-            const cleaned_username: string = username.trim().toLowerCase();
+    const users = team_matches.map((tm) => tm.scout).filter((tm) => tm != null);
 
-            const matches_scouted = await db
-                .select({ matches_scouted: count() })
-                .from(teamMatch)
-                .where(eq(teamMatch.scout, cleaned_username));
+    const users_map: Map<string, number> = new Map();
 
-            console.log("matches scouted: " + matches_scouted);
+    // This loop is actually so sexy if you think about it on the asm level
+    users.forEach((user) => {
+        const count = users_map.get(user) ?? 0;
+        users_map.set(user, count + 1);
+    });
 
-            return {
-                username: cleaned_username,
-                matches_scouted,
-            };
+    const users_list = users_map.entries().map(([user, matches]) => {
+        return { user, matches };
+    });
 
-            // await db.update(user);
-        }),
-    );
+    return json(users_list);
 };
