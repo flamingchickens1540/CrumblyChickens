@@ -37,11 +37,11 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     for (const { teamKey, name } of teams) {
-        // try {
-        //     await db.insert(team).values({ teamKey, name });
-        // } catch (e) {
-        //     console.error(e);
-        // }
+        try {
+        await db.insert(team).values({ teamKey, name });
+        } catch (e) {
+        console.error(e);
+        }
 
         try {
             await db.insert(teamEvent).values({

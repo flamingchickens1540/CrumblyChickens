@@ -24,15 +24,15 @@
         {
             label: 'Pit Scout',
             onClick: () => goto(resolve('/pitscout/teamlist'))
-        }
+        },
         // {
         //     label: 'Analysis',
         //     onClick: () => goto(resolve('/analysis'))
         // },
-        // {
-        //     label: 'Leaderboard',
-        //     onClick: () => goto(resolve('/leaderboard'))
-        // }
+        {
+            label: 'Leaderboard',
+            onClick: () => goto(resolve('/leaderboard'))
+        }
     ];
 
     // const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';

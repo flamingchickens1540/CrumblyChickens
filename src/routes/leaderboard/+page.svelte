@@ -3,22 +3,13 @@
 
     let { data } = $props();
 
-    let users: { name: string; matches: number }[] = $state([]);
+    let users: { name: string; matches: number }[] = $state(data.usersList);
     let totalMatches: number = $state(0);
 
     let user_idx: number = $state(0);
     let selectedUser: number = $state(0);
 
     onMount(async () => {
-        let res = await fetch('/api/users');
-        if (!res.ok) {
-            console.error('Res not okay ' + res);
-        }
-
-        const matches: { name: string; matches: number }[] = await res.json();
-        users = matches;
-        console.log(JSON.stringify(matches[0]));
-
         totalMatches = users.reduce((total, user) => {
             return total + user.matches;
         }, 0);
@@ -44,7 +35,7 @@
                 >Egg-cellent! You're on the podium!</span
             >
         {/if}
-        {#if user_idx}
+        {#if user_idx !== null}
             <span class="text-white">
                 {users[selectedUser].name}
             </span>
@@ -62,7 +53,7 @@
                     ? ''
                     : 'border-b border-neutral-400'} {user_idx == i
                     ? 'bg-linear-to-r from-neutral-600 to-transparent'
-                    : ''} p-1 text-left"
+                    : selectedUser == i ? 'border-crayola-orange border-3' : ''} p-1 text-left"
             >
                 <span style="font-size: {14 + (user.matches * 20) / totalMatches}px">
                     <span class="text-amber-300">#{i + 1}</span>
@@ -77,7 +68,7 @@
                     <span class="text-white">
                         {user.matches}
                     </span>
-                    matches scouted |
+                    {user.matches == 1 ? "match" : "matches"} scouted |
                     <span class="text-white">
                         {((user.matches * 100) / totalMatches).toFixed(2)}%
                     </span>
