@@ -81,7 +81,7 @@ const wsConfig = function configureServer(server: HttpServer) {
                     break;
                 }
             }
-            info(`${socket.handshake.auth.username}`);
+            warn(`${socket.handshake.auth.username} stopped scouting ${teamKey}`);
         });
 
         socket.on('submit_match', () => {
