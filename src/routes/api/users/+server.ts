@@ -1,8 +1,8 @@
-import { db } from "@/server/db";
-import { eq } from "drizzle-orm";
-import { teamMatch } from "@/server/db/schema";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { PUBLIC_EVENT_KEY } from "$env/static/public";
+import { db } from '@/server/db';
+import { eq } from 'drizzle-orm';
+import { teamMatch } from '@/server/db/schema';
+import { json, type RequestHandler } from '@sveltejs/kit';
+import { PUBLIC_EVENT_KEY } from '$env/static/public';
 
 export const GET: RequestHandler = async ({ request: _ }) => {
     const team_matches = await db

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    let { data } = $props()
+    let { data } = $props();
 
     let users: { name: string; matches: number }[] = $state([]);
     let totalMatches: number = $state(0);
@@ -10,19 +10,18 @@
     let selectedUser: number = $state(0);
 
     onMount(async () => {
-        let res = await fetch("/api/users")
+        let res = await fetch('/api/users');
         if (!res.ok) {
-            console.error("Res not okay " + res)
+            console.error('Res not okay ' + res);
         }
 
-        const matches: { name: string, matches: number }[] = await res.json()
+        const matches: { name: string; matches: number }[] = await res.json();
         users = matches;
-        console.log(JSON.stringify(matches[0]))
+        console.log(JSON.stringify(matches[0]));
 
         totalMatches = users.reduce((total, user) => {
             return total + user.matches;
-        }, 0)
-
+        }, 0);
 
         for (let i = 0; i < users.length; i++) {
             if (users[i].name == data.user) {
@@ -59,7 +58,9 @@
         {#each users as user, i}
             <button
                 onclick={user_idx == i ? () => {} : () => (selectedUser = i)}
-                class="w-full {i == users.length - 1 ? '' : 'border-b border-neutral-400'} {user_idx == i
+                class="w-full {i == users.length - 1
+                    ? ''
+                    : 'border-b border-neutral-400'} {user_idx == i
                     ? 'bg-linear-to-r from-neutral-600 to-transparent'
                     : ''} p-1 text-left"
             >
@@ -84,5 +85,6 @@
                 </span>
             </button>
         {/each}
-    </div>TeamMatches
+    </div>
+    TeamMatches
 </center>
