@@ -191,6 +191,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
     for (let i = 0; i < 3; i++) {
         if (currentMatch.red[i].status === 'Unassigned') {
             teamKey = currentMatch.red[i].teamKey;
+            color = "red";
             currentMatch.red[i] = {
                 status: 'Pending',
                 teamKey,
@@ -199,6 +200,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
             break;
         } else if (currentMatch.blue[i].status === 'Unassigned') {
             teamKey = currentMatch.blue[i].teamKey;
+            color = "blue";
             currentMatch.blue[i] = {
                 status: 'Pending',
                 teamKey,

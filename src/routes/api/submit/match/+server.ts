@@ -17,11 +17,6 @@ export const POST: RequestHandler = async ({ request }) => {
                 ...tm,
                 scouted: true
             })
-            .onConflictDoUpdate({
-                target: [teamMatch.teamKey, teamMatch.matchKey, teamMatch.eventKey],
-                targetWhere: eq(teamMatch.teamKey, tm.teamKey),
-                set: { ...tm }
-            });
     } catch (error) {
         console.log(error);
         return json({ ok: false });
