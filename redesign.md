@@ -39,4 +39,3 @@
 
 - In the meantime between matches, we could probably just run a database locally and excel sheet.
 - Export to google sheets later when you have wifi like during lunch
-

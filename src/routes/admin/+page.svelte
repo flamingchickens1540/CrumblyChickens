@@ -83,7 +83,7 @@
     }
 
     function emptyNextMatch(): NewMatch {
-        return {  red: ['', '', ''], blue: ['', '', ''] };
+        return { red: ['', '', ''], blue: ['', '', ''] };
     }
 
     function parseNextMatch(): Match | null {
@@ -131,7 +131,7 @@
 
     /// Loads the teams from the next match into the admin page
     async function loadMatch() {
-        const res = await fetch(`/api/load/match?key=${nextMatchKey}`)
+        const res = await fetch(`/api/load/match?key=${nextMatchKey}`);
         if (!res.ok) {
             console.error(res.status);
             return;
@@ -158,11 +158,11 @@
         });
     }
 
-    let nextMatchNum = $state("")
-    let nextMatchKey = $derived(`${PUBLIC_EVENT_KEY}_qm${nextMatchNum}`)
+    let nextMatchNum = $state('');
+    let nextMatchKey = $derived(`${PUBLIC_EVENT_KEY}_qm${nextMatchNum}`);
 
     const isInteger = (value: string): boolean => /^\d+$/.test(value);
-    let validMatchKey = $derived(isInteger(nextMatchNum))
+    let validMatchKey = $derived(isInteger(nextMatchNum));
 </script>
 
 <div class="mx-2 mt-2 grid grid-cols-3 gap-2 text-white">
@@ -174,7 +174,11 @@
                     placeholder="Next Match"
                     class="bg-eerie-black rounded p-2"
                 />
-                <button onclick={loadMatch} class="bg-eerie-black rounded p-2" disabled={!validMatchKey}>Load Match</button>
+                <button
+                    onclick={loadMatch}
+                    class="bg-eerie-black rounded p-2"
+                    disabled={!validMatchKey}>Load Match</button
+                >
                 <button onclick={sendMatch} class="bg-eerie-black rounded p-2">Queue Match</button>
             </div>
             <div class="rounded-2 grid grid-cols-3 gap-2">
