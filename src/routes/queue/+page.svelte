@@ -15,6 +15,58 @@
             username: data.user
         }
     });
+    socket.on('disconnect', (reason) => {
+        console.log(reason);
+        if (!receivedMatch) {
+            goto(resolve('/'));
+        }
+    });
+    socket.on(
+        'recieve_robot',
+        ({
+            robot,
+            matchKey,
+            isNew
+        }: {
+            robot: { teamKey: number; color: 'red' | 'blue' };
+            matchKey: string;
+            isNew: boolean;
+        }) => {
+            let teamMatch = browser && JSON.parse(localStorage.getItem('matchData') ?? '');
+            if (
+                isNew ||
+                (!teamMatch &&
+                    (teamMatch.teamKey != robot.teamKey || teamMatch.matchKey != matchKey))
+            ) {
+                teamMatch = {
+                    teamKey: robot.teamKey,
+                    matchKey: matchKey,
+                    eventKey: PUBLIC_EVENT_KEY,
+
+                    autoStart: 'Tower',
+                    fielded: true,
+                    autoHub: 0,
+                    autoShuffle: 0,
+                    autoClimb: false,
+                    teleHub: 0,
+                    teleShuffle: 0,
+                    teleSteal: 0,
+                    climb: 'None',
+                    skill: 1,
+                    broken: false,
+                    died: false,
+                    notes: '',
+
+                    scout: data.user
+                };
+                browser && localStorage.setItem('matchData', JSON.stringify(teamMatch));
+            }
+            console.log(JSON.stringify(teamMatch.value));
+            receivedMatch = true;
+            socket.emit('scouting');
+            goto(`/matchscout?color=${robot.color}`);
+        }
+    );
 
     socket.on('disconnect', (reason) => {
         if (!receivedMatch) {
@@ -31,7 +83,7 @@
             robot: { teamKey: number; color: 'red' | 'blue' };
             matchKey: string;
         }) => {
-            console.log(robot)
+            console.log(robot);
             const newTeamMatch: TeamMatch = {
                 teamKey: robot.teamKey,
                 matchKey,
