@@ -15,12 +15,6 @@
             username: data.user
         }
     });
-    socket.on('disconnect', (reason) => {
-        console.log(reason);
-        if (!receivedMatch) {
-            goto(resolve('/'));
-        }
-    });
     socket.on(
         'recieve_robot',
         ({
@@ -35,7 +29,7 @@
             let teamMatch = browser && JSON.parse(localStorage.getItem('matchData') ?? '');
             if (
                 isNew ||
-                (!teamMatch &&
+                (teamMatch &&
                     (teamMatch.teamKey != robot.teamKey || teamMatch.matchKey != matchKey))
             ) {
                 teamMatch = {
@@ -73,45 +67,6 @@
             goto(resolve('/'));
         }
     });
-
-    socket.on(
-        'recieve_robot',
-        ({
-            robot,
-            matchKey
-        }: {
-            robot: { teamKey: number; color: 'red' | 'blue' };
-            matchKey: string;
-        }) => {
-            console.log(robot);
-            const newTeamMatch: TeamMatch = {
-                teamKey: robot.teamKey,
-                matchKey,
-                eventKey: PUBLIC_EVENT_KEY,
-
-                autoStart: 'Tower',
-                fielded: true,
-                autoHub: 0,
-                autoShuffle: 0,
-                autoClimb: false,
-                teleHub: 0,
-                teleShuffle: 0,
-                teleSteal: 0,
-                climb: 'None',
-                skill: 1,
-                broken: false,
-                died: false,
-                notes: '',
-
-                scout: data.user
-            };
-            browser && localStorage.setItem('matchData', JSON.stringify(newTeamMatch));
-            receivedMatch = true;
-
-            socket.emit('scouting');
-            goto(resolve(`/matchscout?color=${robot.color}`));
-        }
-    );
     const gridClass = 'grid-wrap mx-3 mt-0 mb-3 grid px-1 pt-0 pb-1';
 </script>
 
