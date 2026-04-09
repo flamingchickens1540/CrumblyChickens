@@ -46,8 +46,41 @@ const updateMatch = async (tbaMatch: any) => {
             return;
         }
 
-        // Did they climb in auto?
-        // What did they do in endgame?
+        const autoKey = 'autoTowerRobot' + idx + 1;
+        const endKey = 'endGameTowerRobot' + idx + 1;
+        const auto: boolean = tbaMatch.score_breakdown.red[autoKey] > 4;
+        let end: string = tbaMatch.score_breakdown.red[endKey];
+
+        if (end.length > 4) {
+            end = 'L' + end.slice(5);
+        }
+        let endgame = end as 'L1' | 'L2' | 'L3' | 'None';
+        await db
+            .update(teamMatch)
+            .set({ autoClimb: auto, climb: endgame })
+            .where(eq(teamMatch.id, red.id));
+    }
+
+    for (const blue of blueTMs) {
+        const idx = tbaMatch.alliances.blue.team_keys.indexOf('frc' + blue.teamKey);
+        if (idx === -1) {
+            console.error('TeamMatch in Match not in TBAMatch');
+            return;
+        }
+
+        const autoKey = 'autoTowerRobot' + idx + 1;
+        const endKey = 'endGameTowerRobot' + idx + 1;
+        const auto = tbaMatch.score_breakdown.blue[autoKey] > 4;
+        let end = tbaMatch.score_breakdown.blue[endKey];
+
+        if (end.length > 4) {
+            end = 'L' + end.slice(5);
+        }
+
+        await db
+            .update(teamMatch)
+            .set({ autoClimb: auto, climb: end })
+            .where(eq(teamMatch.id, blue.id));
     }
     updateAlliance(redTMs, tbaMatch.score_breakdown.red);
     updateAlliance(blueTMs, tbaMatch.score_breakdown.blue);
