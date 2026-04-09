@@ -6,7 +6,7 @@ import psycopg
 from dotenv import load_dotenv
 
 # Connect to the sheet
-docID = '1uq3kNYa3giIsW3fgGRsGgSwXoLewTAq4KAfULmVfq1E'
+docID = '1quWgv63XQHMLwYs-75r6FIfT0heUc-pNYJAa1_ACcvk'
 # Note: When running this from `export/`, change the credentials folder
 sheets = GoogleSheets(docID, sheet="TeamMatches", credentials_folder="export/google_credentials", service_account=True)
 load_dotenv()
