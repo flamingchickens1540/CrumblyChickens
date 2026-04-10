@@ -4,13 +4,6 @@ import { defineConfig } from 'vite';
 import wsConfig from './ws.ts';
 
 export default defineConfig({
-<<<<<<< HEAD
-<<<<<<< HEAD
-    plugins: [tailwindcss(), sveltekit(), /*wsServer*/],
-    // server: {
-    //     allowedHosts: true
-    // }
-=======
     plugins: [
         tailwindcss(),
         sveltekit(),
@@ -25,11 +18,4 @@ export default defineConfig({
     server: {
         allowedHosts: true
     }
->>>>>>> 2dd82845a4915de5046dd7aef87cb5e8c0e568c1
-=======
-    plugins: [tailwindcss(), sveltekit(), wsServer],
-    server: {
-        allowedHosts: true
-    }
->>>>>>> 5a0b1c8f62326125a65b5de04ade6b1cc2217e44
 });

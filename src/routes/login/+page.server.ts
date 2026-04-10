@@ -19,16 +19,6 @@ export const actions = {
 
         await db.insert(user).values({ username }).onConflictDoNothing();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        // throw redirect(303, "/");
-    },
-=======
         throw redirect(303, '/');
     }
->>>>>>> 2dd82845a4915de5046dd7aef87cb5e8c0e568c1
-=======
-        throw redirect(303, '/');
-    }
->>>>>>> 5a0b1c8f62326125a65b5de04ade6b1cc2217e44
 };
