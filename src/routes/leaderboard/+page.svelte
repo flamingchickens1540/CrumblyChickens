@@ -17,11 +17,11 @@
 
     onMount(() => {
         //testing
-        localStorage.setItem("nameTest", "SampleUser3")
+        localStorage.setItem("nameTest", "SampleUser5")
 
 
         for (let i = 0; i < users.length; i++) {
-            if (users[i].name == localStorage.getItem("nameTest")) {
+            if (users[i].name.toLowerCase == localStorage.getItem("nameTest")?.toLowerCase) {
                 you = i;
             }
         }
@@ -49,7 +49,7 @@
     <div class="mx-2.5 rounded bg-[#2c2c2c] text-white text-center mt-2">
         {#each users as user, i}
             <button onclick={you == i ? () => {} : () => selectedUser = i} class="w-full {(i == users.length-1) ? '' : 'border-b border-neutral-400'} {you == i ? 'bg-linear-to-r from-neutral-600 to-transparent' : ''} p-1 text-left ">
-                <span style="font-size: {14+user.matches*20/totalMatches}px">
+                <span style="font-size: {14+user.matches*30/totalMatches}px">
                     <span class="text-amber-300">#{i+1}</span>
                     <span class="{i < 3 ? 'bg-linear-to-r from-amber-400 to-red-400 bg-clip-text text-transparent':''}">{user.name}</span>
                 </span>

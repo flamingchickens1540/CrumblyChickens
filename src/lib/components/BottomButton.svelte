@@ -23,7 +23,7 @@
                 method: 'POST',
                 body: JSON.stringify(matchData)
             });
-            // goto(resolve('/'));
+            goto(resolve('/'));
 
             return;
         }
