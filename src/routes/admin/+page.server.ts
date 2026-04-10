@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ cookies }) => {
+export const load = async ({ cookies }: any) => {
     const user = cookies.get('user');
 
     if (!user) {

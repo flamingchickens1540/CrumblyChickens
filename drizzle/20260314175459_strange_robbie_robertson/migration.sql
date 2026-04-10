@@ -1,0 +1,1 @@
+ALTER TABLE "team_match" DROP CONSTRAINT "team_match_key";

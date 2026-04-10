@@ -6,33 +6,13 @@
     import type { TeamMatch } from '@/types.js';
     import { io, type Socket } from 'socket.io-client';
     import { onMount } from 'svelte';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     const { data } = $props();
-    import { page } from '$app/stores';
     let socket: Socket;
     let teamMatch: LocalStore<TeamMatch>;
     let recievedMatch = false;
     onMount(() => {
-        teamMatch = localStore('matchData', {
-            teamKey: 0,
-            matchKey: 'qm1',
-            eventKey: '2026orco', // TODO Manually change or read from env or smth
-
-            autoStart: 'Tower',
-            fielded: true,
-            autoHub: 0,
-            autoShuffle: 0,
-            autoClimb: false,
-            teleHub: 0,
-            teleShuffle: 0,
-            teleSteal: 0,
-            climb: 'None',
-            skill: 1,
-            broken: false,
-            died: false,
-            notes: '',
-
-            scout: data.user
-        });
+        teamMatch = localStore('matchData', {});
         socket = io('/queue', {
             auth: {
                 username: data.user
@@ -56,7 +36,7 @@
                 const newTeamMatch: TeamMatch = {
                     teamKey: robot.teamKey,
                     matchKey: matchKey,
-                    eventKey: '2026orco', // TODO Manually change or read from env or smth
+                    eventKey: PUBLIC_EVENT_KEY,
 
                     autoStart: 'Tower',
                     fielded: true,
@@ -75,9 +55,7 @@
                     scout: data.user
                 };
 
-                if (browser) {
-                    teamMatch.value = newTeamMatch;
-                }
+                teamMatch.value = newTeamMatch;
                 recievedMatch = true;
                 socket.emit('scouting');
                 goto(`/matchscout?color=${robot.color}`);
@@ -91,7 +69,7 @@
     <p class="font-[Poppins] text-5xl font-semibold text-white">Queue</p>
 </center>
 
-<div class={`${gridClass} mt-3 grid auto-rows-[10dvh]`}>
+<div class={`${gridClass} mt-3 grid auto-rows-[90dvh]`}>
     <button
         class="m-2.5 inline-flex items-center justify-center rounded-md
 					bg-[#5C5C5C] p-2 px-8

@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    touch-action: manipulation;
+}
+
 body {
+    /* overflow-x: hidden; */
     background: var(--color-slate-950);
 }
 

@@ -9,8 +9,6 @@ import {
     serial
 } from 'drizzle-orm/pg-core';
 import { defineRelations } from 'drizzle-orm';
-import { primaryKey } from 'drizzle-orm/cockroach-core';
-
 export const endgame = pgEnum('endgame', ['L1', 'L2', 'L3', 'Failed', 'None']);
 export const maxEndgame = pgEnum('maxEndgame', ['L1', 'L2', 'L3', 'None']);
 export const drivetrain = pgEnum('drivetrain', ['Swerve', 'Tank', 'Other']);
@@ -60,7 +58,9 @@ export const match = table('match', {
     matchKey: varchar({ length: 64 }).primaryKey(),
     eventKey: varchar({ length: 64 })
         .notNull()
-        .references(() => event.eventKey)
+        .references(() => event.eventKey),
+    redScore: integer(),
+    blueScore: integer()
 });
 export const teamMatch = table(
     'team_match',
@@ -83,6 +83,7 @@ export const teamMatch = table(
         teleSteal: integer(),
         climb: endgame(),
         skill: integer(),
+        accuracy: integer(),
         broken: boolean(),
         died: boolean(),
         notes: text(),
@@ -90,7 +91,7 @@ export const teamMatch = table(
         scouted: boolean().notNull()
     },
     (table) => {
-        return [unique('team_match_key').on(table.teamKey, table.matchKey)];
+        return [unique('team_match_key').on(table.eventKey, table.matchKey, table.teamKey)];
     }
 );
 

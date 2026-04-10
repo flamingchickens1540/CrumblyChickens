@@ -2,33 +2,43 @@
     import { io, type Socket } from 'socket.io-client';
     import { type Match, type Robot } from '$lib/types';
     import type { PageProps } from './$types';
+    import { PUBLIC_EVENT_KEY } from '$env/static/public';
     type NewMatch = {
         matchKey: string;
         red: [string, string, string];
         blue: [string, string, string];
     };
 
+    type Scouting = { slot: string; scouts: [string, boolean][] };
+
     const { data }: PageProps = $props();
     const socket: Socket = io('/admin', { auth: { username: data.user } });
     let scouts: string[] = $state([]);
 
-    let eventKey: string = $state('2026week0');
+    let scoutSchedule: Scouting | null = $state(null);
+
+    let eventKey: string = $state(PUBLIC_EVENT_KEY);
 
     let currentMatch: Match | null = $state(null);
     let nextMatch: NewMatch = $state(emptyNextMatch());
-
     socket.on('handshake_data', ([scoutQueue, match]: [string[], Match | null]) => {
+        console.log('handshake_data');
         scouts = scoutQueue;
         currentMatch = match;
     });
     socket.on('scout_left_queue', (username) => {
+        console.log('scout_left_queue');
         const i = scouts.indexOf(username);
         if (i == -1) return;
 
         scouts.splice(i, 1);
     });
-    socket.on('scout_joined_queue', (username) => scouts.push(username));
+    socket.on('scout_joined_queue', (username) => {
+        console.log('scout_joined_queue');
+        scouts.push(username);
+    });
     socket.on('scout_recieved_robot', ([match, username]) => {
+        console.log('scout_recieved_robot');
         currentMatch = match;
         const i = scouts.indexOf(username);
         if (i == -1) return;
@@ -39,6 +49,12 @@
     function clearRobots() {
         socket.emit('clear_robots');
         currentMatch = null;
+    }
+    async function getSchedule() {
+        const res = await fetch('/api/schedule');
+        const data = await res.json();
+        const scouts = data.scouters.map((scout: string) => [scout, false]);
+        scoutSchedule = { slot: data.slot, scouts };
     }
     function removeScout(username: string) {
         const i = scouts.indexOf(username);
@@ -54,6 +70,7 @@
         }
         nextMatch = emptyNextMatch();
         socket.emit('send_match', parsedMatch);
+        console.log(parsedMatch);
         currentMatch = parsedMatch;
     }
     function emptyNextMatch(): NewMatch {
@@ -105,10 +122,22 @@
     /// Loads the teams from the next match into the admin page
     async function loadMatch() {
         const res = await fetch(`/api/load/match?key=${nextMatch.matchKey}`);
-
-        // TODO Finish in the morning
+        if (!res.ok) {
+            console.error(res.status);
+            return;
+        }
+        const match = await res.json();
+        for (let i = 0; i < 3; i++) {
+            nextMatch.red[i] = match.red[i].slice(3);
+            nextMatch.blue[i] = match.blue[i].slice(3);
+        }
     }
 
+    async function updateMatches() {
+        await fetch('/api/update/matches', {
+            method: 'POST'
+        });
+    }
     /// Loads teams from an event to a DB
     async function loadTeamsToDB() {
         await fetch('/api/load/event', {
@@ -121,12 +150,13 @@
 <div class="mx-2 mt-2 grid grid-cols-3 gap-2 text-white">
     <div class="flex flex-col gap-2">
         <div class="bg-gunmetal flex flex-col gap-2 rounded p-2">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-3 gap-4">
                 <input
                     bind:value={nextMatch.matchKey}
                     placeholder="Next Match"
                     class="bg-eerie-black rounded p-2"
                 />
+                <button onclick={loadMatch} class="bg-eerie-black rounded p-2">Load Match</button>
                 <button onclick={sendMatch} class="bg-eerie-black rounded p-2">Queue Match</button>
             </div>
             <div class="rounded-2 grid grid-cols-3 gap-2">
@@ -174,7 +204,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{tm.teamKey}
+                            >{tm.status === 'Unassigned' ? tm.teamKey : tm.scout}
                             <div class="bg-first-red size-6 rounded-full"></div>
                         </button>
                     {/each}
@@ -183,7 +213,7 @@
                             class="{getColor(
                                 tm.status
                             )} grid h-12 grid-cols-2 place-items-center rounded p-2"
-                            >{tm.teamKey}
+                            >{tm.status === 'Unassigned' ? tm.teamKey : tm.scout}
                             <div class="bg-first-blue size-6 rounded-full"></div>
                         </button>
                     {/each}
@@ -193,9 +223,9 @@
     </div>
     <div class="grid grid-cols-2 gap-2">
         <div class="bg-gunmetal flex flex-col rounded p-2">
-            <span class="text-center">Scout Queue</span>
+            <span class="text-center">Scout Queue: {scouts.length}</span>
             <div class="grid gap-2 p-2">
-                {#each scouts as scout (scout)}
+                {#each scouts as scout}
                     <button
                         class="bg-eerie-black rounded p-1 text-center"
                         onclick={() => removeScout(scout)}>{scout}</button
@@ -215,6 +245,28 @@
             <button class="bg-eerie-black rounded p-2" onclick={loadTeamsToDB}
                 >Load New Event</button
             >
+            <button class="bg-eerie-black rounded p-2" onclick={updateMatches}
+                >Update Match Data</button
+            >
+            <button class="bg-eerie-black rounded p-2" onclick={getSchedule}>Update Schedule</button
+            >
         </div>
+    </div>
+    <div class="bg-gunmetal flex flex-col rounded p-2">
+        {#if scoutSchedule}
+            <span class="text-center">{scoutSchedule.slot}</span>
+            <div class="grid gap-2 p-2">
+                {#each scoutSchedule.scouts as scout}
+                    <button
+                        class="rounded p-1 text-center {scout[1]
+                            ? 'bg-jungle-green'
+                            : 'bg-eerie-black'}"
+                        onclick={() => (scout[1] = !scout[1])}>{scout[0]}</button
+                    >
+                {/each}
+            </div>
+        {:else}
+            <span class="text-center">Schedule not loaded!</span>
+        {/if}
     </div>
 </div>

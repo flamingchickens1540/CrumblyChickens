@@ -8,19 +8,41 @@
         matchData = $bindable(),
         plusMinus = $bindable(),
         value = $bindable(),
+        label,
         stage
-    }: { matchData: TeamMatch; plusMinus: boolean; value: number; stage: GameStage } = $props();
+    }: {
+        matchData: TeamMatch;
+        plusMinus: boolean;
+        value: number;
+        label: string;
+        stage: GameStage;
+    } = $props();
+    const color =
+        stage === 'Auto'
+            ? 'bg-[#315F94] hover:bg-[#4870B0] active:bg-[#7098D0]'
+            : 'bg-[#6c0382] hover:bg-[#8918A0] active:bg-[#B030D0]';
 </script>
 
-<FuelCounter label="Fuel" {stage} count={value} />
+<FuelCounter {label} {stage} count={value} />
 <div class="grid-wrap mx-3 mt-0 mb-3 grid grid-cols-2 grid-rows-[45dvh_1fr] px-1 pt-0 pb-1">
+<<<<<<< HEAD
     <PlusMinusButton value={+1} bind:count={value} classlist="bg-[#49A078] hover:bg-[#6DB393] active:bg-[#92e9b0]" />
     <PlusMinusButton value={+5} bind:count={value} classlist="bg-[#49A078] hover:bg-[#6DB393] active:bg-[#92e9b0]" />
+=======
+    <PlusMinusButton
+        value={+1}
+        bind:count={value}
+        classlist="{color} hover:bg-[#6DB393] active:bg-[#92e9b0]"
+    />
+    <PlusMinusButton
+        value={+5}
+        bind:count={value}
+        classlist="{color} hover:bg-[#6DB393] active:bg-[#92e9b0]"
+    />
+>>>>>>> 2dd82845a4915de5046dd7aef87cb5e8c0e568c1
     <PlusMinusButton
         value={-1}
         bind:count={value}
         classlist="col-span-2 bg-[#FF6663] hover:bg-[#FF8582] active:bg-[#f5b9ae]"
     />
 </div>
-
-<Button label="Back" onclick={() => plusMinus = false}/>
