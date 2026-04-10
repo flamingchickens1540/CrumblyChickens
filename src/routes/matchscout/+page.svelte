@@ -6,24 +6,19 @@
     import type { TeamMatch, GameStage } from '$lib/types';
     import { LocalStore, localStore } from '@/localStore.svelte';
     import { io, Socket } from 'socket.io-client';
-    import { onMount } from "svelte"
+    import { onMount } from 'svelte';
 
     const { data }: { data: { allianceColor: 'red' | 'blue' } } = $props();
     let stage: GameStage = $state('PreMatch');
 
     // NOTE
     // This gets set in `/queue`, so we're probably always fine dw about it :P
-    let matchData: LocalStore<TeamMatch> | null = $state(null);
+    let matchData: LocalStore<TeamMatch> = $state(localStore('matchData', {}));
     let socket: Socket = io('/match', {
-            auth: {
-                username: matchData.value.scout
-            }
-        });
-
-    onMount(() => {
-        matchData = localStore('matchData', {}) as LocalStore<TeamMatch>;
+        auth: {
+            username: matchData.value.scout
+        }
     });
-
 </script>
 
 <div class="grid-wrap mb-4 grid auto-rows-[14dvh]">
@@ -34,7 +29,7 @@
                 ? 'color: #2196F3 !important'
                 : 'color: #F44336 !important'}
         >
-            {matchData?.value.teamKey ?? "Loading"}
+            {matchData?.value.teamKey ?? 'Loading'}
         </p>
         <p class="font-[Poppins] text-3xl text-[#C2C2C2]">
             {stage}
