@@ -105,6 +105,13 @@ const wsConfig = function configureServer(server: HttpServer) {
                     break;
                 }
             }
+            const scoutQueue: string[] = io
+                .of('/queue')
+                .sockets.values()
+                .map((scout) => scout.handshake.auth.username)
+                .toArray();
+
+            socket.emit('handshake_data', [scoutQueue, currentMatch]);
             info(`${socket.handshake.auth.username} submitted teamMatch ${teamKey}`);
         });
     });
@@ -191,7 +198,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
     for (let i = 0; i < 3; i++) {
         if (currentMatch.red[i].status === 'Unassigned') {
             teamKey = currentMatch.red[i].teamKey;
-            color = "red";
+            color = 'red';
             currentMatch.red[i] = {
                 status: 'Pending',
                 teamKey,
@@ -200,7 +207,7 @@ function getNextTeam(scout: string): { teamKey: number; color: 'red' | 'blue' } 
             break;
         } else if (currentMatch.blue[i].status === 'Unassigned') {
             teamKey = currentMatch.blue[i].teamKey;
-            color = "blue";
+            color = 'blue';
             currentMatch.blue[i] = {
                 status: 'Pending',
                 teamKey,
