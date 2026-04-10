@@ -51,7 +51,7 @@ const updateMatch = async (tbaMatch: any) => {
         const auto: boolean = tbaMatch.score_breakdown.red[autoKey] > 4;
         let end: string = tbaMatch.score_breakdown.red[endKey];
 
-        if (end.length > 4) {
+        if (end != 'None') {
             end = 'L' + end.slice(5);
         }
         let endgame = end as 'L1' | 'L2' | 'L3' | 'None';
