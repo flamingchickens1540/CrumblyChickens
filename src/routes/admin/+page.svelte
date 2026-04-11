@@ -144,6 +144,14 @@
         }
     }
 
+    asynct function stealData() {
+        const res = await fetch('/api/steal');
+        if (!res.ok) {
+            console.error(res.status);
+            return;
+        }
+    }
+
     async function updateMatches() {
         await fetch('/api/update/matches', {
             method: 'POST'
@@ -273,6 +281,7 @@
             >
             <button class="bg-eerie-black rounded p-2" onclick={getSchedule}>Update Schedule</button
             >
+            <button class="bg-eerie-black rounded p-2" onclick={stealData}>Steal 4915</button>
         </div>
     </div>
     <div class="bg-gunmetal flex flex-col rounded p-2">
