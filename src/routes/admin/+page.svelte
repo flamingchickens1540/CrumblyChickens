@@ -144,7 +144,7 @@
         }
     }
 
-    asynct function stealData() {
+    async function stealData() {
         const res = await fetch('/api/steal');
         if (!res.ok) {
             console.error(res.status);
