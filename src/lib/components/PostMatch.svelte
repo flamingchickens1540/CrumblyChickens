@@ -7,6 +7,7 @@
     import { resolve } from '$app/paths';
     import DoubleButton from './DoubleButton.svelte';
     import type { Socket } from 'socket.io-client';
+    import { browser } from '$app/environment';
 
     let {
         matchData = $bindable(),
@@ -33,6 +34,7 @@
             method: 'POST',
             body: JSON.stringify(matchData)
         });
+        browser && localStorage.removeItem("matchData");
         socket.emit('submit_match', matchData);
         goto(resolve('/'));
     }

@@ -19,19 +19,18 @@
         'recieve_robot',
         ({
             robot,
-            matchKey,
-            isNew
+            matchKey
         }: {
             robot: { teamKey: number; color: 'red' | 'blue' };
             matchKey: string;
             isNew: boolean;
         }) => {
-            let teamMatch = browser && JSON.parse(localStorage.getItem('matchData') ?? '');
+            let teamMatch = browser && JSON.parse(localStorage.getItem('matchData') ?? '{}');
             if (
-                isNew ||
-                (teamMatch &&
-                    (teamMatch.teamKey != robot.teamKey || teamMatch.matchKey != matchKey))
-            ) {
+                
+                
+                    teamMatch?.teamKey != robot.teamKey || teamMatch?.matchKey != matchKey)
+             {
                 teamMatch = {
                     teamKey: robot.teamKey,
                     matchKey: matchKey,
@@ -55,10 +54,11 @@
                 };
                 browser && localStorage.setItem('matchData', JSON.stringify(teamMatch));
             }
-            console.log(JSON.stringify(teamMatch.value));
             receivedMatch = true;
-            socket.emit('scouting');
-            goto(`/matchscout?color=${robot.color}`);
+            if (browser && JSON.parse(localStorage.getItem('matchData') ?? "{teamKey: 0}").teamKey === robot.teamKey) {
+                socket.emit('scouting');
+                goto(`/matchscout?color=${robot.color}`);
+            }
         }
     );
 

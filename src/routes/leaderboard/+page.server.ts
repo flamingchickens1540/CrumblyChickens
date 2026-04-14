@@ -9,7 +9,6 @@ export const load = async ({ cookies }: any) => {
         .select()
         .from(teamMatch)
         .where(eq(teamMatch.eventKey, PUBLIC_EVENT_KEY));
-    console.log(teamMatches)
 
     const users = teamMatches.map((tm) => tm.scout?.toLowerCase()).filter((tm) => tm != null).map(name => name.replace(/./, name[0].toUpperCase()));
 
