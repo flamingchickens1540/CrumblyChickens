@@ -51,14 +51,14 @@ const updateMatch = async (tbaMatch: any) => {
         const auto: boolean = tbaMatch.score_breakdown.red[autoKey] > 4;
         let end: string = tbaMatch.score_breakdown.red[endKey];
 
-        if (end != 'None') {
+        /*if (end != 'None') {
             end = 'L' + end.slice(5);
         }
         let endgame = end as 'L1' | 'L2' | 'L3' | 'None';
         await db
             .update(teamMatch)
             .set({ autoClimb: auto, climb: endgame })
-            .where(eq(teamMatch.id, red.id));
+            .where(eq(teamMatch.id, red.id));*/
     }
 
     for (const blue of blueTMs) {
@@ -73,14 +73,14 @@ const updateMatch = async (tbaMatch: any) => {
         const auto = tbaMatch.score_breakdown.blue[autoKey] > 4;
         let end = tbaMatch.score_breakdown.blue[endKey];
 
-        if (end.length > 4) {
+        /*if (end.length > 4) {
             end = 'L' + end.slice(5);
         }
 
         await db
             .update(teamMatch)
             .set({ autoClimb: auto, climb: end })
-            .where(eq(teamMatch.id, blue.id));
+            .where(eq(teamMatch.id, blue.id));*/
     }
     updateAlliance(redTMs, tbaMatch.score_breakdown.red);
     updateAlliance(blueTMs, tbaMatch.score_breakdown.blue);

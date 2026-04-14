@@ -14,16 +14,16 @@ export const GET = async () => {
         data
     }: {
         data: {
-            match: number;
-            team: number;
+            match: string;
+            team: string;
             'on-field': string;
             'auto-actions': string;
-            'auto-shot': number;
-            'auto-passed': number;
-            'auto-accuracy': number;
-            'teleop-shot': number;
-            'teleop-passed': number;
-            'teleop-accuracy': number;
+            'auto-shot': string;
+            'auto-passed': string;
+            'auto-approx-accuracy': string;
+            'teleop-shot': string;
+            'teleop-passed': string;
+            'teleop-approx-accuracy': string;
             'climb-attempted': string;
             'played-defense': string;
             'defended-against': string;
@@ -32,23 +32,25 @@ export const GET = async () => {
     } = await res.json();
     console.log(data);
     for (const entry of data) {
+        const accuracy: number = Math.ceil(Number(entry['teleop-accuracy']) / 20);
         const parsed: TeamMatch = {
-            teamKey: entry.team,
+            teamKey: Number(entry.team),
             matchKey: '2026pncmp_qm' + entry.match,
             eventKey: PUBLIC_EVENT_KEY,
             autoStart: 'Outpost',
             fielded: entry['on-field'] == 'Y',
-            autoHub: entry['auto-shot'],
-            autoShuffle: entry['auto-shot'],
-            teleHub: entry['teleop-shot'],
-            teleShuffle: entry['teleop-shot'],
+            autoHub: Number(entry['auto-shot']),
+            autoShuffle: Number(entry['auto-shot']),
+            teleHub: Number(entry['teleop-shot']),
+            teleShuffle: Number(entry['teleop-shot']),
             teleSteal: 0,
             broken: false,
             died: entry.disabled == 'Y',
+            accuracy: Math.ceil(Number(entry['teleop-approx-accuracy']) / 20),
             notes: '',
             scout: '4915'
         };
-
+        try {
         await db
             .insert(teamMatch)
             .values({
@@ -56,6 +58,9 @@ export const GET = async () => {
                 scouted: true
             })
             .onConflictDoNothing();
+        } catch (e) {
+            console.error(e);
+        }
     }
     console.log('Hopefully stole 4915s data!');
 };

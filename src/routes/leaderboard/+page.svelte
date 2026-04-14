@@ -29,12 +29,12 @@
 <center class="font-[Poppins] font-normal">
     <p class="m-4 mb-0 text-3xl font-bold text-amber-400">Leaderboard</p>
     <div class="mx-2.5 mt-2 rounded bg-[#2c2c2c] p-2 text-center text-xl text-neutral-400">
-        {#if user_idx < 3 && users.length != 0}
+        {#if user_idx < 3}
             <span
                 class="block bg-linear-to-r from-amber-400 to-red-400 bg-clip-text text-transparent"
                 >Egg-cellent! You're on the podium!</span
             >
-            {:else}
+            {:else if users.length == 0}
 <span
                 class="block bg-linear-to-r from-amber-400 to-red-400 bg-clip-text text-transparent"
                 >No TeamMatches Scouted Yet D:</span
