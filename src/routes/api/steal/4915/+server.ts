@@ -20,10 +20,10 @@ export const GET = async () => {
             'auto-actions': string;
             'auto-shot': number;
             'auto-passed': number;
-            'auto-accuracy': number;
+            'auto-approx-accuracy': string;
             'teleop-shot': number;
             'teleop-passed': number;
-            'teleop-accuracy': number;
+            'teleop-approx-accuracy': string;
             'climb-attempted': string;
             'played-defense': string;
             'defended-against': string;
@@ -32,30 +32,10 @@ export const GET = async () => {
     } = await res.json();
     console.log(data);
     for (const entry of data) {
-        const parsed: TeamMatch = {
-            teamKey: entry.team,
-            matchKey: '2026pncmp_qm' + entry.match,
-            eventKey: PUBLIC_EVENT_KEY,
-            autoStart: 'Outpost',
-            fielded: entry['on-field'] == 'Y',
-            autoHub: entry['auto-shot'],
-            autoShuffle: entry['auto-shot'],
-            teleHub: entry['teleop-shot'],
-            teleShuffle: entry['teleop-shot'],
-            teleSteal: 0,
-            broken: false,
-            died: entry.disabled == 'Y',
-            notes: '',
-            scout: '4915'
-        };
-
-        await db
-            .insert(teamMatch)
-            .values({
-                ...parsed,
-                scouted: true
-            })
-            .onConflictDoNothing();
+        const a = entry['teleop-approx-accuracy'];
+        console.log(a);
+        const accuracy = Math.ceil(Number(entry['teleop-accuracy']) / 20);
+        console.log(accuracy);
     }
     console.log('Hopefully stole 4915s data!');
 };
