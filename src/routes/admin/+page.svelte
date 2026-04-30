@@ -143,9 +143,8 @@
             nextMatch.blue[i] = match.blue[i].slice(3);
         }
     }
-
-    async function stealData() {
-        const res = await fetch('/api/steal');
+    async function stealData(team: number) {
+        const res = await fetch('/api/steal/' + team);
         if (!res.ok) {
             console.error(res.status);
             return;
@@ -281,7 +280,12 @@
             >
             <button class="bg-eerie-black rounded p-2" onclick={getSchedule}>Update Schedule</button
             >
-            <button class="bg-eerie-black rounded p-2" onclick={stealData}>Steal 4915</button>
+            <button class="bg-eerie-black rounded p-2" onclick={() => stealData(4915)}
+                >Steal 4915</button
+            >
+            <button class="bg-eerie-black rounded p-2" onclick={() => stealData(195)}
+                >Steal 195</button
+            >
         </div>
     </div>
     <div class="bg-gunmetal flex flex-col rounded p-2">
