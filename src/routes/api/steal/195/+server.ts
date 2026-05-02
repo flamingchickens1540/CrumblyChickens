@@ -63,10 +63,13 @@ export const GET = async () => {
             fielded: tm.preNoShow > 0,
             scout: 'Autumn'
         };
+        try {
         await db
             .insert(teamMatch)
             .values({ scouted: true, ...parsed })
-            .onConflictDoNothing();
+            .onConflictDoNothing();} catch (e) {
+            console.error(e);
+        }
     }
 
     return json(200);

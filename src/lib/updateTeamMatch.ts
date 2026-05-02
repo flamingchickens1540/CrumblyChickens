@@ -5,6 +5,7 @@ import { json } from '@sveltejs/kit';
 import type { TeamMatch } from './types';
 type DBTeamMatch = TeamMatch & { id: number };
 const updateMatch = async (tbaMatch: any) => {
+    console.log(`recieved request for ${tbaMatch.alliances.blue.team_keys} and ${tbaMatch.alliances.red.team_keys}`);
     const matchKey = tbaMatch.key;
     const match = await db.query.match.findFirst({
         where: {
@@ -39,49 +40,7 @@ const updateMatch = async (tbaMatch: any) => {
         }
     }
 
-    for (const red of redTMs) {
-        const idx = tbaMatch.alliances.red.team_keys.indexOf('frc' + red.teamKey);
-        if (idx === -1) {
-            console.error('TeamMatch in Match not in TBAMatch');
-            return;
-        }
 
-        const autoKey = 'autoTowerRobot' + idx + 1;
-        const endKey = 'endGameTowerRobot' + idx + 1;
-        const auto: boolean = tbaMatch.score_breakdown.red[autoKey] > 4;
-        let end: string = tbaMatch.score_breakdown.red[endKey];
-
-        if (end != 'None') {
-            end = 'L' + end.slice(5);
-        }
-        let endgame = end as 'L1' | 'L2' | 'L3' | 'None';
-        await db
-            .update(teamMatch)
-            .set({ autoClimb: auto, climb: endgame })
-            .where(eq(teamMatch.id, red.id));
-    }
-
-    for (const blue of blueTMs) {
-        const idx = tbaMatch.alliances.blue.team_keys.indexOf('frc' + blue.teamKey);
-        if (idx === -1) {
-            console.error('TeamMatch in Match not in TBAMatch');
-            return;
-        }
-
-        const autoKey = 'autoTowerRobot' + idx + 1;
-        const endKey = 'endGameTowerRobot' + idx + 1;
-        const auto = tbaMatch.score_breakdown.blue[autoKey] > 4;
-        let end = tbaMatch.score_breakdown.blue[endKey];
-
-        if (end.length > 4) {
-            end = 'L' + end.slice(5);
-        }
-
-        await db
-            .update(teamMatch)
-            .set({ autoClimb: auto, climb: end })
-            .where(eq(teamMatch.id, blue.id));
-    }
     updateAlliance(redTMs, tbaMatch.score_breakdown.red);
     updateAlliance(blueTMs, tbaMatch.score_breakdown.blue);
 };
@@ -92,26 +51,18 @@ const updateAlliance = async (teamMatches: DBTeamMatch[], breakdown: any) => {
     }
     let sumAuto = 0;
     let sumTele = 0;
-    let weightedAutoSum = 0.0;
-    let weightedTeleSum = 0.0;
     for (const tm of teamMatches) {
         sumAuto += tm.autoHub ?? 0;
         sumTele += tm.teleHub ?? 0;
-        const confidence = 6.0 - (tm.accuracy ? tm.accuracy : 3.0);
-        weightedAutoSum += confidence * ((tm.autoHub ?? 0.0) + confidence);
-        weightedTeleSum += confidence * ((tm.teleHub ?? 0.0) + confidence);
     }
     const diffAuto = breakdown.hubScore.autoPoints - sumAuto;
     const diffTele = breakdown.hubScore.teleopPoints - sumTele;
     for (const tm of teamMatches) {
-        const confidence = 6.0 - (tm.accuracy ? tm.accuracy : 3.0);
-        const autoP =
-            (diffAuto * (((tm.autoHub ?? 0.0) + confidence) * confidence)) / weightedAutoSum;
-        const teleP =
-            (diffTele * (((tm.teleHub ?? 0.0) + confidence) * confidence)) / weightedTeleSum;
-        const newAuto = Math.trunc((tm.autoHub ?? 0.0) + autoP);
-        const newTele = Math.trunc((tm.teleHub ?? 0.0) + teleP);
-        console.log(`team: ${tm.teamKey} auto diff: ${newAuto}\ntele: ${newTele}`);
+        const autoP = (diffAuto * (((tm.autoHub ?? 0.0))) / sumAuto);
+        const teleP = (diffTele * (((tm.teleHub ?? 0.0))) / sumTele);
+        const newAuto = Math.floor((tm.autoHub ?? 0.0) + autoP);
+        const newTele =Math.floor((tm.teleHub ?? 0.0) + teleP);
+        console.log(`team: ${tm.teamKey} \nauto diff: ${diffAuto}\ntele: ${diffTele}`);
         const res = await db
             .update(teamMatch)
             .set({
