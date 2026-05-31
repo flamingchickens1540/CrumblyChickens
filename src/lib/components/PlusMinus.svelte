@@ -25,6 +25,10 @@
 
 <FuelCounter {label} {stage} count={value} />
 <div class="grid-wrap mx-3 mt-0 mb-3 grid grid-cols-2 grid-rows-[45dvh_1fr] px-1 pt-0 pb-1">
+<<<<<<< HEAD
+    <PlusMinusButton value={+1} bind:count={value} classlist="bg-[#49A078] hover:bg-[#6DB393] active:bg-[#92e9b0]" />
+    <PlusMinusButton value={+5} bind:count={value} classlist="bg-[#49A078] hover:bg-[#6DB393] active:bg-[#92e9b0]" />
+=======
     <PlusMinusButton
         value={+1}
         bind:count={value}
@@ -35,6 +39,7 @@
         bind:count={value}
         classlist="{color} hover:bg-[#6DB393] active:bg-[#92e9b0]"
     />
+>>>>>>> 2dd82845a4915de5046dd7aef87cb5e8c0e568c1
     <PlusMinusButton
         value={-1}
         bind:count={value}
